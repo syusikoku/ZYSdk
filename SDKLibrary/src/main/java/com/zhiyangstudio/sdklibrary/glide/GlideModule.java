@@ -1,0 +1,11 @@
+package com.zhiyangstudio.sdklibrary.glide;
+
+import com.bumptech.glide.module.AppGlideModule;
+
+/**
+ * Created by example on 2018/4/3.
+ */
+
+@com.bumptech.glide.annotation.GlideModule
+public class GlideModule extends AppGlideModule {
+}

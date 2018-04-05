@@ -1,0 +1,137 @@
+/*全局变量定义*/
+
+println("${project.name}: apply ext")
+project.ext {
+    println("${projects.name}: init ext")
+
+    def androidPluginVersion = "3.0.0"
+    _android = [
+            plugin           : "com.android.tools.build:gradle:$androidPluginVersion",
+            compileSdkVersion: 26,
+            buildToolsVersion: '26.0.3',
+            minSdkVersion    : 15,
+            targetSdkVersion : 26,
+            versionCode      : 1,
+            versionName      : "1.0"
+    ]
+
+    _kotlin = [
+            kotlin_version: "1.1.60"
+    ]
+
+    /*ui*/
+    def supportLibraryVersion = "26.1.0"
+    support = [
+            cardview         : "com.android.support:cardview-v7:$supportLibraryVersion",
+            design           : "com.android.support:design:$supportLibraryVersion",
+            recyclerview     : "com.android.support:recyclerview-v7:$supportLibraryVersion",
+            appcompat        : "com.android.support:appcompat-v7:$supportLibraryVersion",
+            constraint_layout: 'com.android.support.constraint:constraint-layout:1.0.2',
+            junit            : 'junit:junit:4.12',
+            test_runner      : 'com.android.support.test:runner:1.0.1',
+            espresso_core    : 'com.android.support.test.espresso:espresso-core:3.0.1',
+            /*百分比布局*/
+            percent          : "com.android.support:percent:$supportLibraryVersion"
+    ]
+
+    def lifecycleLibVersion = "1.0.0"
+    arch_support = [
+            lifecycle_runtime        : 'android.arch.lifecycle:runtime:1.0.3',
+            lifecycle_extensions     : "android.arch.lifecycle:extensions:$lifecycleLibVersion",
+            persistence_room_runtime : "android.arch.persistence.room:runtime:$lifecycleLibVersion",
+            lifecycle_compiler       : "android.arch.lifecycle:compiler:$lifecycleLibVersion",
+            persistence_room_compiler: "android.arch.persistence.room:compiler:$lifecycleLibVersion"
+    ]
+
+    def daggerLibVersion = "2.11", retrofitLiVersion = "2.3.0", okhttpLibVersion = '3.9.1'
+    /*扩展工具*/
+    ext_tools = [
+            /*rx*/
+            rxjava                  : 'io.reactivex.rxjava2:rxjava:2.1.3',
+            rxandroid               : 'io.reactivex.rxjava2:rxandroid:2.0.1',
+
+            /*retrofit*/
+            retrofit                : "com.squareup.retrofit2:retrofit:$retrofitLiVersion",
+            converter_gson          : "com.squareup.retrofit2:converter-gson:$retrofitLiVersion",
+            adapter_rxjava2         : "com.squareup.retrofit2:adapter-rxjava2:$retrofitLiVersion",
+            converter_scalars       : 'com.squareup.retrofit2:converter-scalars:2.3.0',
+
+            /*okhttp*/
+            okhttp                  : "com.squareup.okhttp3:okhttp:$okhttpLibVersion",
+            okhttp_urlconnection    : "com.squareup.okhttp3:okhttp-urlconnection:$okhttpLibVersion",
+            logging_interceptor     : "com.squareup.okhttp3:logging-interceptor:$okhttpLibVersion",
+            okhttp_mockwebserver    : "com.squareup.okhttp3:mockwebserver:$okhttpLibVersion",
+
+            /*dagger*/
+            dagger                  : "com.google.dagger:dagger:$daggerLibVersion",
+            dagger_android          : "com.google.dagger:dagger-android:$daggerLibVersion",
+            dagger_android_support  : "com.google.dagger:dagger-android-support:$daggerLibVersion",
+            //指定注解处理器
+            dagger_compiler         : "com.google.dagger:dagger-compiler:$daggerLibVersion",
+            dagger_android_processor: "com.google.dagger:dagger-android-processor:$daggerLibVersion",
+
+            /*buttern-knife*/
+            butterknife             : 'com.jakewharton:butterknife:8.6.0',
+            butterknife_compiler    : 'com.jakewharton:butterknife-compiler:8.6.0',
+
+            /*glide*/
+            glide                   : 'com.github.bumptech.glide:glide:4.3.1',
+            glide_compiler          : 'com.github.bumptech.glide:compiler:4.3.1',
+
+            fresco                  : 'com.facebook.fresco:fresco:0.8.+',
+
+            picasso                 : 'com.squareup.picasso:picasso:2.71828',
+
+            /*PhotoView*/
+            PhotoView               : 'com.github.chrisbanes:PhotoView:1.3.0',
+
+            /*图表控件*/
+            MPAndroidChart          : 'com.github.PhilJay:MPAndroidChart:v3.0.3',
+
+            fragmentation           : 'me.yokeyword:fragmentation:0.7.10',
+
+            /*json解析*/
+            gson                    : 'com.google.code.gson:gson:2.8.2',
+
+            fastjson                : 'com.alibaba:fastjson:1.2.44',
+            fastjson_android        : 'com.alibaba:fastjson:1.1.67.android',
+
+            logger                  : 'com.orhanobut:logger:2.1.1',
+
+            eventbus                : 'org.greenrobot:eventbus:3.1.1',
+            nineoldandroids_lib     : 'com.nineoldandroids:library:2.4.0',
+
+            utilcode                : 'com.blankj:utilcode:1.12.5',
+            sak                     : 'com.wanjian:sak:0.3.1',
+            zxing                   : 'com.google.zxing:core:3.3.0',
+            jsoup                   : 'org.jsoup:jsoup:1.10.3',
+
+            BaseRecyclerViewAdapter : 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.12',
+            haorefresh              : 'com.github.fangx:haorefresh:1.0',
+            indicatorseekbar        : 'com.github.warkiz.widget:indicatorseekbar:1.2.5',
+
+            RecyclerViewPager       : 'com.github.lsjwzh.RecyclerViewPager:lib:v1.1.2@aar',
+
+            tablayoutsupport        : 'com.github.lsjwzh.RecyclerViewPager:tablayoutsupport:v1.1.2@aar',
+            FJMtSortButton          : 'com.github.FJ917:FJMtSortButton:v1.1',
+            aviLib                  : 'com.wang.avi:library:1.0.1',
+
+            systembartint           : 'com.readystatesoftware.systembartint:systembartint:1.0.3',
+            //otto
+            otto                    : 'com.squareup:otto:1.3.8',
+
+            //greendao
+            greendao                : 'de.greenrobot:greendao:2.1.0',
+
+            jsbridge                : 'com.github.lzyzsd:jsbridge:1.0.4',
+            expandabletextview      : 'cn.carbs.android:ExpandableTextView:1.0.3',
+            ringprogressbar         : 'com.github.HotBitmapGG:RingProgressBar:V1.2.3',
+            stepview                : 'com.github.baoyachi:StepView:1.9',
+
+            /*视频播放器*/
+            jiecaovideoplayer       : 'fm.jiecao:jiecaovideoplayer:5.8.1',
+            vitamio                 : 'com.charonchui.vitamio:vitamio:4.2.2',
+
+    ]
+}
+
