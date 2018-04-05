@@ -8,16 +8,16 @@ import android.os.Looper;
 import android.util.DisplayMetrics;
 
 import com.blankj.utilcode.util.Utils;
-import com.example.common.BuildConfig;
-import com.example.common.CommonConst;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.zhiyangstudio.sdklibrary.BuildConfig;
+import com.zhiyangstudio.sdklibrary.CommonConst;
 
 /**
- * Created by example on 2018/2/9.
+ * Created by zhiyang on 2018/2/9.
  */
 
 public class BaseApp extends Application {

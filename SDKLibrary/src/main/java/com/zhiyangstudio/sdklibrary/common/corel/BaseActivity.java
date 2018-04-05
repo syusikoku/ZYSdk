@@ -19,16 +19,16 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.example.common.utils.StatusBarUtils;
-import com.example.utils.LogListener;
-import com.example.utils.LoggerUtils;
 import com.orhanobut.logger.Logger;
+import com.zhiyangstudio.sdklibrary.common.utils.StatusBarUtils;
+import com.zhiyangstudio.sdklibrary.utils.LogListener;
+import com.zhiyangstudio.sdklibrary.utils.LoggerUtils;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
- * Created by example on 2018/2/23.
+ * Created by zhiyang on 2018/2/23.
  */
 
 public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener, LogListener {

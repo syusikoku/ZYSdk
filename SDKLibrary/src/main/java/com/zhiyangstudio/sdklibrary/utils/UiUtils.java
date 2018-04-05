@@ -10,10 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.common.corel.BaseApp;
+import com.zhiyangstudio.sdklibrary.common.corel.BaseApp;
+
 
 /**
- * Created by example on 2018/3/29.
+ * Created by zhiyang on 2018/3/29.
  */
 
 public class UiUtils {

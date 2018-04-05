@@ -1,7 +1,7 @@
-package com.zhiyangstudio.sdklibrary.common;
+package com.zhiyangstudio.sdklibrary;
 
 /**
- * Created by example on 2018/2/14.
+ * Created by zhiyang on 2018/2/14.
  */
 
 public class CommonConst {

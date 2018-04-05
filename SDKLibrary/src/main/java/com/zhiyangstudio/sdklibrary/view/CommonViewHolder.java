@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 /**
- * Created by example on 2018/2/27.
+ * Created by zhiyang on 2018/2/27.
  */
 
 public class CommonViewHolder {

@@ -4,7 +4,7 @@ import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
 
 /**
- * Created by example on 2018/3/2.
+ * Created by zhiyang on 2018/3/2.
  */
 
 public class SampleItemDecoration extends RecyclerView.ItemDecoration {

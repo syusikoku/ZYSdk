@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 /**
- * Created by example on 2018/2/14.
+ * Created by zhiyang on 2018/2/14.
  */
 
 public class StreamUtils {

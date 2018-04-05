@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Created by example on 2018/4/4.
+ * Created by zhiyang on 2018/4/4.
  *  glide 工具类
  */
 

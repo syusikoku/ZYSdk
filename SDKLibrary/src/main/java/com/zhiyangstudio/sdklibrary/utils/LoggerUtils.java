@@ -3,7 +3,7 @@ package com.zhiyangstudio.sdklibrary.utils;
 import com.orhanobut.logger.Logger;
 
 /**
- * Created by example on 2018/3/2.
+ * Created by zhiyang on 2018/3/2.
  */
 
 public class LoggerUtils {

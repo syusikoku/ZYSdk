@@ -6,7 +6,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 /**
- * Created by example on 2018/3/28.
+ * Created by zhiyang on 2018/3/28.
  * 状态栏工具
  */
 

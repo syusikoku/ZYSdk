@@ -4,7 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 /**
- * Created by example on 2018/2/14.
+ * Created by zhiyang on 2018/2/14.
  * 将数据从子线程发到主线程
  */
 

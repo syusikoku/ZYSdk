@@ -6,7 +6,7 @@ import android.view.Display;
 import android.view.WindowManager;
 
 /**
- * Created by example on 2018/2/24.
+ * Created by zhiyang on 2018/2/24.
  */
 
 public class CommonUtils {
