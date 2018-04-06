@@ -1,12 +1,12 @@
 package com.zhiyangstudio.sdklibrary.common.corel;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.orhanobut.logger.Logger;
+import com.zhiyangstudio.sdklibrary.CommonConst;
 import com.zhiyangstudio.sdklibrary.common.utils.StatusBarUtils;
 import com.zhiyangstudio.sdklibrary.utils.LogListener;
 import com.zhiyangstudio.sdklibrary.utils.LoggerUtils;
@@ -69,10 +70,13 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
             unbinder = ButterKnife.bind(this);
 
-            if (hasCheckPermission()
-                    && getClass().getSimpleName().equals("MainActivity")
-                    && hasCheckPermission()) {
-                checkSDCardPermission(getPermissonCallBack());
+            // TODO: 2018/4/6 andorid 23以上版本检查运行时权限
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (hasCheckPermission()
+                        && getClass().getSimpleName().equals("MainActivity")
+                        && hasCheckPermission()) {
+                    checkSDCardPermission(getPermissonCallBack());
+                }
             }
             initView();
             addListener();
@@ -108,16 +112,20 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     }
 
     protected void checkSDCardPermission(PermissionListener permissionListener) {
-        checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, "SD卡权限",
+        checkPermission(CommonConst.PERMISSION_WRITE_EXTERNAL_STORAGE, "SD卡权限",
                 permissionListener, REQ_SDCARD_PERMISSION);
     }
 
     protected void checkCameraPermission(PermissionListener permissionListener) {
-        checkPermission(Manifest.permission.CAMERA, "CAMERA", permissionListener, REQ_CAMERA_PERMISSION);
+        checkPermission(CommonConst.PERMISSION_CAMERA, "CAMERA", permissionListener, REQ_CAMERA_PERMISSION);
     }
 
     public void checkPermission(String permission, final String tips, PermissionListener
             listener, int reqPermission) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return;
+        }
+
         this.mListener = listener;
         if (ContextCompat.checkSelfPermission(this, permission)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -213,8 +221,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     private int showPermissionResult(@NonNull int[] grantResults, String str) {
         int result = -1;
-        if (grantResults.length > 0 && grantResults[0] ==
-                PackageManager.PERMISSION_GRANTED) {
+        if (grantResults.length > 0 && grantResults[0] == CommonConst.RESULT_PERMISSION_GRANT) {
             // TODO: 2018/2/2 权限允许了
             Logger.e(str + "权限允许了");
             result = 1;

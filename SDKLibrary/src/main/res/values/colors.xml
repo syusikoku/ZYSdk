@@ -292,5 +292,7 @@
     <color name="black">#000000</color>
     <!-- 黑色 -->
     <color name="touming">#0FFF</color>
+    <color name="white">#ffffff</color>
+    <!-- 白色 -->
     <color name="trans">#00000000</color>
 </resources>
