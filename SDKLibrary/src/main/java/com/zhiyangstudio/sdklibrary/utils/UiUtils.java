@@ -56,31 +56,31 @@ public class UiUtils {
         return LayoutInflater.from(getContext()).inflate(resId, null, false);
     }
 
-    public static String[] getStrArrs(Context context, int arrsResId) {
-        return getResources(context).getStringArray(arrsResId);
+    public static String[] getStrArrs(int arrsResId) {
+        return getResources(getContext()).getStringArray(arrsResId);
     }
 
     public static Resources getResources(Context context) {
         return context.getResources();
     }
 
-    public static String getStr(Context context, int arrsResId) {
-        return getResources(context).getString(arrsResId);
+    public static String getStr(int arrsResId) {
+        return getResources(getContext()).getString(arrsResId);
     }
 
-    public static float getDimension(Context context, int arrsResId) {
-        return getResources(context).getDimension(arrsResId);
+    public static float getDimension(int arrsResId) {
+        return getResources(getContext()).getDimension(arrsResId);
     }
 
-    public static float getColor(Context context, int arrsResId) {
-        return getResources(context).getColor(arrsResId);
+    public static float getColor(int arrsResId) {
+        return getResources(getContext()).getColor(arrsResId);
     }
 
-    public static ColorStateList getColorStateList(Context context, int arrsResId) {
-        return getResources(context).getColorStateList(arrsResId);
+    public static ColorStateList getColorStateList(int arrsResId) {
+        return getResources(getContext()).getColorStateList(arrsResId);
     }
 
-    public static Drawable getDrawable(Context context, int resId) {
-        return getResources(context).getDrawable(resId);
+    public static Drawable getDrawable(int resId) {
+        return getResources(getContext()).getDrawable(resId);
     }
 }

@@ -24,15 +24,17 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 
-    compile rootProject.ext.support.design
-    compile rootProject.ext.support.recyclerview
-    compile rootProject.ext.support.appcompat
+    implementation rootProject.ext.support.design
+    implementation rootProject.ext.support.recyclerview
+    implementation rootProject.ext.support.appcompat
 
-    compile rootProject.ext.ext_tools.rxjava
-    compile rootProject.ext.ext_tools.rxandroid
-    compile rootProject.ext.ext_tools.logger
+    implementation rootProject.ext.ext_tools.rxjava
+    implementation rootProject.ext.ext_tools.rxandroid
+    implementation rootProject.ext.ext_tools.logger
+
+    implementation rootProject.ext.ext_tools.gson
 
     /*butternife*/
     implementation rootProject.ext.ext_tools.butterknife
@@ -46,6 +48,6 @@ dependencies {
 
     // 其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.2.7
     // (注：从2.1.5开始要分开Bugly SDK和NDK的配置）
-    compile 'com.tencent.bugly:crashreport:latest.release'
-    compile 'com.tencent.bugly:nativecrashreport:latest.release'
+    implementation 'com.tencent.bugly:crashreport:latest.release'
+    implementation 'com.tencent.bugly:nativecrashreport:latest.release'
 }

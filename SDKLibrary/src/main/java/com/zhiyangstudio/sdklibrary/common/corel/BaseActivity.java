@@ -21,9 +21,12 @@ import android.view.View;
 
 import com.orhanobut.logger.Logger;
 import com.zhiyangstudio.sdklibrary.CommonConst;
+import com.zhiyangstudio.sdklibrary.R;
+import com.zhiyangstudio.sdklibrary.common.utils.EmptyUtils;
 import com.zhiyangstudio.sdklibrary.common.utils.StatusBarUtils;
 import com.zhiyangstudio.sdklibrary.utils.LogListener;
 import com.zhiyangstudio.sdklibrary.utils.LoggerUtils;
+import com.zhiyangstudio.sdklibrary.utils.UiUtils;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -298,5 +301,71 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         void onGrant(int code);
 
         void onDeny(int code);
+    }
+
+    /**
+     * 显示提示对话框
+     *
+     * @param content         内容
+     * @param confirmListener 确定按钮点击事件
+     */
+    protected void showTipsDialog(String content, DialogInterface.OnClickListener confirmListener) {
+        showTipsDialogWithTitle(null, content, UiUtils.getStr(R.string.str_dialog_confirm),
+                confirmListener, null, null);
+    }
+
+    /**
+     * 显示提示对话框
+     *
+     * @param content         内容
+     * @param confirmText     确定按钮文字
+     * @param confirmListener 确定按钮点击事件
+     * @param cancelText      取消按钮文字
+     * @param cancelListener  取消按钮点击事件
+     */
+    protected void showTipsDialog(String content, String confirmText, DialogInterface.OnClickListener confirmListener,
+                                  String cancelText, DialogInterface.OnClickListener cancelListener) {
+        showTipsDialogWithTitle("", content, confirmText, confirmListener, cancelText, cancelListener);
+    }
+
+    /**
+     * 显示提示对话框（带标题）
+     *
+     * @param title           标题
+     * @param content         内容
+     * @param confirmListener 确定按钮点击事件
+     * @param cancelListener  取消按钮点击事件
+     */
+    protected void showTipsDialogWithTitle(String title, String content, DialogInterface.OnClickListener confirmListener,
+                                           DialogInterface.OnClickListener cancelListener) {
+        showTipsDialogWithTitle(title, content,
+                UiUtils.getStr(R.string.str_dialog_confirm),
+                confirmListener, UiUtils.getStr(R.string.str_dialog_cancel),
+                cancelListener);
+    }
+
+    /**
+     * 显示提示对话框（带标题）
+     *
+     * @param title           标题
+     * @param content         内容
+     * @param confirmText     确定按钮文字
+     * @param confirmListener 确定按钮点击事件
+     * @param cancelText      取消按钮文字
+     * @param cancelListener  取消按钮点击事件
+     */
+    protected void showTipsDialogWithTitle(String title, String content, String confirmText,
+                                           DialogInterface.OnClickListener confirmListener, String cancelText,
+                                           DialogInterface.OnClickListener cancelListener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        if (EmptyUtils.isNotEmpty(title)) {
+            builder.setTitle(title);
+        }
+        builder.setMessage(content);
+        builder.setPositiveButton(confirmText, confirmListener);
+        if (EmptyUtils.isNotEmpty(cancelText)) {
+            builder.setNegativeButton(cancelText, cancelListener);
+        }
+        builder.create().show();
     }
 }

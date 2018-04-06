@@ -1,2 +1,4 @@
 <resources>
+    <string name="str_dialog_confirm">确定</string>
+    <string name="str_dialog_cancel">取消</string>
 </resources>
