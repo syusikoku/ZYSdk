@@ -19,6 +19,10 @@ android {
         }
     }
 
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
 
 dependencies {
@@ -41,6 +45,15 @@ dependencies {
     annotationProcessor rootProject.ext.ext_tools.butterknife_compiler
 
     implementation rootProject.ext.ext_tools.utilcode
+
+    implementation rootProject.ext.ext_tools.rxjava
+    implementation rootProject.ext.ext_tools.rxandroid
+    implementation rootProject.ext.ext_tools.retrofit
+    implementation rootProject.ext.ext_tools.converter_gson
+    implementation rootProject.ext.ext_tools.adapter_rxjava2
+    implementation rootProject.ext.ext_tools.converter_scalars
+    implementation rootProject.ext.ext_tools.okhttp
+    implementation rootProject.ext.ext_tools.logging_interceptor
 
     /*glide*/
     implementation rootProject.ext.ext_tools.glide
