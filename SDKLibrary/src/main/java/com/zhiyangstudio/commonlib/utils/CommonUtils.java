@@ -3,16 +3,14 @@ package com.zhiyangstudio.commonlib.utils;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Point;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
+import android.provider.Settings;
+import android.support.annotation.RequiresPermission;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
-import android.view.Display;
 import android.view.View;
-import android.view.WindowManager;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -24,112 +22,6 @@ import java.util.Map;
  */
 
 public class CommonUtils {
-
-    /**
-     * 使用反射从系统中获取当前的activity
-     */
-    public static Activity getCurrentActivity() {
-        Class activityThreadClass = null;
-        try {
-            activityThreadClass = Class.forName("android.app.ActivityThread");
-            Object activityThread = activityThreadClass.getMethod("currentActivityThread").invoke(null);
-            Field activitiesField = activityThreadClass.getDeclaredField("mActivities");
-            activitiesField.setAccessible(true);
-            Map activities = (Map) activitiesField.get(activityThread);
-            for (Object activityRecord : activities.values()) {
-                Class activityRecordClass = activityRecord.getClass();
-                Field pausedField = activityRecordClass.getDeclaredField("paused");
-                pausedField.setAccessible(true);
-                if (!pausedField.getBoolean(activityRecord)) {
-                    Field activityField = activityRecordClass.getDeclaredField("activity");
-                    activityField.setAccessible(true);
-                    Activity activity = (Activity) activityField.get(activityRecord);
-                    return activity;
-                }
-            }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public static int getScreenHeight(Context context) {
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        return displayMetrics.heightPixels;
-    }
-
-    public static int getScreenWidth(Context context) {
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        return displayMetrics.widthPixels;
-    }
-
-    public static int getScreenHeightWithDecorations(Context context) {
-        int heightPixes;
-        WindowManager windowManager = ((Activity) context).getWindowManager();
-        Display display = windowManager.getDefaultDisplay();
-        Point realSize = new Point();
-        try {
-            Display.class.getMethod("getRealSize", Point.class).invoke(display, realSize);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
-        heightPixes = realSize.y;
-        return heightPixes;
-    }
-
-    public static int dip2px(Context context, float dpVale) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dpVale * scale + 0.5f);
-    }
-
-    public static int getStatusBarHeight(Context context) {
-        Resources resources = context.getResources();
-        int resourcesId = resources.getIdentifier("status_bar_height", "dimen", "android");
-        int height = resources.getDimensionPixelSize(resourcesId);
-        return height;
-    }
-
-    /**
-     * Converts sp to px
-     *
-     * @param context Context
-     * @param sp      the value in sp
-     * @return int
-     */
-    public static int dip2sp(Context context, float sp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, context.getResources().getDisplayMetrics());
-    }
-
-    public static int px2dip(Context context, float pxValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (pxValue / scale + 0.5f);
-    }
-
-    /**
-     * 获取屏幕宽高
-     *
-     * @param context
-     * @return
-     */
-    public static int[] getScreenWH(Context context) {
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display defaultDisplay = wm.getDefaultDisplay();
-        return new int[]{defaultDisplay.getWidth(), defaultDisplay.getHeight()};
-    }
 
     /**
      * 是否需要校验权限
@@ -206,4 +98,97 @@ public class CommonUtils {
         Snackbar.make(parentView, msg, Snackbar.LENGTH_LONG).show();
     }
 
+    /**
+     * 是否有权限写入系统配置
+     *
+     * @param context
+     * @return
+     */
+    public static boolean canWriteOsSetting(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return Settings.System.canWrite(context);
+        }
+        return true;
+    }
+
+    /**
+     * 跳转到修改系统设置
+     */
+    @RequiresPermission(android.Manifest.permission.WRITE_SETTINGS)
+    public static void goManageWriteSettings() {
+        Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
+        Context context;
+        Activity activity = getCurrentActivity();
+        context = activity;
+        if (activity == null) {
+            context = UiUtils.getContext();
+        }
+        intent.setData(Uri.parse("package:" + context.getPackageName()));
+        if (intent.resolveActivity(context.getPackageManager()) != null) {
+            if (activity == null) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            } else {
+                activity.startActivity(intent);
+            }
+        }
+    }
+
+    /**
+     * 使用反射从系统中获取当前的activity
+     */
+    public static Activity getCurrentActivity() {
+        Class activityThreadClass = null;
+        try {
+            activityThreadClass = Class.forName("android.app.ActivityThread");
+            Object activityThread = activityThreadClass.getMethod("currentActivityThread").invoke(null);
+            Field activitiesField = activityThreadClass.getDeclaredField("mActivities");
+            activitiesField.setAccessible(true);
+            Map activities = (Map) activitiesField.get(activityThread);
+            for (Object activityRecord : activities.values()) {
+                Class activityRecordClass = activityRecord.getClass();
+                Field pausedField = activityRecordClass.getDeclaredField("paused");
+                pausedField.setAccessible(true);
+                if (!pausedField.getBoolean(activityRecord)) {
+                    Field activityField = activityRecordClass.getDeclaredField("activity");
+                    activityField.setAccessible(true);
+                    Activity activity = (Activity) activityField.get(activityRecord);
+                    return activity;
+                }
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 跳转到应用程序详情
+     */
+    public static void goAppDetailSetting() {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Context context;
+        Activity activity = getCurrentActivity();
+        context = activity;
+        if (activity == null) {
+            context = UiUtils.getContext();
+        }
+        intent.setData(Uri.parse("package:" + context.getPackageName()));
+        if (intent.resolveActivity(context.getPackageManager()) != null) {
+            if (activity == null) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            } else {
+                activity.startActivity(intent);
+            }
+        }
+    }
 }
