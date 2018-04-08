@@ -20,11 +20,12 @@ import java.util.List;
  * Created by zzg on 2018/4/7.
  */
 
-public class WifiUtils {
+public class WifiUtils extends BaseUtils {
     private static WifiManager sWifiManager;
 
     static {
         sWifiManager = (WifiManager) InternalUtils.getTargetService(Context.WIFI_SERVICE);
+
     }
 
     /**
@@ -41,16 +42,6 @@ public class WifiUtils {
                     + "." + ((address >> 24) & 0XFF);
         }
         return "";
-    }
-
-    /**
-     * 关闭wifi
-     */
-    @RequiresPermission(Manifest.permission.CHANGE_WIFI_STATE)
-    public static void closeWifi() {
-        if (sWifiManager.isWifiEnabled()) {
-            sWifiManager.setWifiEnabled(false);
-        }
     }
 
     /**
@@ -270,5 +261,85 @@ public class WifiUtils {
                     + "." + ((address >> 24) & 0XFF);
         }
         return "";
+    }
+
+    /**
+     * 创建wifi热点
+     *
+     * @param ssidStr
+     * @param pwdStr
+     */
+    public static boolean createHotspot(String ssidStr, String pwdStr) {
+        reGetCurrentActivity();
+        LoggerUtils.loge(mCurrentActivity, "createHotspot ");
+        if (isWifiEnabled()) {
+            // 如果wifi处于打开状态,则先关闭wifi
+            closeWifi();
+        }
+        boolean hasCretaeSucess = false;
+        WifiConfiguration config = new WifiConfiguration();
+        config.SSID = ssidStr;
+        config.preSharedKey = pwdStr;
+        config.hiddenSSID = true;
+        // 开放系统认证
+        config.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);//开放系统认证
+        config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
+        config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
+        config.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
+        config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
+        config.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
+        config.status = WifiConfiguration.Status.ENABLED;
+        // 通过反射设置热点
+        try {
+            Method method = sWifiManager.getClass().getMethod("setWifiApEnabled", WifiConfiguration.class, Boolean.TYPE);
+            boolean enable = (boolean) method.invoke(sWifiManager, config, true);
+            if (enable) {
+                hasCretaeSucess = true;
+            }
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+            LoggerUtils.loge(mCurrentActivity, "NoSuchMethodException e = " + e.getMessage());
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            LoggerUtils.loge(mCurrentActivity, "IllegalAccessException e = " + e.getMessage());
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+            LoggerUtils.loge(mCurrentActivity, "InvocationTargetException e = " + e.getMessage());
+        }
+        return hasCretaeSucess;
+    }
+
+    /**
+     * 关闭wifi
+     */
+    @RequiresPermission(Manifest.permission.CHANGE_WIFI_STATE)
+    public static void closeWifi() {
+        if (sWifiManager.isWifiEnabled()) {
+            sWifiManager.setWifiEnabled(false);
+        }
+    }
+
+    /**
+     * 关闭wifi热点
+     */
+    public static void closeWifiHotspot() {
+        // 使用动态代理优化
+        reGetCurrentActivity();
+        LoggerUtils.loge(mCurrentActivity, "closeWifiHotspot ");
+        try {
+            Method method = sWifiManager.getClass().getMethod("getWifiApConfiguration");
+            method.setAccessible(true);
+            WifiConfiguration config = (WifiConfiguration) method.invoke(sWifiManager);
+            Method method2 = sWifiManager.getClass().getMethod("setWifiApEnabled", WifiConfiguration.class, boolean.class);
+            method2.invoke(sWifiManager, config, false);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -3,13 +3,15 @@ package com.zhiyangstudio.commonlib.components.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 
-import com.zhiyangstudio.commonlib.utils.WifiUtils;
 import com.zhiyangstudio.commonlib.utils.LogListener;
 import com.zhiyangstudio.commonlib.utils.LoggerUtils;
+import com.zhiyangstudio.commonlib.utils.UiUtils;
+import com.zhiyangstudio.commonlib.utils.WifiUtils;
 
 import java.util.List;
 
@@ -67,4 +69,16 @@ public abstract class WifiBroadcastReceiver extends BroadcastReceiver implements
     protected abstract void onWifiConnected(String ssid);
 
     protected abstract void onWifiDisconnected();
+
+    public void register() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+        intentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
+        intentFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+        UiUtils.getContext().registerReceiver(this, intentFilter);
+    }
+
+    public void unRegister() {
+        UiUtils.getContext().unregisterReceiver(this);
+    }
 }
