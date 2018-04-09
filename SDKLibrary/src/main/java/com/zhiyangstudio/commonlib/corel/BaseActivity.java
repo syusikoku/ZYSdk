@@ -1,6 +1,7 @@
 package com.zhiyangstudio.commonlib.corel;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -45,9 +46,17 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     private Unbinder unbinder;
     private PermissionListener mListener;
 
+    private ProgressDialog loadingDialog = null;
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(@Nullable Bundle bundle) {
+        if (bundle != null) {
+            //如果系统回收Activity,但是系统却保留了Fragment,当Activity被重新初始化,此时,系统保存的Fragment 的getActivity为空，
+            //所以要移除旧的Fragment,重新初始化新的Fragment
+            String FRAGMENTS_TAG = "android:support:fragments";
+            bundle.remove(FRAGMENTS_TAG);
+        }
+        super.onCreate(bundle);
 
         LoggerUtils.loge(this, "onCreate");
         if (getContentViewId() != 0) {
@@ -73,6 +82,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
                 }
             }
             initView();
+            doExtOpts();
             addListener();
             initData();
         } else {
@@ -105,6 +115,10 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     protected abstract PermissionListener getPermissonCallBack();
 
     protected abstract void initView();
+
+    protected void doExtOpts() {
+
+    }
 
     protected abstract void addListener();
 
@@ -360,6 +374,47 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
                 UiUtils.getStr(R.string.str_dialog_confirm),
                 confirmListener, UiUtils.getStr(R.string.str_dialog_cancel),
                 cancelListener);
+    }
+
+    /**
+     * 显示带消息的进度框
+     *
+     * @param title 提示
+     */
+    protected void showLoadingDialog(String title) {
+        createLoadingDialog();
+        loadingDialog.setMessage(title);
+        if (!loadingDialog.isShowing())
+            loadingDialog.show();
+    }
+
+    /**
+     * 创建LodingDialog
+     */
+    private void createLoadingDialog() {
+        if (loadingDialog == null) {
+            loadingDialog = new ProgressDialog(this);
+            loadingDialog.setCancelable(true);
+            loadingDialog.setCanceledOnTouchOutside(false);
+        }
+    }
+
+    /**
+     * 显示进度框
+     */
+    protected void showLoadingDialog() {
+        createLoadingDialog();
+        if (!loadingDialog.isShowing())
+            loadingDialog.show();
+    }
+
+    /**
+     * 隐藏进度框
+     */
+    protected void hideLoadingDialog() {
+        if (loadingDialog != null && loadingDialog.isShowing()) {
+            loadingDialog.dismiss();
+        }
     }
 
     public interface PermissionListener extends LogListener {
