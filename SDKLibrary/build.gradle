@@ -38,7 +38,7 @@ dependencies {
     implementation rootProject.ext.ext_tools.gson
 
     implementation rootProject.ext.ext_tools.utilcode
-
+    implementation rootProject.ext.ext_tools.fragmentation
     implementation rootProject.ext.ext_tools.rxjava
     implementation rootProject.ext.ext_tools.rxandroid
     implementation rootProject.ext.ext_tools.retrofit

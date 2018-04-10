@@ -15,7 +15,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +22,7 @@ import android.view.View;
 import com.orhanobut.logger.Logger;
 import com.zhiyangstudio.commonlib.CommonConst;
 import com.zhiyangstudio.commonlib.R;
+import com.zhiyangstudio.commonlib.inter.ILifecycle;
 import com.zhiyangstudio.commonlib.utils.EmptyUtils;
 import com.zhiyangstudio.commonlib.utils.LogListener;
 import com.zhiyangstudio.commonlib.utils.LoggerUtils;
@@ -31,19 +31,21 @@ import com.zhiyangstudio.commonlib.utils.UiUtils;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import me.yokeyword.fragmentation.SupportActivity;
 
 /**
  * Created by zhiyang on 2018/2/23.
  */
 
-public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener, LogListener {
+public abstract class BaseActivity extends SupportActivity implements ILifecycle, View.OnClickListener,
+        LogListener {
     protected static final int REQ_SDCARD_PERMISSION = 0x110;
     protected static final int REQ_CAMERA_PERMISSION = 0x111;
     protected Context mContext;
     protected LayoutInflater layoutInflater;
     protected int screenWidth;
     protected int screenHeigth;
-    private Unbinder unbinder;
+    protected Unbinder unbinder;
     private PermissionListener mListener;
 
     private ProgressDialog loadingDialog = null;
@@ -59,19 +61,20 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         super.onCreate(bundle);
 
         LoggerUtils.loge(this, "onCreate");
-        if (getContentViewId() != 0) {
-            preprocess();
+        if (getContentId() != 0) {
+            preProcess();
             if (hasSupportTransStatusBar()) {
                 StatusBarUtils.setStatusBarAndBottomBarTranslucent(this);
             }
-            setContentView(getContentViewId());
+
             mContext = this;
+            setContentView(getContentId());
+            unbinder = ButterKnife.bind(this);
+
             DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
             screenWidth = displayMetrics.widthPixels;
             screenHeigth = displayMetrics.heightPixels;
             layoutInflater = LayoutInflater.from(mContext);
-
-            unbinder = ButterKnife.bind(this);
 
             // TODO: 2018/4/6 andorid 23以上版本检查运行时权限
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -88,12 +91,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         } else {
             throw new IllegalArgumentException("请使用合法的布局文件");
         }
-    }
-
-    protected abstract int getContentViewId();
-
-    protected void preprocess() {
-
     }
 
     /**
@@ -114,15 +111,9 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     protected abstract PermissionListener getPermissonCallBack();
 
-    protected abstract void initView();
-
     protected void doExtOpts() {
 
     }
-
-    protected abstract void addListener();
-
-    protected abstract void initData();
 
     public void checkPermission(String permission, final String tips, PermissionListener
             listener, int reqPermission) {
@@ -214,10 +205,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         LoggerUtils.loge(this, "onSaveInstanceState");
-    }
-
-    protected void preBuildUi() {
-
     }
 
     public void setOnClick(int viewID) {
