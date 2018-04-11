@@ -39,8 +39,6 @@ import me.yokeyword.fragmentation.SupportActivity;
 
 public abstract class BaseActivity extends SupportActivity implements ILifecycle, View.OnClickListener,
         LogListener {
-    protected static final int REQ_SDCARD_PERMISSION = 0x110;
-    protected static final int REQ_CAMERA_PERMISSION = 0x111;
     protected Context mContext;
     protected LayoutInflater layoutInflater;
     protected int screenWidth;
@@ -79,8 +77,13 @@ public abstract class BaseActivity extends SupportActivity implements ILifecycle
             // TODO: 2018/4/6 andorid 23以上版本检查运行时权限
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (hasCheckPermission()
-                        && getClass().getSimpleName().equals("MainActivity")
-                        && hasCheckPermission()) {
+                        && (
+                        getClass().getSimpleName().equals("MainActivity")
+                                || getClass().getSimpleName().equals("SplashActivity")
+                                || getClass().getSimpleName().equals("WelcomeActivity")
+                                || getClass().getSimpleName().equals("StartActivity")
+                                || getClass().getSimpleName().equals("GuideActivity"))
+                        ) {
                     checkSDCardPermission(getPermissonCallBack());
                 }
             }
@@ -105,8 +108,8 @@ public abstract class BaseActivity extends SupportActivity implements ILifecycle
     }
 
     protected void checkSDCardPermission(PermissionListener permissionListener) {
-        checkPermission(CommonConst.PERMISSION_WRITE_EXTERNAL_STORAGE, "SD卡权限",
-                permissionListener, REQ_SDCARD_PERMISSION);
+        checkPermission(CommonConst.PERMISSION.PERMISSION_WRITE_EXTERNAL_STORAGE, "SD卡权限",
+                permissionListener, CommonConst.PERMISSION.REQ_SDCARD_PERMISSION);
     }
 
     protected abstract PermissionListener getPermissonCallBack();
@@ -160,8 +163,8 @@ public abstract class BaseActivity extends SupportActivity implements ILifecycle
         } else {
             Logger.e("SD权限已授权");
             switch (reqPermission) {
-                case REQ_SDCARD_PERMISSION:
-                case REQ_CAMERA_PERMISSION:
+                case CommonConst.PERMISSION.REQ_SDCARD_PERMISSION:
+                case CommonConst.PERMISSION.REQ_CAMERA_PERMISSION:
                     callListener(1, reqPermission);
                     break;
             }
@@ -207,33 +210,6 @@ public abstract class BaseActivity extends SupportActivity implements ILifecycle
         LoggerUtils.loge(this, "onSaveInstanceState");
     }
 
-    public void setOnClick(int viewID) {
-        findViewById(viewID).setOnClickListener(this);
-    }
-
-    protected void checkCameraPermission(PermissionListener permissionListener) {
-        checkPermission(CommonConst.PERMISSION_CAMERA, "CAMERA", permissionListener, REQ_CAMERA_PERMISSION);
-    }
-
-    protected void forward(Class<? extends Activity> activityCls) {
-        if (activityCls == null) {
-            return;
-        }
-
-        startActivity(new Intent(this, activityCls));
-    }
-
-    protected void forward(Class<? extends Activity> activityCls, Bundle bundle) {
-        if (activityCls == null) {
-            return;
-        }
-
-        Intent intent = new Intent(this, activityCls);
-        if (bundle != null) {
-            intent.putExtras(bundle);
-        }
-        startActivity(intent);
-    }
 
     @Override
     public void onClick(View v) {
@@ -261,20 +237,20 @@ public abstract class BaseActivity extends SupportActivity implements ILifecycle
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
-            case REQ_SDCARD_PERMISSION:
+            case CommonConst.PERMISSION.REQ_SDCARD_PERMISSION:
                 int result = showPermissionResult(grantResults, "SD卡写入");
-                callListener(result, REQ_SDCARD_PERMISSION);
+                callListener(result, CommonConst.PERMISSION.REQ_SDCARD_PERMISSION);
                 break;
-            case REQ_CAMERA_PERMISSION:
+            case CommonConst.PERMISSION.REQ_CAMERA_PERMISSION:
                 int resut = showPermissionResult(grantResults, "摄像头");
-                callListener(resut, REQ_CAMERA_PERMISSION);
+                callListener(resut, CommonConst.PERMISSION.REQ_CAMERA_PERMISSION);
                 break;
         }
     }
 
     private int showPermissionResult(@NonNull int[] grantResults, String str) {
         int result = -1;
-        if (grantResults.length > 0 && grantResults[0] == CommonConst.RESULT_PERMISSION_GRANT) {
+        if (grantResults.length > 0 && grantResults[0] == CommonConst.PERMISSION.RESULT_PERMISSION_GRANT) {
             // TODO: 2018/2/2 权限允许了
             Logger.e(str + "权限允许了");
             result = 1;
@@ -299,9 +275,6 @@ public abstract class BaseActivity extends SupportActivity implements ILifecycle
 
     /**
      * 显示提示对话框
-     *
-     * @param content         内容
-     * @param confirmListener 确定按钮点击事件
      */
     protected void showTipsDialog(String content, DialogInterface.OnClickListener confirmListener) {
         showTipsDialogWithTitle(null, content, UiUtils.getStr(R.string.str_dialog_confirm),
@@ -310,13 +283,6 @@ public abstract class BaseActivity extends SupportActivity implements ILifecycle
 
     /**
      * 显示提示对话框（带标题）
-     *
-     * @param title           标题
-     * @param content         内容
-     * @param confirmText     确定按钮文字
-     * @param confirmListener 确定按钮点击事件
-     * @param cancelText      取消按钮文字
-     * @param cancelListener  取消按钮点击事件
      */
     protected void showTipsDialogWithTitle(String title, String content, String confirmText,
                                            DialogInterface.OnClickListener confirmListener, String cancelText,
@@ -335,12 +301,6 @@ public abstract class BaseActivity extends SupportActivity implements ILifecycle
 
     /**
      * 显示提示对话框
-     *
-     * @param content         内容
-     * @param confirmText     确定按钮文字
-     * @param confirmListener 确定按钮点击事件
-     * @param cancelText      取消按钮文字
-     * @param cancelListener  取消按钮点击事件
      */
     protected void showTipsDialog(String content, String confirmText, DialogInterface.OnClickListener confirmListener,
                                   String cancelText, DialogInterface.OnClickListener cancelListener) {
@@ -349,11 +309,6 @@ public abstract class BaseActivity extends SupportActivity implements ILifecycle
 
     /**
      * 显示提示对话框（带标题）
-     *
-     * @param title           标题
-     * @param content         内容
-     * @param confirmListener 确定按钮点击事件
-     * @param cancelListener  取消按钮点击事件
      */
     protected void showTipsDialogWithTitle(String title, String content, DialogInterface.OnClickListener confirmListener,
                                            DialogInterface.OnClickListener cancelListener) {
@@ -365,8 +320,6 @@ public abstract class BaseActivity extends SupportActivity implements ILifecycle
 
     /**
      * 显示带消息的进度框
-     *
-     * @param title 提示
      */
     protected void showLoadingDialog(String title) {
         createLoadingDialog();
@@ -402,6 +355,35 @@ public abstract class BaseActivity extends SupportActivity implements ILifecycle
         if (loadingDialog != null && loadingDialog.isShowing()) {
             loadingDialog.dismiss();
         }
+    }
+
+    public void setOnClick(int viewID) {
+        findViewById(viewID).setOnClickListener(this);
+    }
+
+    protected void checkCameraPermission(PermissionListener permissionListener) {
+        checkPermission(CommonConst.PERMISSION.PERMISSION_CAMERA, "CAMERA", permissionListener,
+                CommonConst.PERMISSION.REQ_CAMERA_PERMISSION);
+    }
+
+    protected void forward(Class<? extends Activity> activityCls) {
+        if (activityCls == null) {
+            return;
+        }
+
+        startActivity(new Intent(this, activityCls));
+    }
+
+    protected void forward(Class<? extends Activity> activityCls, Bundle bundle) {
+        if (activityCls == null) {
+            return;
+        }
+
+        Intent intent = new Intent(this, activityCls);
+        if (bundle != null) {
+            intent.putExtras(bundle);
+        }
+        startActivity(intent);
     }
 
     public interface PermissionListener extends LogListener {

@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.zhiyangstudio.commonlib.R;
-import com.zhiyangstudio.commonlib.widget.recyclerview.CommonRViewHolder;
 import com.zhiyangstudio.commonlib.utils.UiUtils;
+import com.zhiyangstudio.commonlib.widget.recyclerview.CommonRViewHolder;
 
 /**
  * Created by zhiyang on 2018/4/10.
@@ -124,7 +124,7 @@ public class LMRecyclerView extends RecyclerView {
      * @param holder
      */
     private void showFooterView(CommonRViewHolder holder) {
-        FrameLayout rootView = holder.findView(R.id.root_footer);
+        FrameLayout rootView = holder.getHolderHelper().findView(R.id.root_footer);
         rootView.removeAllViews();
 
         if (footerResId != 0) {

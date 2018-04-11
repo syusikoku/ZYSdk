@@ -1,4 +1,4 @@
-package com.zhiyangstudio.commonlib.widget.recyclerview;
+package com.zhiyangstudio.commonlib.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.zhiyangstudio.commonlib.utils.UiUtils;
+import com.zhiyangstudio.commonlib.widget.recyclerview.CommonRViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -71,7 +71,7 @@ public class UiUtils {
         return getResources(getContext()).getDimension(arrsResId);
     }
 
-    public static float getColor(int arrsResId) {
+    public static int getColor(int arrsResId) {
         return getResources(getContext()).getColor(arrsResId);
     }
 

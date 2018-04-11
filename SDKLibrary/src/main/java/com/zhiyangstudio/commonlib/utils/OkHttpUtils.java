@@ -1,5 +1,6 @@
 package com.zhiyangstudio.commonlib.utils;
 
+import com.zhiyangstudio.commonlib.CommonConst;
 import com.zhiyangstudio.commonlib.net.interceptor.CacheInterceptor;
 import com.zhiyangstudio.commonlib.net.interceptor.DataInterceptor;
 
@@ -34,13 +35,16 @@ public class OkHttpUtils {
         /**
          * 缓存
          */
-        File cacheDir = new File(UiUtils.getAppInstance().getCacheDir(),
-                "wanandroid_net_response");
-        if (!cacheDir.exists())
-            cacheDir.mkdirs();
-        Cache cache = new Cache(cacheDir, 1024 * 1024 * 10);
-        oBuilder.cache(cache);
-        oBuilder.addInterceptor(new CacheInterceptor());
+        String cacheDirName = CommonConst.NET_CACHE_DIR_NAME;
+        if (EmptyUtils.isNotEmpty(cacheDirName)) {
+            File cacheDir = new File(UiUtils.getAppInstance().getCacheDir(),
+                    cacheDirName);
+            if (!cacheDir.exists())
+                cacheDir.mkdirs();
+            Cache cache = new Cache(cacheDir, 1024 * 1024 * 10);
+            oBuilder.cache(cache);
+            oBuilder.addInterceptor(new CacheInterceptor());
+        }
         return oBuilder.build();
     }
 

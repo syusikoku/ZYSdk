@@ -9,10 +9,10 @@ import android.view.View;
 import com.blankj.utilcode.util.ToastUtils;
 import com.zhiyangstudio.commonlib.CommonConst;
 import com.zhiyangstudio.commonlib.R;
+import com.zhiyangstudio.commonlib.adapter.BaseListAdapter;
 import com.zhiyangstudio.commonlib.mvp.inter.IListDataView;
 import com.zhiyangstudio.commonlib.mvp.inter.IView;
 import com.zhiyangstudio.commonlib.mvp.presenter.BasePresenter;
-import com.zhiyangstudio.commonlib.widget.BaseListAdapter;
 import com.zhiyangstudio.commonlib.widget.LMRecyclerView;
 import com.zhiyangstudio.commonlib.widget.LoadingLayout;
 
@@ -29,9 +29,9 @@ public abstract class BaseAbsListFragment<P extends BasePresenter<V>, V extends 
         IListDataView<T> {
 
     protected List<T> mListData = new ArrayList<>();
+    protected LMRecyclerView recyclerView;
     SwipeRefreshLayout refreshLayout;
     LoadingLayout loadingView;
-    LMRecyclerView recyclerView;
     private int state;
     private boolean isAutoLoadMore;
     private int page;

@@ -20,13 +20,11 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.zhiyangstudio.commonlib.inter.IViewHolder;
-
 /**
  * Created by zhiyang on 2018/4/10.
  */
 
-public class ViewHolderHelper implements IViewHolder {
+public class ViewHolderHelper {
     private final SparseArray<View> mViewCache;
     private final View mConvertView;
 
@@ -42,7 +40,7 @@ public class ViewHolderHelper implements IViewHolder {
 
     }
 
-    @Override
+
     public <T> T findView(int viewID) {
         View view = mViewCache.get(viewID);
         if (view == null) {
@@ -52,7 +50,7 @@ public class ViewHolderHelper implements IViewHolder {
         return (T) view;
     }
 
-    @Override
+
     public void setText(int viewID, String txt) {
         TextView textView = findView(viewID);
         if (textView != null) {
@@ -66,42 +64,40 @@ public class ViewHolderHelper implements IViewHolder {
 
     }
 
-    @Override
     public void setImageResource(int viewId, @DrawableRes int imageResId) {
         ImageView view = findView(viewId);
         view.setImageResource(imageResId);
 
     }
 
-    @Override
     public void setBackgroundColor(int viewId, int color) {
         View view = findView(viewId);
         view.setBackgroundColor(color);
 
     }
 
-    @Override
+
     public void setBackgroundRes(int viewId, @DrawableRes int backgroundRes) {
         View view = findView(viewId);
         view.setBackgroundResource(backgroundRes);
 
     }
 
-    @Override
+
     public void setTextColor(int viewId, int textColor) {
         TextView view = findView(viewId);
         view.setTextColor(textColor);
 
     }
 
-    @Override
+
     public void setImageDrawable(int viewId, Drawable drawable) {
         ImageView view = findView(viewId);
         view.setImageDrawable(drawable);
 
     }
 
-    @Override
+
     public void setImageBitmap(int viewId, Bitmap bitmap) {
         ImageView view = findView(viewId);
         view.setImageBitmap(bitmap);
@@ -111,7 +107,7 @@ public class ViewHolderHelper implements IViewHolder {
      * Add an action to set the alpha of a view. Can be called multiple times.
      * Alpha between 0-1.
      */
-    @Override
+
     public void setAlpha(int viewId, float value) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             ((View) findView(viewId)).setAlpha(value);
@@ -127,7 +123,7 @@ public class ViewHolderHelper implements IViewHolder {
     /**
      * Set a view visibility to VISIBLE (true) or GONE (false).
      */
-    @Override
+
     public void setVisible(int viewId, boolean visible) {
         View view = findView(viewId);
         view.setVisibility(visible ? View.VISIBLE : View.GONE);
@@ -136,7 +132,7 @@ public class ViewHolderHelper implements IViewHolder {
     /**
      * Add links into a TextView.
      */
-    @Override
+
     public void linkify(int viewId) {
         TextView view = findView(viewId);
         Linkify.addLinks(view, Linkify.ALL);
@@ -145,7 +141,7 @@ public class ViewHolderHelper implements IViewHolder {
     /**
      * Apply the typeface to the given viewId, and enable subpixel rendering.
      */
-    @Override
+
     public void setTypeface(int viewId, Typeface typeface) {
         TextView view = findView(viewId);
         view.setTypeface(typeface);
@@ -155,7 +151,7 @@ public class ViewHolderHelper implements IViewHolder {
     /**
      * Apply the typeface to all the given viewIds, and enable subpixel rendering.
      */
-    @Override
+
     public void setTypeface(Typeface typeface, int... viewIds) {
         for (int viewId : viewIds) {
             TextView view = findView(viewId);
@@ -164,7 +160,7 @@ public class ViewHolderHelper implements IViewHolder {
         }
     }
 
-    @Override
+
     public void setProgress(int viewId, int progress) {
         ProgressBar view = findView(viewId);
         view.setProgress(progress);
@@ -173,20 +169,20 @@ public class ViewHolderHelper implements IViewHolder {
     /**
      * Sets the progress and max of a ProgressBar.
      */
-    @Override
+
     public void setProgress(int viewId, int progress, int max) {
         ProgressBar view = findView(viewId);
         view.setMax(max);
         view.setProgress(progress);
     }
 
-    @Override
+
     public void setMax(int viewId, int max) {
         ProgressBar view = findView(viewId);
         view.setMax(max);
     }
 
-    @Override
+
     public void setRating(int viewId, float rating) {
         RatingBar view = findView(viewId);
         view.setRating(rating);
@@ -195,7 +191,7 @@ public class ViewHolderHelper implements IViewHolder {
     /**
      * Sets the rating (the number of stars filled) and max of a RatingBar.
      */
-    @Override
+
     public void setRating(int viewId, float rating, int max) {
         RatingBar view = findView(viewId);
         view.setMax(max);
@@ -205,7 +201,7 @@ public class ViewHolderHelper implements IViewHolder {
     /**
      * Sets the on click listener of the view.
      */
-    @Override
+
     public void setOnItemClickListener(int viewId, View.OnClickListener listener) {
         View view = findView(viewId);
         view.setOnClickListener(listener);
@@ -214,7 +210,7 @@ public class ViewHolderHelper implements IViewHolder {
     /**
      * Sets the on touch listener of the view.
      */
-    @Override
+
     public void setOnTouchListener(int viewId, View.OnTouchListener listener) {
         View view = findView(viewId);
         view.setOnTouchListener(listener);
@@ -223,7 +219,7 @@ public class ViewHolderHelper implements IViewHolder {
     /**
      * Sets the on long click listener of the view.
      */
-    @Override
+
     public void setOnLongClickListener(int viewId, View.OnLongClickListener listener) {
         View view = findView(viewId);
         view.setOnLongClickListener(listener);
@@ -232,7 +228,7 @@ public class ViewHolderHelper implements IViewHolder {
     /**
      * Sets the listview or gridview's item click listener of the view
      */
-    @Override
+
     public void setOnItemClickListener(int viewId, AdapterView.OnItemClickListener listener) {
         AdapterView view = findView(viewId);
         view.setOnItemClickListener(listener);
@@ -241,7 +237,7 @@ public class ViewHolderHelper implements IViewHolder {
     /**
      * Sets the listview or gridview's item long click listener of the view
      */
-    @Override
+
     public void setOnItemLongClickListener(int viewId, AdapterView.OnItemLongClickListener listener) {
         AdapterView view = findView(viewId);
         view.setOnItemLongClickListener(listener);
@@ -250,7 +246,7 @@ public class ViewHolderHelper implements IViewHolder {
     /**
      * Sets the listview or gridview's item selected click listener of the view
      */
-    @Override
+
     public void setOnItemSelectedClickListener(int viewId, AdapterView.OnItemSelectedListener listener) {
         AdapterView view = findView(viewId);
         view.setOnItemSelectedListener(listener);
@@ -259,7 +255,7 @@ public class ViewHolderHelper implements IViewHolder {
     /**
      * Sets the on checked change listener of the view.
      */
-    @Override
+
     public void setOnCheckedChangeListener(int viewId, CompoundButton.OnCheckedChangeListener listener) {
         CompoundButton view = findView(viewId);
         view.setOnCheckedChangeListener(listener);
@@ -268,7 +264,7 @@ public class ViewHolderHelper implements IViewHolder {
     /**
      * Sets the tag of the view.
      */
-    @Override
+
     public void setTag(int viewId, Object tag) {
         View view = findView(viewId);
         view.setTag(tag);
@@ -277,7 +273,7 @@ public class ViewHolderHelper implements IViewHolder {
     /**
      * Sets the tag of the view.
      */
-    @Override
+
     public void setTag(int viewId, int key, Object tag) {
         View view = findView(viewId);
         view.setTag(key, tag);
@@ -286,7 +282,7 @@ public class ViewHolderHelper implements IViewHolder {
     /**
      * Sets the checked status of a checkable.
      */
-    @Override
+
     public void setChecked(int viewId, boolean checked) {
         View view = findView(viewId);
         // View unable cast to Checkable
@@ -295,5 +291,9 @@ public class ViewHolderHelper implements IViewHolder {
         } else if (view instanceof CheckedTextView) {
             ((CheckedTextView) view).setChecked(checked);
         }
+    }
+
+    public View getItemView() {
+        return mConvertView;
     }
 }

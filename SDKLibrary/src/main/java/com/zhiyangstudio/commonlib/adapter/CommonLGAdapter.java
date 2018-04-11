@@ -1,9 +1,11 @@
-package com.zhiyangstudio.commonlib.widget;
+package com.zhiyangstudio.commonlib.adapter;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+
+import com.zhiyangstudio.commonlib.widget.CommonLGViewHolder;
 
 import java.util.List;
 

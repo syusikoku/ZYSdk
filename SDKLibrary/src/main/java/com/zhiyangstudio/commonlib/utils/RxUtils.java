@@ -16,6 +16,7 @@ import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
@@ -53,7 +54,7 @@ public class RxUtils {
             }
         };
     }
-    
+
     /**
      * 统一线程处理
      * 指定上游为io线程
@@ -213,5 +214,19 @@ public class RxUtils {
                 });
             }
         };
+    }
+
+    public static <T> Observable<T> getObservable(Observable<T> observable) {
+        return observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public static <T> Observable<T> safeObservable(Observable<T> observable) {
+        return observable.doOnError(Throwable::printStackTrace);
+    }
+
+    public static <T> Single<T> getSingle(Single<T> observable) {
+        return observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }
