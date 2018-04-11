@@ -26,7 +26,11 @@ project.ext {
             design           : "com.android.support:design:$supportLibraryVersion",
             recyclerview     : "com.android.support:recyclerview-v7:$supportLibraryVersion",
             appcompat        : "com.android.support:appcompat-v7:$supportLibraryVersion",
+            preference       : "com.android.support:preference-v14:${supportLibraryVersion}",
+            customtabs       : "com.android.support:customtabs:${supportLibraryVersion}",
+            palette          : "com.android.support:palette-v7:${supportLibraryVersion}",
             constraint_layout: 'com.android.support.constraint:constraint-layout:1.0.2',
+
             junit            : 'junit:junit:4.12',
             test_runner      : 'com.android.support.test:runner:1.0.1',
             espresso_core    : 'com.android.support.test.espresso:espresso-core:3.0.1',
@@ -43,7 +47,8 @@ project.ext {
             persistence_room_compiler: "android.arch.persistence.room:compiler:$lifecycleLibVersion"
     ]
 
-    def daggerLibVersion = "2.11", retrofitLiVersion = "2.3.0", okhttpLibVersion = '3.9.1'
+    def daggerLibVersion = "2.11", retrofitLiVersion = "2.3.0", okhttpLibVersion = '3.9.1',
+        gms = "11.8.0", google_play_services_client_library_version = "7.0.0"
     /*扩展工具*/
     ext_tools = [
             /*rx*/
@@ -62,6 +67,8 @@ project.ext {
             logging_interceptor     : "com.squareup.okhttp3:logging-interceptor:$okhttpLibVersion",
             okhttp_mockwebserver    : "com.squareup.okhttp3:mockwebserver:$okhttpLibVersion",
 
+            android_async_http      : 'com.loopj.android:android-async-http:1.4.5',
+
             /*dagger*/
             dagger                  : "com.google.dagger:dagger:$daggerLibVersion",
             dagger_android          : "com.google.dagger:dagger-android:$daggerLibVersion",
@@ -69,6 +76,19 @@ project.ext {
             //指定注解处理器
             dagger_compiler         : "com.google.dagger:dagger-compiler:$daggerLibVersion",
             dagger_android_processor: "com.google.dagger:dagger-android-processor:$daggerLibVersion",
+
+            /*apply plugin: 'com.google.gms.google-services'*/
+            firebase_core           : "com.google.firebase:firebase-core:${gms}",
+            firebase_messaging      : "com.google.firebase:firebase-messaging:${gms}",
+            firebase_database       : "com.google.firebase:firebase-database:${gms}",
+            play_services_base      : "com.google.android.gms:play-services-base:${gms}",
+
+            // Google Play services split client libs.
+            play_services_analytics : "com.google.android.gms:play-services-analytics:${google_play_services_client_library_version}",
+            play_services_drive     : "com.google.android.gms:play-services-drive:${google_play_services_client_library_version}",
+            play_services_maps      : "com.google.android.gms:play-services-maps:${google_play_services_client_library_version}",
+            play_services_plus      : "com.google.android.gms:play-services-plus:${google_play_services_client_library_version}",
+            play_services_wearable  : "com.google.android.gms:play-services-wearable:${google_play_services_client_library_version}",
 
             /*buttern-knife*/
             butterknife             : 'com.jakewharton:butterknife:8.6.0',
@@ -132,6 +152,8 @@ project.ext {
             jiecaovideoplayer       : 'fm.jiecao:jiecaovideoplayer:5.8.1',
             vitamio                 : 'com.charonchui.vitamio:vitamio:4.2.2',
 
+            material_dialogs        : 'com.afollestad.material-dialogs:commons:0.9.0.2',
+            NiceDialog              : 'com.github.Othershe:NiceDialog:1.1.4'
+
     ]
 }
-
