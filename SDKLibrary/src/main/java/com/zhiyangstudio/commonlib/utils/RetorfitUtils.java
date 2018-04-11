@@ -31,7 +31,7 @@ public class RetorfitUtils {
      * @param <T>
      * @return
      */
-    public <T> T create(String url, final Class<T> service) {
+    public static <T> T create(String url, final Class<T> service) {
         return createRetrofit(url).create(service);
     }
 

@@ -71,7 +71,7 @@ public class UiUtils {
         return getResources(getContext()).getDimension(arrsResId);
     }
 
-    public static float getColor(int arrsResId) {
+    public static int getColor(int arrsResId) {
         return getResources(getContext()).getColor(arrsResId);
     }
 
@@ -99,5 +99,19 @@ public class UiUtils {
         final float fontScale = context.getResources().getDisplayMetrics()
                 .scaledDensity;
         return (int) (spValue * fontScale + 0.5f);
+    }
+
+    /**
+     * 通过父局移除自己
+     *
+     * @param view
+     */
+    public static void removeSelfByParent(View view) {
+        if (view != null && view.getParent() != null && view.getParent() instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            if (viewGroup != null) {
+                viewGroup.removeView(view);
+            }
+        }
     }
 }

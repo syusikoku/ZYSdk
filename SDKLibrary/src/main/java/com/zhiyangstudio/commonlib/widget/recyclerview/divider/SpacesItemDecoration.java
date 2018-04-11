@@ -1,4 +1,4 @@
-package com.zhiyangstudio.commonlib.recyclerview.divider;
+package com.zhiyangstudio.commonlib.widget.recyclerview.divider;
 
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;

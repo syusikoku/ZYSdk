@@ -15,7 +15,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +22,7 @@ import android.view.View;
 import com.orhanobut.logger.Logger;
 import com.zhiyangstudio.commonlib.CommonConst;
 import com.zhiyangstudio.commonlib.R;
+import com.zhiyangstudio.commonlib.inter.ILifecycle;
 import com.zhiyangstudio.commonlib.utils.EmptyUtils;
 import com.zhiyangstudio.commonlib.utils.LogListener;
 import com.zhiyangstudio.commonlib.utils.LoggerUtils;
@@ -31,19 +31,19 @@ import com.zhiyangstudio.commonlib.utils.UiUtils;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import me.yokeyword.fragmentation.SupportActivity;
 
 /**
  * Created by zhiyang on 2018/2/23.
  */
 
-public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener, LogListener {
-    protected static final int REQ_SDCARD_PERMISSION = 0x110;
-    protected static final int REQ_CAMERA_PERMISSION = 0x111;
+public abstract class BaseActivity extends SupportActivity implements ILifecycle, View.OnClickListener,
+        LogListener {
     protected Context mContext;
     protected LayoutInflater layoutInflater;
     protected int screenWidth;
     protected int screenHeigth;
-    private Unbinder unbinder;
+    protected Unbinder unbinder;
     private PermissionListener mListener;
 
     private ProgressDialog loadingDialog = null;
@@ -59,25 +59,31 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         super.onCreate(bundle);
 
         LoggerUtils.loge(this, "onCreate");
-        if (getContentViewId() != 0) {
-            preprocess();
+        if (getContentId() != 0) {
+            preProcess();
             if (hasSupportTransStatusBar()) {
                 StatusBarUtils.setStatusBarAndBottomBarTranslucent(this);
             }
-            setContentView(getContentViewId());
+
             mContext = this;
+            setContentView(getContentId());
+            unbinder = ButterKnife.bind(this);
+
             DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
             screenWidth = displayMetrics.widthPixels;
             screenHeigth = displayMetrics.heightPixels;
             layoutInflater = LayoutInflater.from(mContext);
 
-            unbinder = ButterKnife.bind(this);
-
             // TODO: 2018/4/6 andorid 23以上版本检查运行时权限
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (hasCheckPermission()
-                        && getClass().getSimpleName().equals("MainActivity")
-                        && hasCheckPermission()) {
+                        && (
+                        getClass().getSimpleName().equals("MainActivity")
+                                || getClass().getSimpleName().equals("SplashActivity")
+                                || getClass().getSimpleName().equals("WelcomeActivity")
+                                || getClass().getSimpleName().equals("StartActivity")
+                                || getClass().getSimpleName().equals("GuideActivity"))
+                        ) {
                     checkSDCardPermission(getPermissonCallBack());
                 }
             }
@@ -88,12 +94,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         } else {
             throw new IllegalArgumentException("请使用合法的布局文件");
         }
-    }
-
-    protected abstract int getContentViewId();
-
-    protected void preprocess() {
-
     }
 
     /**
@@ -108,21 +108,15 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     }
 
     protected void checkSDCardPermission(PermissionListener permissionListener) {
-        checkPermission(CommonConst.PERMISSION_WRITE_EXTERNAL_STORAGE, "SD卡权限",
-                permissionListener, REQ_SDCARD_PERMISSION);
+        checkPermission(CommonConst.PERMISSION.PERMISSION_WRITE_EXTERNAL_STORAGE, "SD卡权限",
+                permissionListener, CommonConst.PERMISSION.REQ_SDCARD_PERMISSION);
     }
 
     protected abstract PermissionListener getPermissonCallBack();
 
-    protected abstract void initView();
-
     protected void doExtOpts() {
 
     }
-
-    protected abstract void addListener();
-
-    protected abstract void initData();
 
     public void checkPermission(String permission, final String tips, PermissionListener
             listener, int reqPermission) {
@@ -169,8 +163,8 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         } else {
             Logger.e("SD权限已授权");
             switch (reqPermission) {
-                case REQ_SDCARD_PERMISSION:
-                case REQ_CAMERA_PERMISSION:
+                case CommonConst.PERMISSION.REQ_SDCARD_PERMISSION:
+                case CommonConst.PERMISSION.REQ_CAMERA_PERMISSION:
                     callListener(1, reqPermission);
                     break;
             }
@@ -216,37 +210,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         LoggerUtils.loge(this, "onSaveInstanceState");
     }
 
-    protected void preBuildUi() {
-
-    }
-
-    public void setOnClick(int viewID) {
-        findViewById(viewID).setOnClickListener(this);
-    }
-
-    protected void checkCameraPermission(PermissionListener permissionListener) {
-        checkPermission(CommonConst.PERMISSION_CAMERA, "CAMERA", permissionListener, REQ_CAMERA_PERMISSION);
-    }
-
-    protected void forward(Class<? extends Activity> activityCls) {
-        if (activityCls == null) {
-            return;
-        }
-
-        startActivity(new Intent(this, activityCls));
-    }
-
-    protected void forward(Class<? extends Activity> activityCls, Bundle bundle) {
-        if (activityCls == null) {
-            return;
-        }
-
-        Intent intent = new Intent(this, activityCls);
-        if (bundle != null) {
-            intent.putExtras(bundle);
-        }
-        startActivity(intent);
-    }
 
     @Override
     public void onClick(View v) {
@@ -274,20 +237,20 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
-            case REQ_SDCARD_PERMISSION:
+            case CommonConst.PERMISSION.REQ_SDCARD_PERMISSION:
                 int result = showPermissionResult(grantResults, "SD卡写入");
-                callListener(result, REQ_SDCARD_PERMISSION);
+                callListener(result, CommonConst.PERMISSION.REQ_SDCARD_PERMISSION);
                 break;
-            case REQ_CAMERA_PERMISSION:
+            case CommonConst.PERMISSION.REQ_CAMERA_PERMISSION:
                 int resut = showPermissionResult(grantResults, "摄像头");
-                callListener(resut, REQ_CAMERA_PERMISSION);
+                callListener(resut, CommonConst.PERMISSION.REQ_CAMERA_PERMISSION);
                 break;
         }
     }
 
     private int showPermissionResult(@NonNull int[] grantResults, String str) {
         int result = -1;
-        if (grantResults.length > 0 && grantResults[0] == CommonConst.RESULT_PERMISSION_GRANT) {
+        if (grantResults.length > 0 && grantResults[0] == CommonConst.PERMISSION.RESULT_PERMISSION_GRANT) {
             // TODO: 2018/2/2 权限允许了
             Logger.e(str + "权限允许了");
             result = 1;
@@ -312,9 +275,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     /**
      * 显示提示对话框
-     *
-     * @param content         内容
-     * @param confirmListener 确定按钮点击事件
      */
     protected void showTipsDialog(String content, DialogInterface.OnClickListener confirmListener) {
         showTipsDialogWithTitle(null, content, UiUtils.getStr(R.string.str_dialog_confirm),
@@ -323,13 +283,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     /**
      * 显示提示对话框（带标题）
-     *
-     * @param title           标题
-     * @param content         内容
-     * @param confirmText     确定按钮文字
-     * @param confirmListener 确定按钮点击事件
-     * @param cancelText      取消按钮文字
-     * @param cancelListener  取消按钮点击事件
      */
     protected void showTipsDialogWithTitle(String title, String content, String confirmText,
                                            DialogInterface.OnClickListener confirmListener, String cancelText,
@@ -348,12 +301,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     /**
      * 显示提示对话框
-     *
-     * @param content         内容
-     * @param confirmText     确定按钮文字
-     * @param confirmListener 确定按钮点击事件
-     * @param cancelText      取消按钮文字
-     * @param cancelListener  取消按钮点击事件
      */
     protected void showTipsDialog(String content, String confirmText, DialogInterface.OnClickListener confirmListener,
                                   String cancelText, DialogInterface.OnClickListener cancelListener) {
@@ -362,11 +309,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     /**
      * 显示提示对话框（带标题）
-     *
-     * @param title           标题
-     * @param content         内容
-     * @param confirmListener 确定按钮点击事件
-     * @param cancelListener  取消按钮点击事件
      */
     protected void showTipsDialogWithTitle(String title, String content, DialogInterface.OnClickListener confirmListener,
                                            DialogInterface.OnClickListener cancelListener) {
@@ -378,8 +320,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     /**
      * 显示带消息的进度框
-     *
-     * @param title 提示
      */
     protected void showLoadingDialog(String title) {
         createLoadingDialog();
@@ -415,6 +355,35 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         if (loadingDialog != null && loadingDialog.isShowing()) {
             loadingDialog.dismiss();
         }
+    }
+
+    public void setOnClick(int viewID) {
+        findViewById(viewID).setOnClickListener(this);
+    }
+
+    protected void checkCameraPermission(PermissionListener permissionListener) {
+        checkPermission(CommonConst.PERMISSION.PERMISSION_CAMERA, "CAMERA", permissionListener,
+                CommonConst.PERMISSION.REQ_CAMERA_PERMISSION);
+    }
+
+    protected void forward(Class<? extends Activity> activityCls) {
+        if (activityCls == null) {
+            return;
+        }
+
+        startActivity(new Intent(this, activityCls));
+    }
+
+    protected void forward(Class<? extends Activity> activityCls, Bundle bundle) {
+        if (activityCls == null) {
+            return;
+        }
+
+        Intent intent = new Intent(this, activityCls);
+        if (bundle != null) {
+            intent.putExtras(bundle);
+        }
+        startActivity(intent);
     }
 
     public interface PermissionListener extends LogListener {

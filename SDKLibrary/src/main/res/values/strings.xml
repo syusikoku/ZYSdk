@@ -1,4 +1,13 @@
 <resources>
     <string name="str_dialog_confirm">确定</string>
     <string name="str_dialog_cancel">取消</string>
+
+    <string name="tip_no_data">没有数据哦</string>
+    <string name="tip_load_data">数据加载中&#8230;</string>
+    <string name="tip_load_error">加载出错</string>
+    <string name="connect_error">网络异常</string>
+    <string name="connect_timeout">连接超时</string>
+    <string name="request_timeout">请求超时</string>
+    <string name="parse_error">解析错误</string>
+    <string name="unknown_error">未知错误</string>
 </resources>
