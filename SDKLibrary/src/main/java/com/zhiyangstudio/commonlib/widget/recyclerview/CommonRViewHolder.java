@@ -1,9 +1,9 @@
-package com.zhiyangstudio.commonlib.view;
+package com.zhiyangstudio.commonlib.widget.recyclerview;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,47 +14,21 @@ import com.zhiyangstudio.commonlib.helper.ViewHolderHelper;
 import com.zhiyangstudio.commonlib.inter.IViewHolder;
 
 /**
- * Created by zhiyang on 2018/2/27.
+ * Created by zhiyang on 2018/4/10.
  */
 
-public class CommonLGViewHolder implements IViewHolder {
-    private final ViewHolderHelper viewHolderHelper;
-    private Context mContext;
-    private ViewGroup mParent;
-    private int mResId;
-    private int mPosition;
-    private View mRootView;
-    private int position;
+public class CommonRViewHolder extends RecyclerView.ViewHolder implements IViewHolder {
 
-    private CommonLGViewHolder(Context context, ViewGroup parent, int resId, int position) {
-        this.mContext = context;
-        this.mParent = parent;
-        this.mResId = resId;
-        this.mPosition = position;
-        this.mRootView = LayoutInflater.from(context).inflate(resId, parent, false);
-        mRootView.setTag(this);
-        viewHolderHelper = new ViewHolderHelper(mRootView);
+    private ViewHolderHelper viewHolderHelper;
+
+    public CommonRViewHolder(ViewGroup parent, int layoutId) {
+        this(LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false));
     }
 
-    public static CommonLGViewHolder create(Context context, int position, View view, int resId,
-                                            ViewGroup parent) {
-        if (view == null) {
-            return new CommonLGViewHolder(context, parent, resId, position);
-        } else {
-            CommonLGViewHolder viewHolder = (CommonLGViewHolder) view.getTag();
-            viewHolder.position = position;
-            return viewHolder;
-        }
+    public CommonRViewHolder(View itemView) {
+        super(itemView);
+        viewHolderHelper = new ViewHolderHelper(itemView);
     }
-
-    public int getPosition() {
-        return mPosition;
-    }
-
-    public View getConvertView() {
-        return mRootView;
-    }
-
 
     @Override
     public <T> T findView(int viewID) {

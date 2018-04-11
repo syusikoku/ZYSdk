@@ -1,4 +1,4 @@
-package com.zhiyangstudio.commonlib.recyclerview;
+package com.zhiyangstudio.commonlib.widget.recyclerview;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

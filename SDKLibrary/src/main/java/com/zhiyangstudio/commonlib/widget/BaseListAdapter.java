@@ -1,9 +1,9 @@
-package com.zhiyangstudio.commonlib.view;
+package com.zhiyangstudio.commonlib.widget;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
-import com.zhiyangstudio.commonlib.recyclerview.CommonRViewHolder;
+import com.zhiyangstudio.commonlib.widget.recyclerview.CommonRViewHolder;
 
 import java.util.List;
 

@@ -42,7 +42,22 @@ public class RxUtils {
     }
 
     /**
+     * 指定上游为io线程
+     * 下游为主线程
+     */
+    public static ObservableTransformer io_main() {
+        return new ObservableTransformer() {
+            @Override
+            public ObservableSource apply(Observable upstream) {
+                return upstream.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+            }
+        };
+    }
+    
+    /**
      * 统一线程处理
+     * 指定上游为io线程
+     * 下游为主线程
      *
      * @param <T>
      * @return

@@ -1,6 +1,7 @@
-package com.zhiyangstudio.commonlib.interceptor;
+package com.zhiyangstudio.commonlib.net.interceptor;
 
-import com.orhanobut.logger.Logger;
+import com.zhiyangstudio.commonlib.utils.LogListener;
+import com.zhiyangstudio.commonlib.utils.LoggerUtils;
 
 import java.io.IOException;
 
@@ -9,13 +10,14 @@ import okhttp3.MediaType;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-public class DataInterceptor implements Interceptor {
+public class DataInterceptor implements Interceptor, LogListener {
     @Override
     public Response intercept(Chain chain) throws IOException {
+        LoggerUtils.loge(this, "intercept");
         Response response = chain.proceed(chain.request());
         ResponseBody responseBody = response.body();
         String result = responseBody.string();
-        Logger.e("result = " + result);
+        LoggerUtils.loge(this, "result = " + result);
         MediaType contentType = response.body().contentType();
         /**
          * 解决okhttp 报java.lang.IllegalStateException: closed,

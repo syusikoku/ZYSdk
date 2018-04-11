@@ -1,4 +1,4 @@
-package com.zhiyangstudio.commonlib.view;
+package com.zhiyangstudio.commonlib.widget;
 
 import android.content.Context;
 import android.support.annotation.Nullable;

@@ -1,7 +1,5 @@
 package com.zhiyangstudio.commonlib.mvp;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
@@ -20,12 +18,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by zhiyang on 2018/4/10.
- * 列表fragment:loadingpager+RecyclerView+SwipeRefreshLayout
+ * Created by zhiyang on 2018/4/11.
+ * 列表activity:loadingpager+RecyclerView+SwipeRefreshLayout
  */
 
-public abstract class BaseAbsListFragment<P extends BasePresenter<V>, V extends IView, T> extends
-        BasePresenterFragment<P, V> implements LMRecyclerView.OnFooterAutoLoadMoreListener,
+public abstract class BaseAbsListActivity<P extends BasePresenter<V>, V extends IView, T> extends
+        BasePresenterActivivty<P, V> implements LMRecyclerView.OnFooterAutoLoadMoreListener,
         IListDataView<T> {
 
     protected List<T> mListData = new ArrayList<>();
@@ -44,24 +42,13 @@ public abstract class BaseAbsListFragment<P extends BasePresenter<V>, V extends 
 
     @Override
     public void initView() {
-        refreshLayout = mRootView.findViewById(R.id.base_swiperefrsh);
-        loadingView = mRootView.findViewById(R.id.base_loadinglayout);
-        recyclerView = mRootView.findViewById(R.id.base_recyclerview);
-    }
+        refreshLayout = findViewById(R.id.base_swiperefrsh);
+        loadingView = findViewById(R.id.base_loadinglayout);
+        recyclerView = findViewById(R.id.base_recyclerview);
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        refreshLayout.setOnRefreshListener(() -> {
-            // 下拉刷新
-            state = CommonConst.PAGE_STATE.STATE_REFRESH;
-            isAutoLoadMore = true;
-            page = 0;
-            loadDatas();
-        });
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerView.setCanLoadMore(isCanLoadMore());
-        recyclerView.addFooterAutoLoadMoreListener(this);
+
         mListAdapter = getListAdapter();
         if (mListAdapter != null) {
             recyclerView.addHeaderView(initHeaderView());
@@ -70,21 +57,25 @@ public abstract class BaseAbsListFragment<P extends BasePresenter<V>, V extends 
         }
     }
 
-    /**
-     * 加载数据
-     */
-    protected abstract void loadDatas();
-
-    /**
-     * 是否能够自动加载更多
-     *
-     * @return
-     */
     protected abstract boolean isCanLoadMore();
 
     protected abstract BaseListAdapter getListAdapter();
 
     protected abstract View initHeaderView();
+
+    protected abstract void loadDatas();
+
+    @Override
+    public void addListener() {
+        refreshLayout.setOnRefreshListener(() -> {
+            // 下拉刷新
+            state = CommonConst.PAGE_STATE.STATE_REFRESH;
+            isAutoLoadMore = true;
+            page = 0;
+            loadDatas();
+        });
+        recyclerView.addFooterAutoLoadMoreListener(this);
+    }
 
     @Override
     public int getPage() {
@@ -195,6 +186,4 @@ public abstract class BaseAbsListFragment<P extends BasePresenter<V>, V extends 
         isAutoLoadMore = false;
         loadMore();
     }
-
-
 }

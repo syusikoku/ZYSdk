@@ -8,16 +8,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.zhiyangstudio.commonlib.view.LoadingLayout
+        <com.zhiyangstudio.commonlib.widget.LoadingLayout
             android:id="@+id/base_loadinglayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.zhiyangstudio.commonlib.view.LMRecyclerView
+            <com.zhiyangstudio.commonlib.widget.LMRecyclerView
                 android:id="@+id/base_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
             >
-        </com.zhiyangstudio.commonlib.view.LoadingLayout>
+        </com.zhiyangstudio.commonlib.widget.LoadingLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
 </FrameLayout>

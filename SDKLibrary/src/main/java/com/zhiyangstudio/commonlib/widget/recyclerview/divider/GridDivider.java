@@ -1,4 +1,4 @@
-package com.zhiyangstudio.commonlib.recyclerview.divider;
+package com.zhiyangstudio.commonlib.widget.recyclerview.divider;
 
 import android.content.Context;
 import android.content.res.TypedArray;

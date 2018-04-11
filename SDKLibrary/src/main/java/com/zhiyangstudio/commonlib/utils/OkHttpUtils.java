@@ -1,6 +1,7 @@
 package com.zhiyangstudio.commonlib.utils;
 
-import com.zhiyangstudio.commonlib.interceptor.CacheInterceptor;
+import com.zhiyangstudio.commonlib.net.interceptor.CacheInterceptor;
+import com.zhiyangstudio.commonlib.net.interceptor.DataInterceptor;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -22,16 +23,21 @@ public class OkHttpUtils {
         oBuilder.connectTimeout(30, TimeUnit.SECONDS);
         oBuilder.readTimeout(30, TimeUnit.SECONDS);
         oBuilder.writeTimeout(30, TimeUnit.SECONDS);
+        // 默认的网络请求日志拦截器
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         oBuilder.addInterceptor(loggingInterceptor);
+        oBuilder.addInterceptor(new DataInterceptor());
         // 错误重连
         oBuilder.retryOnConnectionFailure(true);
 
         /**
          * 缓存
          */
-        File cacheDir = new File(UiUtils.getAppInstance().getCacheDir(), "response");
+        File cacheDir = new File(UiUtils.getAppInstance().getCacheDir(),
+                "wanandroid_net_response");
+        if (!cacheDir.exists())
+            cacheDir.mkdirs();
         Cache cache = new Cache(cacheDir, 1024 * 1024 * 10);
         oBuilder.cache(cache);
         oBuilder.addInterceptor(new CacheInterceptor());

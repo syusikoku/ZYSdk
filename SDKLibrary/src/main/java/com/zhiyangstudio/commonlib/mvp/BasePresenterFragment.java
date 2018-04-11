@@ -13,11 +13,11 @@ import com.zhiyangstudio.commonlib.mvp.presenter.BasePresenter;
 
 public abstract class BasePresenterFragment<P extends BasePresenter<V>, V extends IView> extends
         BaseFragment {
-    private P mPresenter;
+    protected P mPresenter;
 
     @Override
     protected void initArguments(Bundle bundle) {
-        
+
     }
 
     @Override

@@ -45,4 +45,32 @@ public class CommonConst {
         // 加载更多
         public static final int STATE_LOAD_MORE = 1;
     }
+
+    public static class NET_CONFIG {
+        public static final int REQUEST_SUCCESS = 0; //请求成功
+        public static final int REQUEST_ERROR = -1;  //请求失败
+
+        /**
+         * 连接错误,网络异常
+         */
+        public static final int CONNECT_ERROR = 1001;
+        /**
+         * 连接超时
+         */
+        public static final int CONNECT_TIMEOUT = 1002;
+
+        /**
+         * 解析错误
+         */
+        public static final int PARSE_ERROR = 1003;
+        /**
+         * 未知错误
+         */
+        public static final int UNKNOWN_ERROR = 1004;
+
+        /**
+         * 请求超时
+         */
+        public static final int REQUEST_TIMEOUT = 1005;
+    }
 }

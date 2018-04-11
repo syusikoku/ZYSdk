@@ -1,6 +1,7 @@
-package com.zhiyangstudio.commonlib.interceptor;
+package com.zhiyangstudio.commonlib.net.interceptor;
 
-import com.orhanobut.logger.Logger;
+import com.zhiyangstudio.commonlib.utils.LogListener;
+import com.zhiyangstudio.commonlib.utils.LoggerUtils;
 import com.zhiyangstudio.commonlib.utils.NetUtils;
 import com.zhiyangstudio.commonlib.utils.UiUtils;
 
@@ -16,18 +17,18 @@ import okhttp3.Response;
  * 缓存拦截器
  */
 
-public class CacheInterceptor implements Interceptor {
+public class CacheInterceptor implements Interceptor, LogListener {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
-
+        LoggerUtils.loge(this, "intercept");
         boolean netAvailable = NetUtils.isNetAvailable(UiUtils.getContext());
         if (netAvailable) {
-            Logger.e("网络可用，强制从网络获取数据");
+            LoggerUtils.loge(this, "网络可用，强制从网络获取数据");
             // 网络可用，强制从网络获取数据
             request = request.newBuilder().cacheControl(CacheControl.FORCE_NETWORK).build();
         } else {
-            Logger.e("网络不用，从缓存获取");
+            LoggerUtils.loge(this, "网络不用，从缓存获取");
             // 网络不用，从缓存获取
             request = request.newBuilder().cacheControl(CacheControl.FORCE_CACHE).build();
         }
@@ -35,12 +36,12 @@ public class CacheInterceptor implements Interceptor {
         Response response = chain.proceed(request);
         if (netAvailable) {
             /*有网络时，设置缓存超时时间为1个小时*/
-            Logger.e("有网络时，设置缓存超时时间为1个小时");
+            LoggerUtils.loge(this, "有网络时，设置缓存超时时间为1个小时");
             response = response.newBuilder().removeHeader("Pragma")
                     .header("Cache-Control", "public, max-age=" + 60 * 60)
                     .build();
         } else {
-            Logger.e("无网络时，设置超时为1周");
+            LoggerUtils.loge(this, "无网络时，设置超时为1周");
             response = response.newBuilder()
                     .removeHeader("Pragma")
                     // 无网络时，设置超时为1周

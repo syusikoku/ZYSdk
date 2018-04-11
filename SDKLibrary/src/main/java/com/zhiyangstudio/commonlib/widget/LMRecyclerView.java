@@ -1,4 +1,4 @@
-package com.zhiyangstudio.commonlib.view;
+package com.zhiyangstudio.commonlib.widget;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.zhiyangstudio.commonlib.R;
-import com.zhiyangstudio.commonlib.recyclerview.CommonRViewHolder;
+import com.zhiyangstudio.commonlib.widget.recyclerview.CommonRViewHolder;
 import com.zhiyangstudio.commonlib.utils.UiUtils;
 
 /**
@@ -147,7 +147,7 @@ public class LMRecyclerView extends RecyclerView {
     /**
      * 显示底部加载更多
      */
-    private void showLoadMore() {
+    public void showLoadMore() {
         showFooterStatus(R.layout.item_root_loading_more);
         setIsReClickLoadMore(false);
     }
@@ -172,7 +172,7 @@ public class LMRecyclerView extends RecyclerView {
     /**
      * /加载更多,没有更多的数据了
      */
-    private void showNoMoreData() {
+    public void showNoMoreData() {
         showFooterStatus(R.layout.item_footer_nomore);
         setIsReClickLoadMore(false);
     }
@@ -180,7 +180,7 @@ public class LMRecyclerView extends RecyclerView {
     /**
      * 加载更多失败
      */
-    private void showLoadMoreError() {
+    public void showLoadMoreError() {
         showFooterStatus(R.layout.item_footer_load_error);
         setIsReClickLoadMore(false);
     }
