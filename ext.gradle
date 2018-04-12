@@ -22,29 +22,29 @@ project.ext {
     /*ui*/
     def supportLibraryVersion = "26.1.0"
     support = [
-            cardview         : "com.android.support:cardview-v7:$supportLibraryVersion",
-            design           : "com.android.support:design:$supportLibraryVersion",
-            recyclerview     : "com.android.support:recyclerview-v7:$supportLibraryVersion",
-            appcompat        : "com.android.support:appcompat-v7:$supportLibraryVersion",
-            preference       : "com.android.support:preference-v14:${supportLibraryVersion}",
-            customtabs       : "com.android.support:customtabs:${supportLibraryVersion}",
-            palette          : "com.android.support:palette-v7:${supportLibraryVersion}",
-            palette          : "com.android.support:support-core-utils:${supportLibraryVersion}",
-            constraint_layout: 'com.android.support.constraint:constraint-layout:1.0.2',
+            cardview          : "com.android.support:cardview-v7:$supportLibraryVersion",
+            design            : "com.android.support:design:$supportLibraryVersion",
+            recyclerview      : "com.android.support:recyclerview-v7:$supportLibraryVersion",
+            appcompat         : "com.android.support:appcompat-v7:$supportLibraryVersion",
+            preference        : "com.android.support:preference-v14:${supportLibraryVersion}",
+            customtabs        : "com.android.support:customtabs:${supportLibraryVersion}",
+            palette           : "com.android.support:palette-v7:${supportLibraryVersion}",
+            support_core_utils: "com.android.support:support-core-utils:${supportLibraryVersion}",
+            constraint_layout : 'com.android.support.constraint:constraint-layout:1.0.2',
 
-            junit            : 'junit:junit:4.12',
-            test_runner      : 'com.android.support.test:runner:1.0.1',
-            espresso_core    : 'com.android.support.test.espresso:espresso-core:3.0.1',
+            junit             : 'junit:junit:4.12',
+            test_runner       : 'com.android.support.test:runner:1.0.1',
+            espresso_core     : 'com.android.support.test.espresso:espresso-core:3.0.1',
             /*百分比布局*/
-            percent          : "com.android.support:percent:$supportLibraryVersion"
+            percent           : "com.android.support:percent:$supportLibraryVersion"
     ]
 
     def lifecycleLibVersion = "1.0.0"
     arch_support = [
             lifecycle_runtime        : 'android.arch.lifecycle:runtime:1.0.3',
             lifecycle_extensions     : "android.arch.lifecycle:extensions:$lifecycleLibVersion",
-            lifecycle_java8          : "android.arch.lifecycle:common-java8:$versions.arch",
-            lifecycle_compiler       : "android.arch.lifecycle:compiler:$versions.arch",
+            lifecycle_java8          : "android.arch.lifecycle:common-java8:$lifecycleLibVersion",
+            lifecycle_compiler       : "android.arch.lifecycle:compiler:$lifecycleLibVersion",
             arch_core_testing        : "android.arch.core:core-testing:$lifecycleLibVersion",
             persistence_room_runtime : "android.arch.persistence.room:runtime:$lifecycleLibVersion",
             lifecycle_compiler       : "android.arch.lifecycle:compiler:$lifecycleLibVersion",
