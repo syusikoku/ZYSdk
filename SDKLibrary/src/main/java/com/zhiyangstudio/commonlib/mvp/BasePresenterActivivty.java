@@ -13,6 +13,55 @@ public abstract class BasePresenterActivivty<P extends BasePresenter<V>, V exten
         BaseActivity implements IView {
 
     protected P mPresenter;
+    PermissionListener mPermissionListener = new PermissionListener() {
+        @Override
+        public void onGrant(int code) {
+            onPermissonGrant(code);
+        }
+
+        @Override
+        public void onDeny(int code) {
+            onPermissionDeny(code);
+        }
+    };
+
+    @Override
+    public void showLoading(String msg) {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void showFail(String msg) {
+        ToastUtils.showShort(msg);
+    }
+
+    @Override
+    public void showError() {
+
+    }
+
+    @Override
+    public void showEmpty() {
+
+    }
+
+    protected void onPermissonGrant(int code) {
+
+    }
+
+    protected void onPermissionDeny(int code) {
+
+    }
+
+    @Override
+    protected PermissionListener getPermissonCallBack() {
+        return mPermissionListener;
+    }
 
     @Override
     protected void doExtOpts() {
@@ -48,31 +97,5 @@ public abstract class BasePresenterActivivty<P extends BasePresenter<V>, V exten
             mPresenter.attachView((V) this);
         }
     }
-
-    @Override
-    public void showLoading(String msg) {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void showFail(String msg) {
-        ToastUtils.showShort(msg);
-    }
-
-    @Override
-    public void showError() {
-
-    }
-
-    @Override
-    public void showEmpty() {
-
-    }
-
 
 }

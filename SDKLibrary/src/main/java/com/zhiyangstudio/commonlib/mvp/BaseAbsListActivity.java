@@ -7,10 +7,10 @@ import android.view.View;
 import com.blankj.utilcode.util.ToastUtils;
 import com.zhiyangstudio.commonlib.CommonConst;
 import com.zhiyangstudio.commonlib.R;
+import com.zhiyangstudio.commonlib.adapter.BaseListAdapter;
 import com.zhiyangstudio.commonlib.mvp.inter.IListDataView;
 import com.zhiyangstudio.commonlib.mvp.inter.IView;
 import com.zhiyangstudio.commonlib.mvp.presenter.BasePresenter;
-import com.zhiyangstudio.commonlib.adapter.BaseListAdapter;
 import com.zhiyangstudio.commonlib.widget.LMRecyclerView;
 import com.zhiyangstudio.commonlib.widget.LoadingLayout;
 
@@ -46,8 +46,10 @@ public abstract class BaseAbsListActivity<P extends BasePresenter<V>, V extends 
         loadingView = findViewById(R.id.base_loadinglayout);
         recyclerView = findViewById(R.id.base_recyclerview);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        recyclerView.setCanLoadMore(isCanLoadMore());
+        if (recyclerView != null) {
+            recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+            recyclerView.setCanLoadMore(isCanLoadMore());
+        }
 
         mListAdapter = getListAdapter();
         if (mListAdapter != null) {
@@ -67,14 +69,19 @@ public abstract class BaseAbsListActivity<P extends BasePresenter<V>, V extends 
 
     @Override
     public void addListener() {
-        refreshLayout.setOnRefreshListener(() -> {
-            // 下拉刷新
-            state = CommonConst.PAGE_STATE.STATE_REFRESH;
-            isAutoLoadMore = true;
-            page = 0;
-            loadDatas();
-        });
-        recyclerView.addFooterAutoLoadMoreListener(this);
+        if (refreshLayout != null) {
+            refreshLayout.setOnRefreshListener(() -> {
+                // 下拉刷新
+                state = CommonConst.PAGE_STATE.STATE_REFRESH;
+                isAutoLoadMore = true;
+                page = 0;
+                loadDatas();
+            });
+        }
+
+        if (recyclerView != null) {
+            recyclerView.addFooterAutoLoadMoreListener(this);
+        }
     }
 
     @Override
@@ -186,4 +193,5 @@ public abstract class BaseAbsListActivity<P extends BasePresenter<V>, V extends 
         isAutoLoadMore = false;
         loadMore();
     }
+
 }

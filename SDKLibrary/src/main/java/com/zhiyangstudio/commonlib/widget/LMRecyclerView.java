@@ -115,7 +115,7 @@ public class LMRecyclerView extends RecyclerView {
         if (adapter != null) {
             mBaseAdapter = new BaseAdapter(adapter);
         }
-        super.swapAdapter(adapter, true);
+        super.swapAdapter(mBaseAdapter, true);
     }
 
     /**

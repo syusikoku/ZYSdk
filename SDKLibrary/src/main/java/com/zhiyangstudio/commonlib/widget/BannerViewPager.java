@@ -108,7 +108,7 @@ public class BannerViewPager extends ViewPager {
         }
     }
 
-    private void stop() {
+    public void stop() {
         stopTimingTask();
     }
 
@@ -123,7 +123,7 @@ public class BannerViewPager extends ViewPager {
         }
     }
 
-    private void start() {
+    public void start() {
         startTimingTask();
     }
 

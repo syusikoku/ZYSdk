@@ -10,10 +10,12 @@ import android.provider.Settings;
 import android.support.annotation.RequiresPermission;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
+import android.view.Menu;
 import android.view.View;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
@@ -182,12 +184,52 @@ public class CommonUtils {
             context = UiUtils.getContext();
         }
         intent.setData(Uri.parse("package:" + context.getPackageName()));
-        if (intent.resolveActivity(context.getPackageManager()) != null) {
-            if (activity == null) {
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-            } else {
-                activity.startActivity(intent);
+        IntentUtils.forward(intent);
+    }
+
+    /**
+     * 使用浏览器打开
+     *
+     * @param url
+     */
+    public static void openByWebBroswer(String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri uri = Uri.parse(url);
+        intent.setData(uri);
+        IntentUtils.forward(intent);
+    }
+
+    /**
+     * 分享文本
+     *
+     * @param txt
+     */
+    public static void shareText(String txt) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_TEXT, txt);
+        intent.setType("text/plan");
+        IntentUtils.forward(intent);
+    }
+
+    /**
+     * 让菜单同时显示图标和文字
+     *
+     * @param menu
+     */
+    public static void makeHeightMenu(Menu menu) {
+        if (menu != null) {
+            if (menu.getClass().getSimpleName().equalsIgnoreCase("MenuBuilder")) {
+                try {
+                    Method m = menu.getClass().getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);
+                    m.setAccessible(true);
+                    m.invoke(menu, true);
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

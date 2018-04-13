@@ -1,15 +1,12 @@
 package com.zhiyangstudio.commonlib.corel;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -23,6 +20,7 @@ import com.orhanobut.logger.Logger;
 import com.zhiyangstudio.commonlib.CommonConst;
 import com.zhiyangstudio.commonlib.R;
 import com.zhiyangstudio.commonlib.inter.ILifecycle;
+import com.zhiyangstudio.commonlib.utils.CommonUtils;
 import com.zhiyangstudio.commonlib.utils.EmptyUtils;
 import com.zhiyangstudio.commonlib.utils.LogListener;
 import com.zhiyangstudio.commonlib.utils.LoggerUtils;
@@ -139,11 +137,7 @@ public abstract class BaseActivity extends SupportActivity implements ILifecycle
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 // TODO: 2018/2/1 跳转到应用详情
-                                Intent intent = new Intent();
-                                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                Uri uri = Uri.fromParts("package", getPackageName(), null);
-                                intent.setData(uri);
-                                startActivity(intent);
+                                CommonUtils.goAppDetailSetting();
                                 dialog.dismiss();
                             }
                         })
@@ -364,26 +358,6 @@ public abstract class BaseActivity extends SupportActivity implements ILifecycle
     protected void checkCameraPermission(PermissionListener permissionListener) {
         checkPermission(CommonConst.PERMISSION.PERMISSION_CAMERA, "CAMERA", permissionListener,
                 CommonConst.PERMISSION.REQ_CAMERA_PERMISSION);
-    }
-
-    protected void forward(Class<? extends Activity> activityCls) {
-        if (activityCls == null) {
-            return;
-        }
-
-        startActivity(new Intent(this, activityCls));
-    }
-
-    protected void forward(Class<? extends Activity> activityCls, Bundle bundle) {
-        if (activityCls == null) {
-            return;
-        }
-
-        Intent intent = new Intent(this, activityCls);
-        if (bundle != null) {
-            intent.putExtras(bundle);
-        }
-        startActivity(intent);
     }
 
     public interface PermissionListener extends LogListener {
