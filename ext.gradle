@@ -16,7 +16,7 @@ project.ext {
     ]
 
     _kotlin = [
-            kotlin_version: "1.1.60"
+            kotlin_version: "1.1.51"
     ]
 
     /*ui*/
@@ -110,12 +110,12 @@ project.ext {
             play_services_appindexing       : "com.google.android.gms:play-services-appindexing:${google_play_services_client_library_version}",
 
             /*buttern-knife*/
-            butterknife                     : 'com.jakewharton:butterknife:8.6.0',
-            butterknife_compiler            : 'com.jakewharton:butterknife-compiler:8.6.0',
+            butterknife                     : 'com.jakewharton:butterknife:8.8.1',
+            butterknife_compiler            : 'com.jakewharton:butterknife-compiler:8.8.1',
 
             /*glide*/
-            glide                           : 'com.github.bumptech.glide:glide:4.3.1',
-            glide_compiler                  : 'com.github.bumptech.glide:compiler:4.3.1',
+            glide                           : 'com.github.bumptech.glide:glide:4.7.1',
+            glide_compiler                  : 'com.github.bumptech.glide:compiler:4.7.1',
             fresco                          : 'com.facebook.fresco:fresco:0.8.+',
             picasso                         : 'com.squareup.picasso:picasso:2.71828',
 
@@ -203,3 +203,4 @@ project.ext {
             m_foundation_icons_typeface     : 'com.mikepenz:foundation-icons-typeface:3.0.0.1@aar'
     ]
 }
+
