@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.widget.Toast;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.zhiyangstudio.commonlib.utils.UiUtils;
 
 /**
@@ -23,17 +23,16 @@ public class AppInstallReceiver extends BroadcastReceiver {
         PackageManager manager = context.getPackageManager();
         if (intent.getAction().equals(Intent.ACTION_PACKAGE_ADDED)) {
             String packageName = intent.getData().getSchemeSpecificPart();
-            Toast.makeText(context, "安装成功" + packageName, Toast.LENGTH_LONG).show();
+            ToastUtils.showShort("安装成功" + packageName);
         }
         if (intent.getAction().equals(Intent.ACTION_PACKAGE_REMOVED)) {
             String packageName = intent.getData().getSchemeSpecificPart();
-            Toast.makeText(context, "卸载成功" + packageName, Toast.LENGTH_LONG).show();
+            ToastUtils.showShort("卸载成功" + packageName);
         }
         if (intent.getAction().equals(Intent.ACTION_PACKAGE_REPLACED)) {
             String packageName = intent.getData().getSchemeSpecificPart();
-            Toast.makeText(context, "替换成功" + packageName, Toast.LENGTH_LONG).show();
+            ToastUtils.showShort("替换成功" + packageName);
         }
-
     }
 
     public void register() {

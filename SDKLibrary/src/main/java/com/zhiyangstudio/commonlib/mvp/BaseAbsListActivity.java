@@ -27,13 +27,13 @@ public abstract class BaseAbsListActivity<P extends BasePresenter<V>, V extends 
         IListDataView<T> {
 
     protected List<T> mListData = new ArrayList<>();
-    SwipeRefreshLayout refreshLayout;
-    LoadingLayout loadingView;
-    LMRecyclerView recyclerView;
-    private int state;
-    private boolean isAutoLoadMore;
-    private int page;
-    private BaseListAdapter mListAdapter;
+    protected SwipeRefreshLayout refreshLayout;
+    protected LoadingLayout loadingView;
+    protected LMRecyclerView recyclerView;
+    protected BaseListAdapter mListAdapter;
+    protected int state;
+    protected boolean isAutoLoadMore;
+    protected int page;
 
     @Override
     public int getContentId() {
@@ -46,10 +46,10 @@ public abstract class BaseAbsListActivity<P extends BasePresenter<V>, V extends 
         loadingView = findViewById(R.id.base_loadinglayout);
         recyclerView = findViewById(R.id.base_recyclerview);
 
-        if (recyclerView != null) {
-            recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-            recyclerView.setCanLoadMore(isCanLoadMore());
-        }
+        if (recyclerView == null)
+            return;
+        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        recyclerView.setCanLoadMore(isCanLoadMore());
 
         mListAdapter = getListAdapter();
         if (mListAdapter != null) {
@@ -66,6 +66,15 @@ public abstract class BaseAbsListActivity<P extends BasePresenter<V>, V extends 
     protected abstract View initHeaderView();
 
     protected abstract void loadDatas();
+
+    /**
+     * 是否开启加载更多
+     *
+     * @param hasCanLoadMore
+     */
+    protected void setCanLoadMore(boolean hasCanLoadMore) {
+        recyclerView.setCanLoadMore(hasCanLoadMore);
+    }
 
     @Override
     public void addListener() {
@@ -96,6 +105,8 @@ public abstract class BaseAbsListActivity<P extends BasePresenter<V>, V extends 
 
     @Override
     public void showContent() {
+        if (loadingView == null)
+            return;
         loadingView.showContent();
         mListAdapter.notifyAllDatas(mListData, recyclerView);
     }
@@ -173,6 +184,25 @@ public abstract class BaseAbsListActivity<P extends BasePresenter<V>, V extends 
     }
 
     /**
+     * 是否允许下拉刷新
+     *
+     * @param hasEnableRefresh
+     */
+    protected void setRrefreshEnable(boolean hasEnableRefresh) {
+        refreshLayout.setEnabled(hasEnableRefresh);
+    }
+
+    /**
+     * 刷新数据
+     */
+    protected void refreshData() {
+        state = CommonConst.PAGE_STATE.STATE_REFRESH;
+        isAutoLoadMore = true;
+        page = 0;
+        loadDatas();
+    }
+
+    /**
      * 滑动到底部自动加载
      */
     @Override
@@ -193,5 +223,6 @@ public abstract class BaseAbsListActivity<P extends BasePresenter<V>, V extends 
         isAutoLoadMore = false;
         loadMore();
     }
+
 
 }

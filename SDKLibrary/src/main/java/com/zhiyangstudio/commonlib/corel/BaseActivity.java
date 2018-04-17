@@ -14,12 +14,13 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.orhanobut.logger.Logger;
 import com.zhiyangstudio.commonlib.CommonConst;
 import com.zhiyangstudio.commonlib.R;
-import com.zhiyangstudio.commonlib.inter.ILifecycle;
+import com.zhiyangstudio.commonlib.inter.IActivityLifeCycle;
 import com.zhiyangstudio.commonlib.utils.CommonUtils;
 import com.zhiyangstudio.commonlib.utils.EmptyUtils;
 import com.zhiyangstudio.commonlib.utils.LogListener;
@@ -31,20 +32,22 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import me.yokeyword.fragmentation.SupportActivity;
 
+
 /**
  * Created by zhiyang on 2018/2/23.
  */
 
-public abstract class BaseActivity extends SupportActivity implements ILifecycle, View.OnClickListener,
+public abstract class BaseActivity extends SupportActivity implements IActivityLifeCycle, View
+        .OnClickListener,
         LogListener {
     protected Context mContext;
     protected LayoutInflater layoutInflater;
     protected int screenWidth;
     protected int screenHeigth;
     protected Unbinder unbinder;
-    private PermissionListener mListener;
 
     private ProgressDialog loadingDialog = null;
+    private PermissionListener mListener;
 
     @Override
     protected void onCreate(@Nullable Bundle bundle) {
@@ -54,44 +57,39 @@ public abstract class BaseActivity extends SupportActivity implements ILifecycle
             String FRAGMENTS_TAG = "android:support:fragments";
             bundle.remove(FRAGMENTS_TAG);
         }
+        beforeCreate();
         super.onCreate(bundle);
 
         LoggerUtils.loge(this, "onCreate");
         if (getContentId() != 0) {
-            preProcess();
-            if (hasSupportTransStatusBar()) {
-                StatusBarUtils.setStatusBarAndBottomBarTranslucent(this);
-            }
-
             mContext = this;
-            setContentView(getContentId());
-            unbinder = ButterKnife.bind(this);
-
-            DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-            screenWidth = displayMetrics.widthPixels;
-            screenHeigth = displayMetrics.heightPixels;
-            layoutInflater = LayoutInflater.from(mContext);
-
-            // TODO: 2018/4/6 andorid 23以上版本检查运行时权限
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (hasCheckPermission()
-                        && (
-                        getClass().getSimpleName().equals("MainActivity")
-                                || getClass().getSimpleName().equals("SplashActivity")
-                                || getClass().getSimpleName().equals("WelcomeActivity")
-                                || getClass().getSimpleName().equals("StartActivity")
-                                || getClass().getSimpleName().equals("GuideActivity"))
-                        ) {
-                    checkSDCardPermission(getPermissonCallBack());
-                }
-            }
-            initView();
-            doExtOpts();
-            addListener();
-            initData();
-        } else {
-            throw new IllegalArgumentException("请使用合法的布局文件");
+            beforeSetContentView();
+            if (hasSupportTransStatusBar())
+                StatusBarUtils.setStatusBarAndBottomBarTranslucent(this);
         }
+        setContentView(getContentId());
+        unbinder = ButterKnife.bind(this);
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        screenWidth = displayMetrics.widthPixels;
+        screenHeigth = displayMetrics.heightPixels;
+        layoutInflater = LayoutInflater.from(mContext);
+        // TODO: 2018/4/6 andorid 23以上版本检查运行时权限
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (hasCheckPermission()
+                    && (
+                    getClass().getSimpleName().equals("MainActivity")
+                            || getClass().getSimpleName().equals("SplashActivity")
+                            || getClass().getSimpleName().equals("WelcomeActivity")
+                            || getClass().getSimpleName().equals("StartActivity")
+                            || getClass().getSimpleName().equals("GuideActivity"))
+                    ) {
+                checkSDCardPermission(getPermissonCallBack());
+            }
+        }
+        beforeSubContentInit();
+        initView();
+        addListener();
+        initData();
     }
 
     /**
@@ -100,6 +98,7 @@ public abstract class BaseActivity extends SupportActivity implements ILifecycle
     protected boolean hasSupportTransStatusBar() {
         return false;
     }
+
 
     protected boolean hasCheckPermission() {
         return true;
@@ -111,10 +110,6 @@ public abstract class BaseActivity extends SupportActivity implements ILifecycle
     }
 
     protected abstract PermissionListener getPermissonCallBack();
-
-    protected void doExtOpts() {
-
-    }
 
     public void checkPermission(String permission, final String tips, PermissionListener
             listener, int reqPermission) {
@@ -204,7 +199,6 @@ public abstract class BaseActivity extends SupportActivity implements ILifecycle
         LoggerUtils.loge(this, "onSaveInstanceState");
     }
 
-
     @Override
     public void onClick(View v) {
 
@@ -265,6 +259,15 @@ public abstract class BaseActivity extends SupportActivity implements ILifecycle
     protected void onRestart() {
         super.onRestart();
         LoggerUtils.loge(this, "onRestart");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -356,13 +359,27 @@ public abstract class BaseActivity extends SupportActivity implements ILifecycle
     }
 
     protected void checkCameraPermission(PermissionListener permissionListener) {
-        checkPermission(CommonConst.PERMISSION.PERMISSION_CAMERA, "CAMERA", permissionListener,
-                CommonConst.PERMISSION.REQ_CAMERA_PERMISSION);
+        checkPermission(CommonConst.PERMISSION.PERMISSION_CAMERA, "CAMERA", permissionListener, CommonConst.PERMISSION.REQ_CAMERA_PERMISSION);
     }
 
     public interface PermissionListener extends LogListener {
         void onGrant(int code);
 
         void onDeny(int code);
+    }
+
+    @Override
+    public void beforeCreate() {
+
+    }
+
+    @Override
+    public void beforeSetContentView() {
+
+    }
+
+    @Override
+    public void beforeSubContentInit() {
+
     }
 }

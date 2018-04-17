@@ -5,8 +5,6 @@ package com.zhiyangstudio.commonlib.inter;
  */
 
 public interface ILifecycle {
-    void preProcess();
-
     int getContentId();
 
     void initView();

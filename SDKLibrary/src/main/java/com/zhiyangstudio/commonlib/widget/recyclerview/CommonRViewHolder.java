@@ -13,7 +13,7 @@ import com.zhiyangstudio.commonlib.helper.ViewHolderHelper;
 
 public class CommonRViewHolder extends RecyclerView.ViewHolder {
 
-    private final ViewHolderHelper mHolderHelper;
+    private ViewHolderHelper mHolderHelper;
 
     public CommonRViewHolder(ViewGroup parent, int layoutId) {
         this(LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false));

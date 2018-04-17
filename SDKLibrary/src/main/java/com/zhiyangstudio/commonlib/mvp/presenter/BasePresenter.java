@@ -15,7 +15,7 @@ import io.reactivex.disposables.Disposable;
  */
 
 public class BasePresenter<V extends IView> implements IPresenter<V>, LogListener {
-    private V mView;
+    protected V mView;
     private HashMap<String, Disposable> mDisposableMaps;
 
     /**

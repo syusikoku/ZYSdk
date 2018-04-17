@@ -4,20 +4,24 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.RequiresPermission;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.View;
+import android.widget.TextView;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Created by zhiyang on 2018/2/24.
@@ -232,5 +236,65 @@ public class CommonUtils {
                 }
             }
         }
+    }
+
+    /**
+     * 删除搜索框背景
+     *
+     * @param searchView
+     */
+    public static void deleteSearchPlate(SearchView searchView) {
+        if (searchView != null) {
+            try {
+                Class<?> aClass = searchView.getClass();
+                Field mSearchPlateField = aClass.getDeclaredField("mSearchPlate");
+                mSearchPlateField.setAccessible(true);
+                Object o = mSearchPlateField.get(searchView);
+                if (o != null && o instanceof View) {
+                    View view = (View) o;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        view.setBackground(null);
+                    }
+                }
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 设置随机的字体颜色
+     *
+     * @param view
+     */
+    public static void setRandomTextColor(TextView view) {
+        int color = getRandomColor();
+        view.setTextColor(color);
+    }
+
+    /**
+     * 获取随机颜色
+     *
+     * @return
+     */
+    public static int getRandomColor() {
+        int red, green, blue;
+        Random random = new Random();
+        red = random.nextInt(255);
+        green = random.nextInt(255);
+        blue = random.nextInt(255);
+        return Color.rgb(red, green, blue);
+    }
+
+    /**
+     * 设置随机的字体颜色
+     *
+     * @param view
+     */
+    public static void setRandomBgColor(TextView view) {
+        int color = getRandomColor();
+        view.setBackgroundColor(color);
     }
 }

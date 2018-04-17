@@ -64,18 +64,26 @@ public abstract class BasePresenterActivivty<P extends BasePresenter<V>, V exten
     }
 
     @Override
-    protected void doExtOpts() {
-        mPresenter = createPresenter();
-        attachView();
-    }
-
-    @Override
     protected void onDestroy() {
         // view置空
         detachView();
         // 取消请求
         cancelRequest();
         super.onDestroy();
+    }
+
+    @Override
+    public void beforeSubContentInit() {
+        mPresenter = createPresenter();
+        attachView();
+    }
+
+    protected abstract P createPresenter();
+
+    private void attachView() {
+        if (mPresenter != null) {
+            mPresenter.attachView((V) this);
+        }
     }
 
     private void detachView() {
@@ -87,14 +95,6 @@ public abstract class BasePresenterActivivty<P extends BasePresenter<V>, V exten
     private void cancelRequest() {
         if (mPresenter != null) {
             mPresenter.cancelRequestTags();
-        }
-    }
-
-    protected abstract P createPresenter();
-
-    private void attachView() {
-        if (mPresenter != null) {
-            mPresenter.attachView((V) this);
         }
     }
 

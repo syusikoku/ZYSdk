@@ -1,6 +1,7 @@
 package com.zhiyangstudio.commonlib.widget;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -22,9 +23,16 @@ public class LoadingLayout extends FrameLayout {
     private View mEmptyView;
     private View mContentView;
 
+    public LoadingLayout(@NonNull Context context) {
+        this(context, null);
+    }
 
-    public LoadingLayout(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
+    public LoadingLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
+        this(context, attrs, 0);
+    }
+
+    public LoadingLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
         this.mContext = context;
         this.mInflater = LayoutInflater.from(mContext);
     }

@@ -41,11 +41,6 @@ public abstract class BasePresenterFragment<P extends BasePresenter<V>, V extend
     }
 
     @Override
-    public void preProcess() {
-
-    }
-
-    @Override
     public void release() {
 
     }
