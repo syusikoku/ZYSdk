@@ -3,9 +3,12 @@ package com.zhiyangstudio.commonlib.utils;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.ColorInt;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -113,5 +116,16 @@ public class UiUtils {
                 viewGroup.removeView(view);
             }
         }
+    }
+
+    @ColorInt
+    public static int getColorAttr(int attr) {
+        Context context = getContext();
+        Resources.Theme theme = context.getTheme();
+        TypedArray typedArray = theme.obtainStyledAttributes(new int[]{attr});
+        int color = typedArray.getColor(0, Color.LTGRAY);
+        typedArray.recycle();
+        return color;
+
     }
 }

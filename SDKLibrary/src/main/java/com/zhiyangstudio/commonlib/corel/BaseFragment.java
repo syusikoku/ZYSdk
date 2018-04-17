@@ -143,5 +143,4 @@ public abstract class BaseFragment extends SupportFragment implements ILifecycle
     protected void lazyFetchData() {
         LoggerUtils.loge(this, "------>lazyFetchData");
     }
-
 }

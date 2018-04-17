@@ -97,5 +97,4 @@ public abstract class BasePresenterActivivty<P extends BasePresenter<V>, V exten
             mPresenter.cancelRequestTags();
         }
     }
-
 }
