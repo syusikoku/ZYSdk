@@ -64,8 +64,10 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
         if (getContentId() != 0) {
             mContext = this;
             beforeSetContentView();
-            if (hasSupportTransStatusBar())
+            if (hasSupportTransStatusBar()) {
                 StatusBarUtils.setStatusBarAndBottomBarTranslucent(this);
+                StatusBarUtils.setWindowStatusBarColor(this, getStatusbarColor());
+            }
         }
         setContentView(getContentId());
         unbinder = ButterKnife.bind(this);
@@ -92,6 +94,11 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
         initData();
     }
 
+    @Override
+    public void beforeCreate() {
+
+    }
+
     /**
      * 是否支持沉浸式状态栏
      */
@@ -99,6 +106,9 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
         return false;
     }
 
+    protected int getStatusbarColor() {
+        return R.color.antiquewhite;
+    }
 
     protected boolean hasCheckPermission() {
         return true;
@@ -170,6 +180,16 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
                 mListener.onGrant(code);
             }
         }
+    }
+
+    @Override
+    public void beforeSetContentView() {
+
+    }
+
+    @Override
+    public void beforeSubContentInit() {
+
     }
 
     @Override
@@ -366,20 +386,5 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
         void onGrant(int code);
 
         void onDeny(int code);
-    }
-
-    @Override
-    public void beforeCreate() {
-
-    }
-
-    @Override
-    public void beforeSetContentView() {
-
-    }
-
-    @Override
-    public void beforeSubContentInit() {
-
     }
 }
