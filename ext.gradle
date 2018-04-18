@@ -9,7 +9,7 @@ project.ext {
             plugin           : "com.android.tools.build:gradle:$androidPluginVersion",
             compileSdkVersion: 26,
             buildToolsVersion: '26.0.3',
-            minSdkVersion    : 15,
+            minSdkVersion    : 19,
             targetSdkVersion : 26,
             versionCode      : 1,
             versionName      : "1.0"

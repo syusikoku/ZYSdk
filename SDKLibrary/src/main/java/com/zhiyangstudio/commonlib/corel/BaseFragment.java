@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.zhiyangstudio.commonlib.inter.ILifecycle;
+import com.zhiyangstudio.commonlib.inter.IFragmentLifecycle;
 import com.zhiyangstudio.commonlib.utils.LogListener;
 import com.zhiyangstudio.commonlib.utils.LoggerUtils;
 import com.zhiyangstudio.commonlib.utils.UiUtils;
@@ -21,7 +21,8 @@ import me.yokeyword.fragmentation.SupportFragment;
  * Created by zhiyang on 2018/4/10.
  */
 
-public abstract class BaseFragment extends SupportFragment implements ILifecycle, LogListener {
+public abstract class BaseFragment extends SupportFragment implements IFragmentLifecycle,
+        LogListener {
     protected Context mContext;
     protected Activity mActivity;
     protected LayoutInflater layoutInflater;
@@ -31,48 +32,6 @@ public abstract class BaseFragment extends SupportFragment implements ILifecycle
     /*标识已经触发过懒加载数据*/
     private boolean hasFetchData;
     private Unbinder unbinder;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        LoggerUtils.loge(this, "onCreate");
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            initArguments(bundle);
-        }
-    }
-
-    protected abstract void initArguments(Bundle bundle);
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        LoggerUtils.loge(this, " onDestroyView");
-        /**
-         * view被销毁后，将可以重新触发数据懒加载，因为在viewpager下，
-         * fragment不会再次新建并走onCreate的生命周期流程，将从onCreateView开始
-         */
-        hasFetchData = false;
-        isViewPrepared = false;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        LoggerUtils.loge(this, " onDestroy");
-        release();
-        if (unbinder != null) {
-            unbinder.unbind();
-        }
-        mContext = null;
-        mActivity = null;
-        mRootView = null;
-    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -86,7 +45,7 @@ public abstract class BaseFragment extends SupportFragment implements ILifecycle
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        LoggerUtils.loge(this, "onAttach");
+        LoggerUtils.loge(this, "onAttach context");
         this.mContext = context;
         this.mActivity = getActivity();
         layoutInflater = LayoutInflater.from(mContext);
@@ -144,4 +103,53 @@ public abstract class BaseFragment extends SupportFragment implements ILifecycle
         LoggerUtils.loge(this, "------>lazyFetchData");
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        LoggerUtils.loge(this, "onAttach activity");
+        this.mContext = activity;
+        this.mActivity = getActivity();
+        layoutInflater = LayoutInflater.from(mContext);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        LoggerUtils.loge(this, "onCreate");
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            initArguments(bundle);
+        }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        LoggerUtils.loge(this, " onDestroyView");
+        /**
+         * view被销毁后，将可以重新触发数据懒加载，因为在viewpager下，
+         * fragment不会再次新建并走onCreate的生命周期流程，将从onCreateView开始
+         */
+        hasFetchData = false;
+        isViewPrepared = false;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LoggerUtils.loge(this, " onDestroy");
+        release();
+        if (unbinder != null) {
+            unbinder.unbind();
+        }
+        mContext = null;
+        mActivity = null;
+        mRootView = null;
+    }
 }

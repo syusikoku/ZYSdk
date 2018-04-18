@@ -1,7 +1,6 @@
 package com.zhiyangstudio.commonlib.mvp;
 
 import android.content.Context;
-import android.os.Bundle;
 
 import com.zhiyangstudio.commonlib.corel.BaseFragment;
 import com.zhiyangstudio.commonlib.mvp.inter.IView;
@@ -14,11 +13,6 @@ import com.zhiyangstudio.commonlib.mvp.presenter.BasePresenter;
 public abstract class BasePresenterFragment<P extends BasePresenter<V>, V extends IView> extends
         BaseFragment {
     protected P mPresenter;
-
-    @Override
-    protected void initArguments(Bundle bundle) {
-
-    }
 
     @Override
     public void onAttach(Context context) {
