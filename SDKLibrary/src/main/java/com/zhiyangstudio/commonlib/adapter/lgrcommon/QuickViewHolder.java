@@ -28,7 +28,6 @@ import java.lang.ref.WeakReference;
  * Created by zzg on 2018/4/17.
  * listview gridview recyclerview共用的viewholder
  */
-
 public class QuickViewHolder extends RecyclerView.ViewHolder {
 
     private int mLayoutId;
@@ -187,7 +186,6 @@ public class QuickViewHolder extends RecyclerView.ViewHolder {
      * Add an action to set the alpha of a view. Can be called multiple times.
      * Alpha between 0-1.
      */
-
     public QuickViewHolder setAlpha(int viewId, float value) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             ((View) getView(viewId)).setAlpha(value);
@@ -204,7 +202,6 @@ public class QuickViewHolder extends RecyclerView.ViewHolder {
     /**
      * Set a view visibility to VISIBLE (true) or GONE (false).
      */
-
     public QuickViewHolder setVisible(int viewId, boolean visible) {
         View view = getView(viewId);
         view.setVisibility(visible ? View.VISIBLE : View.GONE);
@@ -214,7 +211,6 @@ public class QuickViewHolder extends RecyclerView.ViewHolder {
     /**
      * Add links into a TextView.
      */
-
     public QuickViewHolder linkify(int viewId) {
         TextView view = getView(viewId);
         Linkify.addLinks(view, Linkify.ALL);
@@ -224,7 +220,6 @@ public class QuickViewHolder extends RecyclerView.ViewHolder {
     /**
      * Apply the typeface to the given viewId, and enable subpixel rendering.
      */
-
     public QuickViewHolder setTypeface(int viewId, Typeface typeface) {
         TextView view = getView(viewId);
         view.setTypeface(typeface);
@@ -235,7 +230,6 @@ public class QuickViewHolder extends RecyclerView.ViewHolder {
     /**
      * Apply the typeface to all the given viewIds, and enable subpixel rendering.
      */
-
     public QuickViewHolder setTypeface(Typeface typeface, int... viewIds) {
         for (int viewId : viewIds) {
             TextView view = getView(viewId);
@@ -255,7 +249,6 @@ public class QuickViewHolder extends RecyclerView.ViewHolder {
     /**
      * Sets the progress and max of a ProgressBar.
      */
-
     public QuickViewHolder setProgress(int viewId, int progress, int max) {
         ProgressBar view = getView(viewId);
         view.setMax(max);
@@ -280,7 +273,6 @@ public class QuickViewHolder extends RecyclerView.ViewHolder {
     /**
      * Sets the rating (the number of stars filled) and max of a RatingBar.
      */
-
     public QuickViewHolder setRating(int viewId, float rating, int max) {
         RatingBar view = getView(viewId);
         view.setMax(max);
@@ -291,7 +283,6 @@ public class QuickViewHolder extends RecyclerView.ViewHolder {
     /**
      * Sets the on click listener of the view.
      */
-
     public QuickViewHolder setOnItemClickListener(int viewId, View.OnClickListener listener) {
         View view = getView(viewId);
         view.setOnClickListener(listener);
@@ -301,7 +292,6 @@ public class QuickViewHolder extends RecyclerView.ViewHolder {
     /**
      * Sets the on touch listener of the view.
      */
-
     public QuickViewHolder setOnTouchListener(int viewId, View.OnTouchListener listener) {
         View view = getView(viewId);
         view.setOnTouchListener(listener);
@@ -312,7 +302,6 @@ public class QuickViewHolder extends RecyclerView.ViewHolder {
     /**
      * Sets the listview or gridview's item click listener of the view
      */
-
     public QuickViewHolder setOnItemClickListener(int viewId, AdapterView.OnItemClickListener listener) {
         AdapterView view = getView(viewId);
         view.setOnItemClickListener(listener);
@@ -322,7 +311,6 @@ public class QuickViewHolder extends RecyclerView.ViewHolder {
     /**
      * Sets the listview or gridview's item long click listener of the view
      */
-
     public QuickViewHolder setOnItemLongClickListener(int viewId, AdapterView.OnItemLongClickListener listener) {
         AdapterView view = getView(viewId);
         view.setOnItemLongClickListener(listener);
@@ -332,7 +320,6 @@ public class QuickViewHolder extends RecyclerView.ViewHolder {
     /**
      * Sets the listview or gridview's item selected click listener of the view
      */
-
     public QuickViewHolder setOnItemSelectedClickListener(int viewId, AdapterView.OnItemSelectedListener listener) {
         AdapterView view = getView(viewId);
         view.setOnItemSelectedListener(listener);
@@ -342,7 +329,6 @@ public class QuickViewHolder extends RecyclerView.ViewHolder {
     /**
      * Sets the on checked change listener of the view.
      */
-
     public QuickViewHolder setOnCheckedChangeListener(int viewId, CompoundButton.OnCheckedChangeListener listener) {
         CompoundButton view = getView(viewId);
         view.setOnCheckedChangeListener(listener);
@@ -352,7 +338,6 @@ public class QuickViewHolder extends RecyclerView.ViewHolder {
     /**
      * Sets the tag of the view.
      */
-
     public QuickViewHolder setTag(int viewId, Object tag) {
         View view = getView(viewId);
         view.setTag(tag);
@@ -362,7 +347,6 @@ public class QuickViewHolder extends RecyclerView.ViewHolder {
     /**
      * Sets the tag of the view.
      */
-
     public QuickViewHolder setTag(int viewId, int key, Object tag) {
         View view = getView(viewId);
         view.setTag(key, tag);

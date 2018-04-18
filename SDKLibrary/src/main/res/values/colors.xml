@@ -295,4 +295,8 @@
     <color name="white">#ffffff</color>
     <!-- 白色 -->
     <color name="trans">#00000000</color>
+
+    <color name="sr_color_primary">#1379d6</color>
+    <color name="sr_color_primary_dark">#1079d6</color>
+    <color name="sr_window_background">#FFFEFEFE</color>
 </resources>

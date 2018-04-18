@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,8 +17,11 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.orhanobut.logger.Logger;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.zhiyangstudio.commonlib.CommonConst;
 import com.zhiyangstudio.commonlib.R;
 import com.zhiyangstudio.commonlib.inter.IActivityLifeCycle;
@@ -64,8 +68,12 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
         if (getContentId() != 0) {
             mContext = this;
             beforeSetContentView();
-            if (hasSupportTransStatusBar())
-                StatusBarUtils.setStatusBarAndBottomBarTranslucent(this);
+            //沉浸式状态栏处理
+            if (hasSupportTransStatusBar()) {
+                setTranslucentStatus(true);
+                if (getStatusbarColor() != 0)
+                    setSystemBarTintDrawable(getResources().getDrawable(getStatusbarColor()));
+            }
         }
         setContentView(getContentId());
         unbinder = ButterKnife.bind(this);
@@ -90,6 +98,46 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
         initView();
         addListener();
         initData();
+    }
+
+    /**
+     * use SytemBarTintManager
+     */
+    protected void setSystemBarTintDrawable(Drawable tintDrawable) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            SystemBarTintManager mTintManager = new SystemBarTintManager(this);
+            if (tintDrawable != null) {
+                mTintManager.setStatusBarTintEnabled(true);
+                mTintManager.setTintDrawable(tintDrawable);
+            } else {
+                mTintManager.setStatusBarTintEnabled(false);
+                mTintManager.setTintDrawable(null);
+            }
+        }
+    }
+
+    /**
+     * set status bar translucency
+     */
+    protected void setTranslucentStatus(boolean on) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window win = getWindow();
+            WindowManager.LayoutParams winParams = win.getAttributes();
+            final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+            if (on) {
+                winParams.flags |= bits;
+            } else {
+                winParams.flags &= ~bits;
+            }
+            win.setAttributes(winParams);
+        }
+    }
+
+    /**
+     * 获取需要设置的状态栏颜色
+     */
+    protected int getStatusbarColor() {
+        return R.color.aliceblue;
     }
 
     /**
