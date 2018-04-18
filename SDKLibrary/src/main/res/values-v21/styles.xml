@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!--定义ProgressBar大小-->
     <style name="LoadingProgressStyle" parent="@style/Widget.AppCompat.ProgressBar">
         <item name="android:minWidth">20dp</item>

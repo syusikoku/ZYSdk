@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.zhiyangstudio.commonlib.R;
+import com.zhiyangstudio.commonlib.adapter.lgrcommon.QuickViewHolder;
 import com.zhiyangstudio.commonlib.utils.UiUtils;
-import com.zhiyangstudio.commonlib.widget.recyclerview.CommonRViewHolder;
 
 /**
  * Created by zhiyang on 2018/4/10.
@@ -123,8 +123,8 @@ public class LMRecyclerView extends RecyclerView {
      *
      * @param holder
      */
-    private void showFooterView(CommonRViewHolder holder) {
-        FrameLayout rootView = holder.getHolderHelper().findView(R.id.root_footer);
+    private void showFooterView(QuickViewHolder holder) {
+        FrameLayout rootView = holder.getView(R.id.root_footer);
         rootView.removeAllViews();
 
         if (footerResId != 0) {
@@ -206,27 +206,28 @@ public class LMRecyclerView extends RecyclerView {
     /**
      * 内置的adapter支持头和脚布局
      */
-    private class BaseAdapter extends Adapter<CommonRViewHolder> {
-        private final Adapter<CommonRViewHolder> mAdapter;
+    private class BaseAdapter extends Adapter<QuickViewHolder> {
+        private final Adapter<QuickViewHolder> mAdapter;
 
-        public BaseAdapter(Adapter<CommonRViewHolder> adapter) {
+        public BaseAdapter(Adapter<QuickViewHolder> adapter) {
             this.mAdapter = adapter;
         }
 
         @Override
-        public CommonRViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public QuickViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             if (viewType == VIEW_TYPE_HEADER) {
-                return new CommonRViewHolder(mHeaderView);
+                return new QuickViewHolder(mHeaderView);
             }
 
             if (viewType == VIEW_TYPE_FOOTER) {
-                return new CommonRViewHolder(parent, R.layout.item_root_footer);
+                int rootFooter = R.layout.item_root_footer;
+                return new QuickViewHolder(UiUtils.inflateView(rootFooter, parent), rootFooter);
             }
             return mAdapter.onCreateViewHolder(parent, viewType);
         }
 
         @Override
-        public void onBindViewHolder(CommonRViewHolder holder, int position) {
+        public void onBindViewHolder(QuickViewHolder holder, int position) {
             int itemViewType = getItemViewType(position);
             if (itemViewType == VIEW_TYPE_NOMAL) {
                 if (mHeaderView != null) {
