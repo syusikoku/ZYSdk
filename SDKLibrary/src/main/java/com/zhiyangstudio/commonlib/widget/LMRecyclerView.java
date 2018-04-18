@@ -207,9 +207,9 @@ public class LMRecyclerView extends RecyclerView {
      * 内置的adapter支持头和脚布局
      */
     private class BaseAdapter extends Adapter<CommonRViewHolder> {
-        private final Adapter mAdapter;
+        private final Adapter<CommonRViewHolder> mAdapter;
 
-        public BaseAdapter(Adapter adapter) {
+        public BaseAdapter(Adapter<CommonRViewHolder> adapter) {
             this.mAdapter = adapter;
         }
 
@@ -222,7 +222,7 @@ public class LMRecyclerView extends RecyclerView {
             if (viewType == VIEW_TYPE_FOOTER) {
                 return new CommonRViewHolder(parent, R.layout.item_root_footer);
             }
-            return (CommonRViewHolder) mAdapter.onCreateViewHolder(parent, viewType);
+            return mAdapter.onCreateViewHolder(parent, viewType);
         }
 
         @Override
