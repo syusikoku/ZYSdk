@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import com.zhiyangstudio.commonlib.adapter.lgrcommon.QuickViewHolder;
+import com.zhiyangstudio.commonlib.utils.LogListener;
 import com.zhiyangstudio.commonlib.utils.UiUtils;
 import com.zhiyangstudio.commonlib.widget.LMRecyclerView;
 
@@ -13,7 +14,8 @@ import java.util.List;
  * Created by zhiyang on 2018/4/10.
  */
 
-public abstract class BaseListAdapter<T> extends RecyclerView.Adapter<QuickViewHolder> {
+public abstract class BaseListAdapter<T> extends RecyclerView.Adapter<QuickViewHolder> implements
+        LogListener {
     private List<T> mList;
 
     //刷新所有数据

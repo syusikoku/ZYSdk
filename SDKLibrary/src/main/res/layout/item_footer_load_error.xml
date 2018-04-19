@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="加载失败,点击重新加载"
+        android:textColor="@color/gray"
         android:textSize="14sp" />
 
 </FrameLayout>
