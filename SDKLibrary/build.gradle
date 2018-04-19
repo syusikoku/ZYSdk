@@ -36,6 +36,7 @@ dependencies {
     implementation rootProject.ext.ext_tools.logger
 
     implementation rootProject.ext.ext_tools.gson
+    implementation rootProject.ext.ext_tools.systembartint
 
     implementation rootProject.ext.ext_tools.utilcode
     implementation rootProject.ext.ext_tools.fragmentation
