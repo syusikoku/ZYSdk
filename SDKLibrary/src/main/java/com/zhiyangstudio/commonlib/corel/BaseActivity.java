@@ -29,7 +29,6 @@ import com.zhiyangstudio.commonlib.utils.CommonUtils;
 import com.zhiyangstudio.commonlib.utils.EmptyUtils;
 import com.zhiyangstudio.commonlib.utils.LogListener;
 import com.zhiyangstudio.commonlib.utils.LoggerUtils;
-import com.zhiyangstudio.commonlib.utils.StatusBarUtils;
 import com.zhiyangstudio.commonlib.utils.UiUtils;
 
 import butterknife.ButterKnife;
@@ -100,20 +99,16 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
         initData();
     }
 
+    @Override
+    public void beforeCreate() {
+
+    }
+
     /**
-     * use SytemBarTintManager
+     * 是否支持沉浸式状态栏
      */
-    protected void setSystemBarTintDrawable(Drawable tintDrawable) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            SystemBarTintManager mTintManager = new SystemBarTintManager(this);
-            if (tintDrawable != null) {
-                mTintManager.setStatusBarTintEnabled(true);
-                mTintManager.setTintDrawable(tintDrawable);
-            } else {
-                mTintManager.setStatusBarTintEnabled(false);
-                mTintManager.setTintDrawable(null);
-            }
-        }
+    protected boolean hasSupportTransStatusBar() {
+        return false;
     }
 
     /**
@@ -141,12 +136,20 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
     }
 
     /**
-     * 是否支持沉浸式状态栏
+     * use SytemBarTintManager
      */
-    protected boolean hasSupportTransStatusBar() {
-        return false;
+    protected void setSystemBarTintDrawable(Drawable tintDrawable) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            SystemBarTintManager mTintManager = new SystemBarTintManager(this);
+            if (tintDrawable != null) {
+                mTintManager.setStatusBarTintEnabled(true);
+                mTintManager.setTintDrawable(tintDrawable);
+            } else {
+                mTintManager.setStatusBarTintEnabled(false);
+                mTintManager.setTintDrawable(null);
+            }
+        }
     }
-
 
     protected boolean hasCheckPermission() {
         return true;
@@ -218,6 +221,16 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
                 mListener.onGrant(code);
             }
         }
+    }
+
+    @Override
+    public void beforeSetContentView() {
+
+    }
+
+    @Override
+    public void beforeSubContentInit() {
+
     }
 
     @Override
@@ -414,20 +427,5 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
         void onGrant(int code);
 
         void onDeny(int code);
-    }
-
-    @Override
-    public void beforeCreate() {
-
-    }
-
-    @Override
-    public void beforeSetContentView() {
-
-    }
-
-    @Override
-    public void beforeSubContentInit() {
-
     }
 }

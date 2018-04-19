@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.annotations.NonNull;
 import okhttp3.Cache;
+import okhttp3.CookieJar;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 
@@ -17,6 +18,8 @@ import okhttp3.logging.HttpLoggingInterceptor;
  */
 
 public class OkHttpUtils {
+
+    private static CookieJar mCookieJar;
 
     @NonNull
     public static OkHttpClient getOkHttpClient() {
@@ -29,6 +32,10 @@ public class OkHttpUtils {
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         oBuilder.addInterceptor(loggingInterceptor);
         oBuilder.addInterceptor(new DataInterceptor());
+        // 设置cookie
+        if (mCookieJar != null) {
+            oBuilder.cookieJar(mCookieJar);
+        }
         // 错误重连
         oBuilder.retryOnConnectionFailure(true);
 
@@ -46,6 +53,15 @@ public class OkHttpUtils {
             oBuilder.addInterceptor(new CacheInterceptor());
         }
         return oBuilder.build();
+    }
+
+    /**
+     * 设置cookiejar
+     *
+     * @param cookieJar
+     */
+    public static void setCookieJar(CookieJar cookieJar) {
+        mCookieJar = cookieJar;
     }
 
     /**

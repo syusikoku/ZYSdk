@@ -30,12 +30,12 @@ public abstract class BaseAbsListFragment<P extends BasePresenter<V>, V extends 
 
     protected List<T> mListData = new ArrayList<>();
     protected LMRecyclerView recyclerView;
-    SwipeRefreshLayout refreshLayout;
-    LoadingLayout loadingView;
+    protected SwipeRefreshLayout refreshLayout;
+    protected LoadingLayout loadingView;
     private int state;
     private boolean isAutoLoadMore;
     private int page;
-    private BaseListAdapter mListAdapter;
+    protected BaseListAdapter mListAdapter;
 
     @Override
     public int getContentId() {

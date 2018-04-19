@@ -30,6 +30,8 @@ public class PreUtils {
             editor.putFloat(key, (Float) value);
         } else if (value instanceof Long) {
             editor.putLong(key, (Long) value);
+        } else if (value instanceof Boolean) {
+            editor.putBoolean(key, (Boolean) value);
         }
         editor.commit();
     }
@@ -55,6 +57,8 @@ public class PreUtils {
             return sp.getFloat(key, (Float) defValue);
         } else if (defValue instanceof Long) {
             return sp.getLong(key, (Long) defValue);
+        } else if (defValue instanceof Boolean) {
+            return sp.getBoolean(key, (Boolean) defValue);
         }
         return null;
     }

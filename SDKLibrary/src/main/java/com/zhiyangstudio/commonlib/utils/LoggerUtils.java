@@ -9,10 +9,14 @@ import com.zhiyangstudio.commonlib.CommonConst;
 
 public class LoggerUtils {
     public static void loge(LogListener listener, String msg) {
-        if (listener == null) {
-            Logger.e(CommonConst.LOG_TAG + " -> " + msg);
-        } else {
+        if (listener != null && EmptyUtils.isNotEmpty(listener.getClass().getSimpleName())) {
             Logger.e(listener.getClass().getSimpleName() + " -> " + msg);
+        } else {
+            loge(msg);
         }
+    }
+
+    public static void loge(String msg) {
+        Logger.e(CommonConst.LOG_TAG + " -> " + msg);
     }
 }
