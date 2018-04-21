@@ -15,7 +15,7 @@ import java.util.List;
  * Created by zhiyang on 2018/4/11.
  */
 
-public abstract class RxPageListObserver<T> extends RxBaseObserver<PageListDataBean<T>>  {
+public abstract class RxPageListObserver<T> extends RxBaseObserver<PageListDataBean<T>> {
     private IListDataView<T> mListDataView;
 
     public RxPageListObserver(BasePresenter presenter) {
@@ -29,7 +29,7 @@ public abstract class RxPageListObserver<T> extends RxBaseObserver<PageListDataB
 
     @Override
     public void onNext(BaseBean<PageListDataBean<T>> bean) {
-        LoggerUtils.loge(this,"onNext");
+        LoggerUtils.loge(" RxPageListObserver onNext");
         if (bean.errorCode == CommonConst.NET_CONFIG.REQUEST_SUCCESS) {
             PageListDataBean<T> listDataBean = bean.data;
             if (mListDataView.getPage() == 0) {
@@ -54,7 +54,7 @@ public abstract class RxPageListObserver<T> extends RxBaseObserver<PageListDataB
     @Override
     public void onError(Throwable e) {
         super.onError(e);
-        LoggerUtils.loge(this,"onError");
+        LoggerUtils.loge(" RxPageListObserver onError");
         mListDataView.showError();
     }
 }

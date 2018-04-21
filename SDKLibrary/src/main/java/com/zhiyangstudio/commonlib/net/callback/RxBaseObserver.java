@@ -25,7 +25,7 @@ import io.reactivex.disposables.Disposable;
  * Observer基类:对请求时的错误统一处理
  */
 
-public abstract class RxBaseObserver<T> implements Observer<BaseBean<T>>, LogListener {
+public abstract class RxBaseObserver<T> implements Observer<BaseBean<T>> {
 
     protected IView mView;
     private String mTag;
@@ -39,7 +39,7 @@ public abstract class RxBaseObserver<T> implements Observer<BaseBean<T>>, LogLis
 
     @Override
     public void onSubscribe(Disposable d) {
-        LoggerUtils.loge(this, "onSubscribe");
+        LoggerUtils.loge("RxBaseObserver onSubscribe");
         showLoading();
         if (mTag != null) {
             mPresenter.addRequestTag(mTag, d);
@@ -52,7 +52,7 @@ public abstract class RxBaseObserver<T> implements Observer<BaseBean<T>>, LogLis
 
     @Override
     public void onError(Throwable e) {
-        LoggerUtils.loge(this, "onError");
+        LoggerUtils.loge("RxBaseObserver onError");
         hideLoading();
         dealException(e);
     }
@@ -64,7 +64,7 @@ public abstract class RxBaseObserver<T> implements Observer<BaseBean<T>>, LogLis
     }
 
     private void dealException(Throwable t) {
-        LoggerUtils.loge(this, "dealException");
+        LoggerUtils.loge("RxBaseObserver dealException");
         if (t instanceof ConnectException || t instanceof UnknownHostException) {
             //连接错误
             onException(CommonConst.NET_CONFIG.CONNECT_ERROR);
@@ -89,7 +89,7 @@ public abstract class RxBaseObserver<T> implements Observer<BaseBean<T>>, LogLis
     }
 
     private void onException(int errorCode) {
-        LoggerUtils.loge(this, "onException errorCode = " + errorCode);
+        LoggerUtils.loge("RxBaseObserver onException errorCode = " + errorCode);
         switch (errorCode) {
             case CommonConst.NET_CONFIG.CONNECT_ERROR:
                 ToastUtils.showShort(R.string.connect_error);
@@ -111,7 +111,7 @@ public abstract class RxBaseObserver<T> implements Observer<BaseBean<T>>, LogLis
 
     @Override
     public void onComplete() {
-        LoggerUtils.loge(this, "onComplete");
+        LoggerUtils.loge("RxBaseObserver onComplete");
         hideLoading();
     }
 }
