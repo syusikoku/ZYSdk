@@ -12,7 +12,6 @@ import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
-import com.zhiyangstudio.commonlib.BuildConfig;
 import com.zhiyangstudio.commonlib.CommonConst;
 
 /**
@@ -68,9 +67,17 @@ public class BaseApp extends Application {
             @Override
             public boolean isLoggable(int priority, String tag) {
                 /*是否需要打印日志*/
-                return BuildConfig.DEBUG;
+                return isDebugModel();
             }
         });
+    }
+
+    /**
+     * 是否需要打印日志默认是需要,可以使用自己工程的Build.ISDEBUG
+     * @return
+     */
+    protected boolean isDebugModel() {
+        return true;
     }
 
     protected String getLogTag() {

@@ -54,7 +54,8 @@ project.ext {
     ]
 
     def daggerLibVersion = "2.11", retrofitLiVersion = "2.3.0", okhttpLibVersion = '3.9.1',
-        gms = "11.8.0", google_play_services_client_library_version = "9.8.0"
+        gms = "11.8.0", google_play_services_client_library_version = "9.8.0", smartrefreshVersion = '1.0.5.1',
+        tablayoutVersion = '2.1.2@aar', verticalTabLayoutVersion = '1.2.5'
     /*扩展工具*/
     ext_tools = [
             /*rx*/
@@ -142,6 +143,11 @@ project.ext {
             stepview                        : 'com.github.baoyachi:StepView:1.9',
             rxbinding_recyclerview          : 'com.jakewharton.rxbinding:rxbinding-recyclerview-v7:0.4.0',
             BasePopup                       : 'com.github.razerdp:BasePopup:v1.1.7',
+
+            SmartRefreshLayout              : "com.scwang.smartrefresh:SmartRefreshLayout:$smartrefreshVersion",
+            SmartRefreshHeader              : "com.scwang.smartrefresh:SmartRefreshHeader:$smartrefreshVersion",
+            FlycoTabLayout_Lib              : "com.flyco.tablayout:FlycoTabLayout_Lib:$tablayoutVersion",
+            VerticalTabLayout               : "q.rorbin:VerticalTabLayout:$verticalTabLayoutVersion",
 
             /*图表控件*/
             MPAndroidChart                  : 'com.github.PhilJay:MPAndroidChart:v3.0.3',

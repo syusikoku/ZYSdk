@@ -38,7 +38,7 @@ public abstract class AbsBaseObserver<T> implements Observer<T> {
 
     @Override
     public void onSubscribe(Disposable d) {
-        LoggerUtils.loge("RxBaseObserver onSubscribe");
+        LoggerUtils.loge("AbsBaseObserver onSubscribe");
         showLoading();
         if (mTag != null) {
             mPresenter.addRequestTag(mTag, d);
@@ -51,7 +51,7 @@ public abstract class AbsBaseObserver<T> implements Observer<T> {
 
     @Override
     public void onError(Throwable e) {
-        LoggerUtils.loge("RxBaseObserver onError");
+        LoggerUtils.loge("AbsBaseObserver onError");
         hideLoading();
         dealException(e);
     }
@@ -63,7 +63,7 @@ public abstract class AbsBaseObserver<T> implements Observer<T> {
     }
 
     private void dealException(Throwable t) {
-        LoggerUtils.loge("RxBaseObserver dealException");
+        LoggerUtils.loge("AbsBaseObserver dealException");
         if (t instanceof ConnectException || t instanceof UnknownHostException) {
             //连接错误
             onException(CommonConst.NET_CONFIG.CONNECT_ERROR);
@@ -88,7 +88,7 @@ public abstract class AbsBaseObserver<T> implements Observer<T> {
     }
 
     private void onException(int errorCode) {
-        LoggerUtils.loge("RxBaseObserver onException errorCode = " + errorCode);
+        LoggerUtils.loge("AbsBaseObserver onException errorCode = " + errorCode);
         switch (errorCode) {
             case CommonConst.NET_CONFIG.CONNECT_ERROR:
                 ToastUtils.showShort(R.string.connect_error);
@@ -110,7 +110,7 @@ public abstract class AbsBaseObserver<T> implements Observer<T> {
 
     @Override
     public void onComplete() {
-        LoggerUtils.loge("RxBaseObserver onComplete");
+        LoggerUtils.loge("AbsBaseObserver onComplete");
         hideLoading();
     }
 }
