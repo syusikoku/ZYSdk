@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.zhiyangstudio.commonlib.corel.BaseApp;
 
 
@@ -44,6 +45,67 @@ public class UiUtils {
 
     public static BaseApp getAppInstance() {
         return BaseApp.getAppInstance();
+    }
+
+    /**
+     * 延时在主线程执行runnable
+     */
+    public static boolean postDelayed(Runnable runnable, long delayMillis) {
+        return getAppHandler().postDelayed(runnable, delayMillis);
+    }
+
+    /**
+     * 在主线程执行runnable
+     */
+    public static boolean post(Runnable runnable) {
+        return getAppHandler().post(runnable);
+    }
+
+    /**
+     * 从主线程looper里面移除runnable
+     */
+    public static void removeCallbacks(Runnable runnable) {
+        getAppHandler().removeCallbacks(runnable);
+    }
+
+    // 判断当前的线程是不是在主线程
+    public static boolean isRunInMainThread() {
+        return android.os.Process.myTid() == getMainThreadId();
+    }
+
+    public static void runInMainThread(Runnable runnable) {
+        if (isRunInMainThread()) {
+            runnable.run();
+        } else {
+            post(runnable);
+        }
+    }
+
+    /**
+     * 对toast的简易封装。线程安全，可以在非UI线程调用。
+     */
+    public static void showToastSafe(final int resId) {
+        showToastSafe(getStr(resId));
+    }
+
+    /**
+     * 对toast的简易封装。线程安全，可以在非UI线程调用。
+     */
+    public static void showToastSafe(final String str) {
+        if (isRunInMainThread()) {
+            showToast(str);
+        } else {
+            post(new Runnable() {
+                @Override
+                public void run() {
+                    showToast(str);
+                }
+            });
+        }
+    }
+
+    private static void showToast(String str) {
+        ToastUtils.showShort(str);
     }
 
     public static View inflateView(int resId, ViewGroup parent) {
@@ -106,8 +168,6 @@ public class UiUtils {
 
     /**
      * 通过父局移除自己
-     *
-     * @param view
      */
     public static void removeSelfByParent(View view) {
         if (view != null && view.getParent() != null && view.getParent() instanceof ViewGroup) {
@@ -126,6 +186,5 @@ public class UiUtils {
         int color = typedArray.getColor(0, Color.LTGRAY);
         typedArray.recycle();
         return color;
-
     }
 }

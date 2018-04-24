@@ -9,7 +9,7 @@ import com.zhiyangstudio.commonlib.CommonConst;
 
 public class LoggerUtils {
     public static void loge(LogListener listener, String msg) {
-        if (listener != null && EmptyUtils.isNotEmpty(listener.getClass().getSimpleName())) {
+        if (listener != null) {
             Logger.e(listener.getClass().getSimpleName() + " -> " + msg);
         } else {
             loge(msg);

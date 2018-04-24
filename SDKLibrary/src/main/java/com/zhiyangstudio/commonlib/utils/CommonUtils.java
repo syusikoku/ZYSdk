@@ -297,4 +297,5 @@ public class CommonUtils {
         int color = getRandomColor();
         view.setBackgroundColor(color);
     }
+
 }

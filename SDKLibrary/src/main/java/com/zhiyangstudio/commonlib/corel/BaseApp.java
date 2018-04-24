@@ -61,7 +61,7 @@ public class BaseApp extends Application {
                 .showThreadInfo(false)  // (Optional) Whether to show thread info or not. Default true
                 .methodCount(0)         // (Optional) How many method line to show. Default 2
                 .methodOffset(7)        // (Optional) Hides internal method calls up to offset. Default 5
-                .tag(CommonConst.LOG_TAG)   // (Optional) Global tag for every log. Default
+                .tag(getLogTag())   // (Optional) Global tag for every log. Default
                 .build();
 
         Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy) {
@@ -71,6 +71,10 @@ public class BaseApp extends Application {
                 return BuildConfig.DEBUG;
             }
         });
+    }
+
+    protected String getLogTag() {
+        return CommonConst.LOG_TAG;
     }
 
     public static String getMainThreadName() {
