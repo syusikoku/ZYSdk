@@ -80,7 +80,7 @@ public abstract class BasePresenterActivivty<P extends BasePresenter<V>, V exten
 
     protected abstract P createPresenter();
 
-    private void attachView() {
+    protected void attachView() {
         if (mPresenter != null) {
             mPresenter.attachView((V) this);
         }
