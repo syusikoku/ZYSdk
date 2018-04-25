@@ -8,7 +8,7 @@
         <item name="android:maxHeight">20dp</item>
     </style>
 
-    <style name="AppTheme" parent="AppTheme.Base">
+    <style name="SampleAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>

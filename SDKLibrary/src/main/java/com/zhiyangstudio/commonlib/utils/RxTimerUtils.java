@@ -22,7 +22,7 @@ public class RxTimerUtils {
     public static void timer(long timeMill, final IRxNext next) {
         Logger.e("timer");
         Observable.timer(timeMill, TimeUnit.MILLISECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxUtils.io_main())
                 .subscribe(new Observer<Long>() {
                     @Override
                     public void onSubscribe(Disposable d) {
