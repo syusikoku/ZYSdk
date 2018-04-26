@@ -25,7 +25,7 @@ import java.util.List;
  */
 
 public abstract class BaseAbsListFragment<P extends BasePresenter<V>, V extends IView, T> extends
-        BasePresenterFragment<P, V> implements LMRecyclerView.OnFooterAutoLoadMoreListener,
+        BaseMVPSupportFragment<P, V> implements LMRecyclerView.OnFooterAutoLoadMoreListener,
         IListDataView<T> {
 
     protected List<T> mListData = new ArrayList<>();

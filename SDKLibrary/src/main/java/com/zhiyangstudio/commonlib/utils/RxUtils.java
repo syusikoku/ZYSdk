@@ -160,7 +160,7 @@ public class RxUtils {
      * @param <T>
      * @return
      */
-    private static <T> Observable<T> createObservableData(final T t) {
+    public static <T> Observable<T> createObservableData(final T t) {
         return Observable.create(new ObservableOnSubscribe<T>() {
             @Override
             public void subscribe(ObservableEmitter<T> e) throws Exception {

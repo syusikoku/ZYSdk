@@ -61,6 +61,48 @@ public class IntentUtils {
         forward(intent);
     }
 
+    public static void forwardForResult(Class<? extends Activity> activityCls, int reqCode) {
+        forwardForResult(activityCls, null, reqCode);
+    }
+
+    public static void forwardForResult(Class<? extends Activity> activityCls, Bundle bundle, int reqCode) {
+        if (activityCls == null) {
+            return;
+        }
+
+        Intent intent = new Intent(UiUtils.getContext(), activityCls);
+        if (bundle != null) {
+            intent.putExtras(bundle);
+        }
+        forwardForResult(intent, reqCode);
+    }
+
+    public static void forwardForResult(Intent intent, int reqCode) {
+        Activity currentActivity = CommonUtils.getCurrentActivity();
+        if (currentActivity != null) {
+            currentActivity.startActivityForResult(intent, reqCode);
+        } else {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mContext.startActivity(intent);
+        }
+    }
+
+    public static void forwardForResult(String aciton, int reqCode) {
+        forwardForResult(aciton, null, reqCode);
+    }
+
+    public static void forwardForResult(String aciton, Bundle bundle, int reqCode) {
+        if (EmptyUtils.isEmpty(aciton)) {
+            return;
+        }
+
+        Intent intent = new Intent(aciton);
+        if (intent != null) {
+            intent.putExtras(bundle);
+        }
+        forwardForResult(intent, reqCode);
+    }
+
     public static void startService(Intent intent) {
         mContext.startService(intent);
     }

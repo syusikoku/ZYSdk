@@ -23,7 +23,7 @@ import java.util.List;
  */
 
 public abstract class BaseAbsListActivity<P extends BasePresenter<V>, V extends IView, T> extends
-        BasePresenterActivivty<P, V> implements LMRecyclerView.OnFooterAutoLoadMoreListener,
+        BaseMVPSupportActivivty<P, V> implements LMRecyclerView.OnFooterAutoLoadMoreListener,
         IListDataView<T> {
 
     protected List<T> mListData = new ArrayList<>();
@@ -34,6 +34,7 @@ public abstract class BaseAbsListActivity<P extends BasePresenter<V>, V extends 
     protected int state;
     protected boolean isAutoLoadMore;
     protected int page;
+    private boolean isEnableRefresh;
 
     @Override
     public int getContentId() {
@@ -50,7 +51,6 @@ public abstract class BaseAbsListActivity<P extends BasePresenter<V>, V extends 
             return;
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerView.setCanLoadMore(isCanLoadMore());
-
         mListAdapter = getListAdapter();
         if (mListAdapter != null) {
             recyclerView.addHeaderView(initHeaderView());
@@ -59,6 +59,11 @@ public abstract class BaseAbsListActivity<P extends BasePresenter<V>, V extends 
         }
     }
 
+    /**
+     * 是否允许加载更多
+     *
+     * @return
+     */
     protected abstract boolean isCanLoadMore();
 
     protected abstract BaseListAdapter getListAdapter();
@@ -80,6 +85,10 @@ public abstract class BaseAbsListActivity<P extends BasePresenter<V>, V extends 
     public void addListener() {
         if (refreshLayout != null) {
             refreshLayout.setOnRefreshListener(() -> {
+                if (!isEnableRefresh) {
+                    setRefreshing(false);
+                    return;
+                }
                 // 下拉刷新
                 state = CommonConst.PAGE_STATE.STATE_REFRESH;
                 isAutoLoadMore = true;
@@ -91,6 +100,21 @@ public abstract class BaseAbsListActivity<P extends BasePresenter<V>, V extends 
         if (recyclerView != null) {
             recyclerView.addFooterAutoLoadMoreListener(this);
         }
+    }
+
+    private void setRefreshing(boolean isRefreshing) {
+        refreshLayout.postDelayed(() -> {
+            refreshLayout.setRefreshing(isRefreshing);
+        }, 100);
+    }
+
+    /**
+     * 设置是否允许下拉刷新
+     *
+     * @param enable
+     */
+    protected void setEnableRefresh(boolean enable) {
+        isEnableRefresh = enable;
     }
 
     @Override
@@ -144,12 +168,6 @@ public abstract class BaseAbsListActivity<P extends BasePresenter<V>, V extends 
         if (state == CommonConst.PAGE_STATE.STATE_REFRESH) {
             setRefreshing(true);
         }
-    }
-
-    private void setRefreshing(boolean isRefreshing) {
-        refreshLayout.postDelayed(() -> {
-            refreshLayout.setRefreshing(isRefreshing);
-        }, 100);
     }
 
     @Override

@@ -127,6 +127,11 @@ public class QuickViewHolder extends RecyclerView.ViewHolder {
         return this;
     }
 
+    public QuickViewHolder setBackgroundRes(int backgroundRes) {
+        itemView.setBackgroundResource(backgroundRes);
+        return this;
+    }
+
     public QuickViewHolder setImageRes(int viewId, int imgRes) {
         ImageView imageView = getView(viewId);
         if (imageView != null) {
@@ -168,6 +173,10 @@ public class QuickViewHolder extends RecyclerView.ViewHolder {
         return this;
     }
 
+    public QuickViewHolder setBackgroundColor(int color) {
+        itemView.setBackgroundColor(color);
+        return this;
+    }
 
     public QuickViewHolder setImageDrawable(int viewId, Drawable drawable) {
         ImageView view = getView(viewId);
@@ -357,4 +366,7 @@ public class QuickViewHolder extends RecyclerView.ViewHolder {
         return itemView;
     }
 
+    public void setVisible(boolean hasShow) {
+        itemView.setVisibility(hasShow ? View.VISIBLE : View.GONE);
+    }
 }
