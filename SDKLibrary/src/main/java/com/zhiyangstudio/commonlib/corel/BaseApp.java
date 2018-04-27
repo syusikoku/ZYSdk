@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.DisplayMetrics;
 
 import com.blankj.utilcode.util.Utils;
 import com.orhanobut.logger.AndroidLogAdapter;
@@ -26,7 +25,6 @@ public class BaseApp extends Application {
     private static Handler handler;
     private static Looper looper;
     private static int myPid;
-    private int mScreenWidth, mScreenHeight;
 
     public static String getMainThreadName() {
         return mThreadName;
@@ -68,10 +66,6 @@ public class BaseApp extends Application {
         mThreadId = android.os.Process.myTid();
         mThreadName = Thread.currentThread().getName();
 
-        DisplayMetrics mDisplayMetrics = getApplicationContext().getResources()
-                .getDisplayMetrics();
-        mScreenWidth = mDisplayMetrics.widthPixels;
-        mScreenHeight = mDisplayMetrics.heightPixels;
         // TODO: 2018/3/14 Utils init
         Utils.init(this);
 
@@ -111,13 +105,5 @@ public class BaseApp extends Application {
      */
     protected boolean isDebugModel() {
         return true;
-    }
-
-    public int getScreenWidth() {
-        return mScreenWidth;
-    }
-
-    public int getScreenHeight() {
-        return mScreenHeight;
     }
 }

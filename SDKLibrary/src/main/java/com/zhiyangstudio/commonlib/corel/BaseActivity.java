@@ -252,6 +252,7 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
         if (unbinder != null) {
             unbinder.unbind();
         }
+        release();
     }
 
     @Override

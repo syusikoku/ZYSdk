@@ -21,7 +21,7 @@ public abstract class QuickAdapter<T> extends BaseAdapter {
     private QuickMultiSupport<T> mSupport;
     private int mLayoutId;
     private Context mContext;
-    private List<T> mData;
+    protected List<T> mData;
     private int mPosition;
     private boolean isRecyclerView;
     private LayoutInflater mLayoutInflater;
