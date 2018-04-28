@@ -270,6 +270,20 @@ public class DateUtils {
         return 0L;
     }
 
+    /***
+     * 日期格式化
+     */
+    public static String toTimeStr(String time, String format) {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        try {
+            Date date = sdf.parse(time);
+            return sdf.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
 
     /**
      * 格式化时间

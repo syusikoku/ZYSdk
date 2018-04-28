@@ -3,6 +3,7 @@ package com.zhiyangstudio.commonlib.mvp;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
@@ -32,10 +33,10 @@ public abstract class BaseAbsListFragment<P extends BasePresenter<V>, V extends 
     protected LMRecyclerView recyclerView;
     protected SwipeRefreshLayout refreshLayout;
     protected LoadingLayout loadingView;
-    private int state;
+    protected BaseListAdapter mListAdapter;
+    protected int state;
     private boolean isAutoLoadMore;
     private int page;
-    protected BaseListAdapter mListAdapter;
 
     @Override
     public int getContentId() {
@@ -60,12 +61,14 @@ public abstract class BaseAbsListFragment<P extends BasePresenter<V>, V extends 
             loadDatas();
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        recyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL));
         recyclerView.setCanLoadMore(isCanLoadMore());
         recyclerView.addFooterAutoLoadMoreListener(this);
         mListAdapter = getListAdapter();
         if (mListAdapter != null) {
             recyclerView.addHeaderView(initHeaderView());
             recyclerView.setAdapter(mListAdapter);
+            loadingView.showLoding();
             loadDatas();
         }
     }

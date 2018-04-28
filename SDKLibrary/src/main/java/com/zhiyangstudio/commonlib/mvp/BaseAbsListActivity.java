@@ -55,6 +55,7 @@ public abstract class BaseAbsListActivity<P extends BasePresenter<V>, V extends 
         if (mListAdapter != null) {
             recyclerView.addHeaderView(initHeaderView());
             recyclerView.setAdapter(mListAdapter);
+            loadingView.showLoding();
             loadDatas();
         }
     }

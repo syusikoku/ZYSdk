@@ -17,13 +17,23 @@ public abstract class BaseMVPSupportFragment<P extends BasePresenter<V>, V exten
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mPresenter = createPresenter();
+        if (hasSupport()) {
+            mPresenter = createPresenter();
+            attachView();
+        }
+    }
+
+    protected boolean hasSupport() {
+        return true;
+    }
+
+    protected abstract P createPresenter();
+
+    protected void attachView() {
         if (mPresenter != null) {
             mPresenter.attachView((V) this);
         }
     }
-
-    protected abstract P createPresenter();
 
     @Override
     public void onDetach() {
