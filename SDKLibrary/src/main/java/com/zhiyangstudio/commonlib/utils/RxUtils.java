@@ -28,9 +28,6 @@ import io.reactivex.schedulers.Schedulers;
 public class RxUtils {
     /**
      * 统一线程处理 仅支持Flowable
-     *
-     * @param <T>
-     * @return
      */
     public static <T> FlowableTransformer<T, T> rxFlowableSchedulerHelper() {
         return new FlowableTransformer<T, T>() {
@@ -59,9 +56,6 @@ public class RxUtils {
      * 统一线程处理
      * 指定上游为io线程
      * 下游为主线程
-     *
-     * @param <T>
-     * @return
      */
     public static <T> ObservableTransformer<T, T> rxObservableSchedulerHelper() {
         return new ObservableTransformer<T, T>() {
@@ -75,9 +69,6 @@ public class RxUtils {
 
     /**
      * 统一返回结果处理 仅支持Flowable<ApiResponse<T>>
-     *
-     * @param <T>
-     * @return
      */
     public static <T> FlowableTransformer<ApiResponse<T>, T> handleFlowableResult() {
         return new FlowableTransformer<ApiResponse<T>, T>() {
@@ -103,10 +94,6 @@ public class RxUtils {
 
     /**
      * 生成Flowable
-     *
-     * @param t
-     * @param <T>
-     * @return
      */
     public static <T> Flowable<T> createFlowableData(final T t) {
         return Flowable.create(new FlowableOnSubscribe<T>() {
@@ -126,9 +113,6 @@ public class RxUtils {
 
     /**
      * 统一返回结果处理 仅支持Observable<ApiResponse<T>>
-     *
-     * @param <T>
-     * @return
      */
     public static <T> ObservableTransformer<ApiResponse<T>, T> handleObservableResult() {
         return new ObservableTransformer<ApiResponse<T>, T>() {
@@ -155,10 +139,6 @@ public class RxUtils {
 
     /**
      * 生成Observable
-     *
-     * @param t
-     * @param <T>
-     * @return
      */
     public static <T> Observable<T> createObservableData(final T t) {
         return Observable.create(new ObservableOnSubscribe<T>() {

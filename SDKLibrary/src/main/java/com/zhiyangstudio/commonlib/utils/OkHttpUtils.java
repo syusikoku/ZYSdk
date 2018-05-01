@@ -19,6 +19,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 
 public class OkHttpUtils {
 
+    private static boolean isSupportDataInterceptor;
     private static CookieJar mCookieJar;
 
     @NonNull
@@ -31,7 +32,9 @@ public class OkHttpUtils {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         oBuilder.addInterceptor(loggingInterceptor);
-        oBuilder.addInterceptor(new DataInterceptor());
+        if (isSupportDataInterceptor) {
+            oBuilder.addInterceptor(new DataInterceptor());
+        }
         // 设置cookie
         if (mCookieJar != null) {
             oBuilder.cookieJar(mCookieJar);
@@ -56,41 +59,16 @@ public class OkHttpUtils {
     }
 
     /**
-     * 设置cookiejar
-     *
-     * @param cookieJar
+     * 是否支持数据拦截器
      */
-    public static void setCookieJar(CookieJar cookieJar) {
-        mCookieJar = cookieJar;
+    public static void isSupportDataInterceptor(boolean hasSupport) {
+        isSupportDataInterceptor = hasSupport;
     }
 
     /**
-     //     builder = new OkHttpClient.Builder();
-     //
-     //     拦截日志，依赖
-     //      builder.addInterceptor(InterceptorUtils.getHttpLoggingInterceptor(true));
-     //      OkHttpClient build = builder.build();
-     //
-     //     拦截日志，自定义拦截日志
-     //     builder.addInterceptor(new LogInterceptor("YC"));
-     //
-     //     添加请求头拦截器
-     //     builder.addInterceptor(InterceptorUtils.getRequestHeader());
-     //
-     //     添加统一请求拦截器
-     //     builder.addInterceptor(InterceptorUtils.commonParamsInterceptor());
-     //
-     //     添加缓存拦截器
-     //     创建Cache
-     //     File httpCacheDirectory = new File("OkHttpCache");
-     //     Cache cache = new Cache(httpCacheDirectory, 10 * 1024 * 1024);
-     //     builder.cache(cache);
-     //
-     //     设置缓存
-     //     builder.addNetworkInterceptor(InterceptorUtils.getCacheInterceptor());
-     //     builder.addInterceptor(InterceptorUtils.getCacheInterceptor());
-     //
-     //     添加自定义CookieJar
-     //     InterceptorUtils.addCookie(builder);
+     * 设置cookiejar
      */
+    public static void getCookieJar(CookieJar cookieJar) {
+        mCookieJar = cookieJar;
+    }
 }
