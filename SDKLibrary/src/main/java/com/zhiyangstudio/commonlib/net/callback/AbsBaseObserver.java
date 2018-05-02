@@ -1,8 +1,7 @@
 package com.zhiyangstudio.commonlib.net.callback;
 
-import com.google.gson.JsonParseException;
-
 import com.blankj.utilcode.util.ToastUtils;
+import com.google.gson.JsonParseException;
 import com.zhiyangstudio.commonlib.CommonConst;
 import com.zhiyangstudio.commonlib.R;
 import com.zhiyangstudio.commonlib.mvp.inter.IView;
@@ -45,7 +44,7 @@ public abstract class AbsBaseObserver<T> implements Observer<T> {
         }
     }
 
-    private void showLoading() {
+    protected void showLoading() {
         mView.showLoading("");
     }
 
@@ -56,7 +55,7 @@ public abstract class AbsBaseObserver<T> implements Observer<T> {
         dealException(e);
     }
 
-    private void hideLoading() {
+    protected void hideLoading() {
         if (mView != null) {
             mView.hideLoading();
         }
