@@ -34,9 +34,9 @@ public abstract class BaseAbsListFragment<P extends BasePresenter<V>, V extends 
     protected SwipeRefreshLayout refreshLayout;
     protected LoadingLayout loadingView;
     protected BaseListAdapter mListAdapter;
-    protected int state;
+    public int state;
+    protected int page;
     private boolean isAutoLoadMore;
-    private int page;
 
     @Override
     public int getContentId() {
@@ -76,7 +76,7 @@ public abstract class BaseAbsListFragment<P extends BasePresenter<V>, V extends 
     /**
      * 加载数据
      */
-    protected abstract void loadDatas();
+    public abstract void loadDatas();
 
     /**
      * 是否能够自动加载更多
