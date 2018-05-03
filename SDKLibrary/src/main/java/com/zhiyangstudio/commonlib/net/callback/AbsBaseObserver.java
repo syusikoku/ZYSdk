@@ -38,14 +38,9 @@ public abstract class AbsBaseObserver<T> implements Observer<T> {
     @Override
     public void onSubscribe(Disposable d) {
         LoggerUtils.loge("AbsBaseObserver onSubscribe");
-        showLoading();
         if (mTag != null) {
             mPresenter.addRequestTag(mTag, d);
         }
-    }
-
-    protected void showLoading() {
-        mView.showLoading("");
     }
 
     @Override
@@ -111,5 +106,13 @@ public abstract class AbsBaseObserver<T> implements Observer<T> {
     public void onComplete() {
         LoggerUtils.loge("AbsBaseObserver onComplete");
         hideLoading();
+    }
+
+    protected void showLoading() {
+        mView.showLoading("");
+    }
+
+    protected void showLoading(String msg) {
+        mView.showLoading(msg);
     }
 }
