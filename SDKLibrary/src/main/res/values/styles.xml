@@ -22,4 +22,11 @@
         <item name="android:windowContentOverlay">@android:color/transparent</item>
         <item name="android:windowBackground">@color/sr_window_background</item>
     </style>
+
+    <style name="WindowAnimation">
+        <item name="android:activityOpenEnterAnimation">@anim/push_left_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/push_left_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/push_right_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/push_right_out</item>
+    </style>
 </resources>
