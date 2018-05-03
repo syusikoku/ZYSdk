@@ -28,12 +28,12 @@ public abstract class BaseMVPSupportActivivty<P extends BasePresenter<V>, V exte
 
     @Override
     public void showLoading(String msg) {
-
+        showLoadingDialog(msg);
     }
 
     @Override
     public void hideLoading() {
-
+        hideLoadingDialog();
     }
 
     @Override
