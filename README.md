@@ -10,3 +10,17 @@
 
                 技术,就是要不断的革新，在不同的领域中，谋求发展，与时俱进!
                 它山之石可以攻城
+
+
+## 框架使用
+
+ allprojects {
+   repositories {
+    ...
+    maven { url 'https://jitpack.io' }
+   }
+  }
+
+  dependencies {
+          implementation 'com.github.syusikoku:ZYSdk:v1.0.11'
+  }
