@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -48,7 +49,12 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
     protected int screenWidth;
     protected int screenHeigth;
     protected Unbinder unbinder;
+    protected BaseInternalHandler mH = new BaseInternalHandler(this) {
+        @Override
+        protected void processMessage(Message pMessage) {
 
+        }
+    };
     private ProgressDialog loadingDialog = null;
     private PermissionListener mListener;
 
@@ -162,6 +168,14 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
 
     protected abstract PermissionListener getPermissonCallBack();
 
+    /**
+     * 检查权限
+     *
+     * @param permission
+     * @param tips
+     * @param listener
+     * @param reqPermission
+     */
     public void checkPermission(String permission, final String tips, PermissionListener
             listener, int reqPermission) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
@@ -175,26 +189,8 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
             // TODO: 2018/2/2 没有权限
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission)) {
                 Logger.e("拒绝过" + tips + "的权限，提示用户");
-                // TODO: 2018/2/2  用户拒绝过这个权限了，应该提示用户，为什么需要这个权限。
-                AlertDialog.Builder builder = new AlertDialog.Builder(BaseActivity.this);
-                builder.setTitle("温馨提示")
-                        .setMessage("你拒绝了" + tips + "的权限申请，将会造成" + tips + "相关功能无法使用")
-                        .setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // TODO: 2018/2/1 跳转到应用详情
-                                CommonUtils.goAppDetailSetting();
-                                dialog.dismiss();
-                            }
-                        })
-                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                showPermissionDenyDialog(tips);
+
             } else {
                 Logger.e("申请权限");
                 // 申请授权。
@@ -209,6 +205,34 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
                     break;
             }
         }
+    }
+
+    /**
+     * 显示权限拒绝的dialog
+     *
+     * @param tips
+     */
+    protected void showPermissionDenyDialog(String tips) {
+        // TODO: 2018/2/2  用户拒绝过这个权限了，应该提示用户，为什么需要这个权限。
+        AlertDialog.Builder builder = new AlertDialog.Builder(BaseActivity.this);
+        builder.setTitle("温馨提示")
+                .setMessage("你拒绝了" + tips + "的权限申请，将会造成" + tips + "相关功能无法使用")
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO: 2018/2/1 跳转到应用详情
+                        CommonUtils.goAppDetailSetting();
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void callListener(int result, int code) {
@@ -247,6 +271,7 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
 
     @Override
     protected void onDestroy() {
+        mH.destory();
         super.onDestroy();
         LoggerUtils.loge(this, "onDestroy");
         if (unbinder != null) {
@@ -285,7 +310,8 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         switch (requestCode) {
             case CommonConst.PERMISSION.REQ_SDCARD_PERMISSION:
                 int result = showPermissionResult(grantResults, "SD卡写入");
@@ -300,7 +326,8 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
 
     private int showPermissionResult(@NonNull int[] grantResults, String str) {
         int result = -1;
-        if (grantResults.length > 0 && grantResults[0] == CommonConst.PERMISSION.RESULT_PERMISSION_GRANT) {
+        if (grantResults.length > 0 && grantResults[0] == CommonConst.PERMISSION
+                .RESULT_PERMISSION_GRANT) {
             // TODO: 2018/2/2 权限允许了
             Logger.e(str + "权限允许了");
             result = 1;
@@ -344,7 +371,8 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
      * 显示提示对话框（带标题）
      */
     protected void showTipsDialogWithTitle(String title, String content, String confirmText,
-                                           DialogInterface.OnClickListener confirmListener, String cancelText,
+                                           DialogInterface.OnClickListener confirmListener,
+                                           String cancelText,
                                            DialogInterface.OnClickListener cancelListener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         if (EmptyUtils.isNotEmpty(title)) {
@@ -361,15 +389,19 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
     /**
      * 显示提示对话框
      */
-    protected void showTipsDialog(String content, String confirmText, DialogInterface.OnClickListener confirmListener,
-                                  String cancelText, DialogInterface.OnClickListener cancelListener) {
-        showTipsDialogWithTitle("", content, confirmText, confirmListener, cancelText, cancelListener);
+    protected void showTipsDialog(String content, String confirmText, DialogInterface
+            .OnClickListener confirmListener,
+                                  String cancelText, DialogInterface.OnClickListener
+                                          cancelListener) {
+        showTipsDialogWithTitle("", content, confirmText, confirmListener, cancelText,
+                cancelListener);
     }
 
     /**
      * 显示提示对话框（带标题）
      */
-    protected void showTipsDialogWithTitle(String title, String content, DialogInterface.OnClickListener confirmListener,
+    protected void showTipsDialogWithTitle(String title, String content, DialogInterface
+            .OnClickListener confirmListener,
                                            DialogInterface.OnClickListener cancelListener) {
         showTipsDialogWithTitle(title, content,
                 UiUtils.getStr(R.string.str_dialog_confirm),
@@ -421,7 +453,8 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
     }
 
     protected void checkCameraPermission(PermissionListener permissionListener) {
-        checkPermission(CommonConst.PERMISSION.PERMISSION_CAMERA, "CAMERA", permissionListener, CommonConst.PERMISSION.REQ_CAMERA_PERMISSION);
+        checkPermission(CommonConst.PERMISSION.PERMISSION_CAMERA, "CAMERA", permissionListener,
+                CommonConst.PERMISSION.REQ_CAMERA_PERMISSION);
     }
 
     public interface PermissionListener extends LogListener {

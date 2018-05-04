@@ -7,7 +7,7 @@ import com.zhiyangstudio.commonlib.R;
 import com.zhiyangstudio.commonlib.bean.BaseBean;
 import com.zhiyangstudio.commonlib.mvp.inter.IView;
 import com.zhiyangstudio.commonlib.mvp.presenter.BasePresenter;
-import com.zhiyangstudio.commonlib.utils.LogListener;
+import com.zhiyangstudio.commonlib.utils.EmptyUtils;
 import com.zhiyangstudio.commonlib.utils.LoggerUtils;
 
 import org.json.JSONException;
@@ -40,14 +40,10 @@ public abstract class RxBaseObserver<T> implements Observer<BaseBean<T>> {
     @Override
     public void onSubscribe(Disposable d) {
         LoggerUtils.loge("RxBaseObserver onSubscribe");
-        showLoading();
+//        showLoading();
         if (mTag != null) {
             mPresenter.addRequestTag(mTag, d);
         }
-    }
-
-    private void showLoading() {
-        mView.showLoading("");
     }
 
     @Override
@@ -113,5 +109,16 @@ public abstract class RxBaseObserver<T> implements Observer<BaseBean<T>> {
     public void onComplete() {
         LoggerUtils.loge("RxBaseObserver onComplete");
         hideLoading();
+    }
+
+    private void showLoading() {
+        showLoading(null);
+    }
+
+    private void showLoading(String msg) {
+        if (EmptyUtils.isEmpty(msg))
+            mView.showLoading(msg);
+        else
+            mView.showLoading("");
     }
 }

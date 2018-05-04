@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!--定义ProgressBar大小-->
     <style name="LoadingProgressStyle" parent="@style/Widget.AppCompat.ProgressBar">
@@ -28,5 +28,32 @@
         <item name="android:activityOpenExitAnimation">@anim/push_left_out</item>
         <item name="android:activityCloseEnterAnimation">@anim/push_right_in</item>
         <item name="android:activityCloseExitAnimation">@anim/push_right_out</item>
+    </style>
+
+    <!--定义Toolbar样式-->
+    <style name="ToolBarStyle" parent="@style/ThemeOverlay.AppCompat">
+        <!--toolbar 标题和溢出菜单按钮字体的颜色-->
+        <!--<item name="android:textColorPrimary">@android:color/white</item>-->
+        <!--系统图标的颜色-->
+        <item name="android:textColorSecondary">@color/white</item>
+        <!--actionbar 按下效果-->
+        <!--<item name="android:actionBarItemBackground">@drawable/action_bar_bg_selector</item>-->
+        <!--自定义溢出的menu样式-->
+        <item name="actionOverflowMenuStyle">@style/overflowMenuStyle</item>
+        <item name="android:textColor">@color/black</item>
+        <!--弹出菜单字体颜色-->
+        <item name="actionMenuTextColor">@color/white</item>
+    </style>
+
+    <!--溢出菜单样式-->
+    <style name="overflowMenuStyle" parent="@style/Widget.AppCompat.PopupMenu.Overflow">
+        <item name="android:dropDownWidth" tools:ignore="NewApi">wrap_content</item>
+        <!--设置不覆盖锚点-->
+        <item name="overlapAnchor">false</item>
+        <!--popmenu背景颜色-->
+        <item name="android:popupBackground">@color/white</item>
+        <!--偏移量-->
+        <item name="android:dropDownVerticalOffset" tools:ignore="NewApi">-4dp</item>
+        <item name="android:dropDownHorizontalOffset">0dp</item>
     </style>
 </resources>
