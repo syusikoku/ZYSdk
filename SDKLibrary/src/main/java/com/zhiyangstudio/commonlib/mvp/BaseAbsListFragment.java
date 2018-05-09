@@ -14,8 +14,8 @@ import com.zhiyangstudio.commonlib.adapter.BaseListAdapter;
 import com.zhiyangstudio.commonlib.mvp.inter.IListDataView;
 import com.zhiyangstudio.commonlib.mvp.inter.IView;
 import com.zhiyangstudio.commonlib.mvp.presenter.BasePresenter;
-import com.zhiyangstudio.commonlib.widget.LMRecyclerView;
-import com.zhiyangstudio.commonlib.widget.LoadingLayout;
+import com.zhiyangstudio.commonlib.widget.recyclerview.LMRecyclerView;
+import com.zhiyangstudio.commonlib.widget.recyclerview.LoadingLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,14 +29,14 @@ public abstract class BaseAbsListFragment<P extends BasePresenter<V>, V extends 
         BaseMVPSupportFragment<P, V> implements LMRecyclerView.OnFooterAutoLoadMoreListener,
         IListDataView<T> {
 
+    public int state;
     protected List<T> mListData = new ArrayList<>();
     protected LMRecyclerView recyclerView;
     protected SwipeRefreshLayout refreshLayout;
     protected LoadingLayout loadingView;
     protected BaseListAdapter mListAdapter;
-    public int state;
     protected int page;
-    private boolean isAutoLoadMore;
+    protected boolean isAutoLoadMore;
 
     @Override
     public int getContentId() {
@@ -61,7 +61,8 @@ public abstract class BaseAbsListFragment<P extends BasePresenter<V>, V extends 
             loadDatas();
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        recyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration
+                .VERTICAL));
         recyclerView.setCanLoadMore(isCanLoadMore());
         recyclerView.addFooterAutoLoadMoreListener(this);
         mListAdapter = getListAdapter();

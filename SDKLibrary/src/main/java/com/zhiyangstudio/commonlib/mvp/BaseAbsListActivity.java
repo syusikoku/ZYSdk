@@ -11,8 +11,8 @@ import com.zhiyangstudio.commonlib.adapter.BaseListAdapter;
 import com.zhiyangstudio.commonlib.mvp.inter.IListDataView;
 import com.zhiyangstudio.commonlib.mvp.inter.IView;
 import com.zhiyangstudio.commonlib.mvp.presenter.BasePresenter;
-import com.zhiyangstudio.commonlib.widget.LMRecyclerView;
-import com.zhiyangstudio.commonlib.widget.LoadingLayout;
+import com.zhiyangstudio.commonlib.widget.recyclerview.LMRecyclerView;
+import com.zhiyangstudio.commonlib.widget.recyclerview.LoadingLayout;
 
 import java.util.ArrayList;
 import java.util.List;

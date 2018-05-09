@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import com.zhiyangstudio.commonlib.adapter.lgrcommon.QuickViewHolder;
 import com.zhiyangstudio.commonlib.utils.LogListener;
 import com.zhiyangstudio.commonlib.utils.UiUtils;
-import com.zhiyangstudio.commonlib.widget.LMRecyclerView;
+import com.zhiyangstudio.commonlib.widget.recyclerview.LMRecyclerView;
 
 import java.util.List;
 
