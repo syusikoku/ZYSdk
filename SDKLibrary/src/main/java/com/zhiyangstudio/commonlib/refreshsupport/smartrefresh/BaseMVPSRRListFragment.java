@@ -1,5 +1,6 @@
 package com.zhiyangstudio.commonlib.refreshsupport.smartrefresh;
 
+import android.os.Bundle;
 import android.widget.AbsListView;
 
 import com.blankj.utilcode.util.ToastUtils;
@@ -176,5 +177,10 @@ public abstract class BaseMVPSRRListFragment<P extends BasePresenter<V>, V exten
             mAdapter.loadMore(mList);
             refreshLayout.finishLoadMore();
         }
+    }
+
+    @Override
+    protected void initArguments(Bundle bundle) {
+
     }
 }
