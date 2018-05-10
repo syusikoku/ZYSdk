@@ -57,6 +57,15 @@ dependencies {
     implementation rootProject.ext.ext_tools.glide
     annotationProcessor rootProject.ext.ext_tools.glide_compiler
 
+    implementation rootProject.ext.ext_tools.BaseRecyclerViewAdapter
+
+    //SmartRefreshLayout
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.5.1'
+
+    compile 'com.github.fangx:haorefresh:1.0'
+    compile 'com.github.czy1121:loadinglayout:1.0.1'
+
     // 其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.2.7
     // (注：从2.1.5开始要分开Bugly SDK和NDK的配置）
 //    implementation 'com.tencent.bugly:crashreport:latest.release'
