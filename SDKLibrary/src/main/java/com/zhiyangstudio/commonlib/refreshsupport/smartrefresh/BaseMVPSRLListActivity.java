@@ -33,8 +33,8 @@ public abstract class BaseMVPSRLListActivity<P extends BasePresenter<V>, V exten
     protected List<T> mList = new ArrayList<>();
     protected BaseRecyclerAdapter<T> mAdapter;
     protected int mDataCount;
-    SmartRefreshLayout refreshLayout;
-    AbsListView mListView;
+    protected SmartRefreshLayout refreshLayout;
+    protected AbsListView mListView;
 
     @Override
     public int getContentId() {

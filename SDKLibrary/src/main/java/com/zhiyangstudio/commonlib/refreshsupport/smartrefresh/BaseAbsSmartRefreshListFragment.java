@@ -1,6 +1,9 @@
-package com.zhiyangstudio.commonlib.mvp;
+package com.zhiyangstudio.commonlib.mvp.refreshsupport.smartrefresh;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
@@ -8,6 +11,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.zhiyangstudio.commonlib.CommonConst;
 import com.zhiyangstudio.commonlib.R;
 import com.zhiyangstudio.commonlib.adapter.BaseListAdapter;
+import com.zhiyangstudio.commonlib.mvp.BaseMVPSupportFragment;
 import com.zhiyangstudio.commonlib.mvp.inter.IListDataView;
 import com.zhiyangstudio.commonlib.mvp.inter.IView;
 import com.zhiyangstudio.commonlib.mvp.presenter.BasePresenter;
@@ -18,23 +22,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by zhiyang on 2018/4/11.
- * 列表activity:loadingpager+RecyclerView+SwipeRefreshLayout
+ * Created by zhiyang on 2018/4/10.
+ * 列表fragment:loadingpager+RecyclerView+SwipeRefreshLayout
  */
 
-public abstract class BaseAbsListActivity<P extends BasePresenter<V>, V extends IView, T> extends
-        BaseMVPSupportActivivty<P, V> implements LMRecyclerView.OnFooterAutoLoadMoreListener,
+public abstract class BaseAbsSmartRefreshListFragment<P extends BasePresenter<V>, V extends IView, T> extends
+        BaseMVPSupportFragment<P, V> implements LMRecyclerView.OnFooterAutoLoadMoreListener,
         IListDataView<T> {
 
+    public int state;
     protected List<T> mListData = new ArrayList<>();
+    protected LMRecyclerView recyclerView;
     protected SwipeRefreshLayout refreshLayout;
     protected LoadingLayout loadingView;
-    protected LMRecyclerView recyclerView;
     protected BaseListAdapter mListAdapter;
-    protected int state;
-    protected boolean isAutoLoadMore;
     protected int page;
-    private boolean isEnableRefresh;
+    protected boolean isAutoLoadMore;
 
     @Override
     public int getContentId() {
@@ -43,14 +46,26 @@ public abstract class BaseAbsListActivity<P extends BasePresenter<V>, V extends 
 
     @Override
     public void initView() {
-        refreshLayout = findViewById(R.id.base_swiperefrsh);
-        loadingView = findViewById(R.id.base_loadinglayout);
-        recyclerView = findViewById(R.id.base_recyclerview);
+        refreshLayout = mRootView.findViewById(R.id.base_swiperefrsh);
+        loadingView = mRootView.findViewById(R.id.base_loadinglayout);
+        recyclerView = mRootView.findViewById(R.id.base_recyclerview);
+    }
 
-        if (recyclerView == null)
-            return;
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        refreshLayout.setOnRefreshListener(() -> {
+            // 下拉刷新
+            state = CommonConst.PAGE_STATE.STATE_REFRESH;
+            isAutoLoadMore = true;
+            page = 0;
+            loadDatas();
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        recyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration
+                .VERTICAL));
         recyclerView.setCanLoadMore(isCanLoadMore());
+        recyclerView.addFooterAutoLoadMoreListener(this);
         mListAdapter = getListAdapter();
         if (mListAdapter != null) {
             recyclerView.addHeaderView(initHeaderView());
@@ -61,7 +76,12 @@ public abstract class BaseAbsListActivity<P extends BasePresenter<V>, V extends 
     }
 
     /**
-     * 是否允许加载更多
+     * 加载数据
+     */
+    public abstract void loadDatas();
+
+    /**
+     * 是否能够自动加载更多
      *
      * @return
      */
@@ -70,53 +90,6 @@ public abstract class BaseAbsListActivity<P extends BasePresenter<V>, V extends 
     protected abstract BaseListAdapter getListAdapter();
 
     protected abstract View initHeaderView();
-
-    protected abstract void loadDatas();
-
-    /**
-     * 是否开启加载更多
-     *
-     * @param hasCanLoadMore
-     */
-    protected void setCanLoadMore(boolean hasCanLoadMore) {
-        recyclerView.setCanLoadMore(hasCanLoadMore);
-    }
-
-    @Override
-    public void addListener() {
-        if (refreshLayout != null) {
-            refreshLayout.setOnRefreshListener(() -> {
-                if (!isEnableRefresh) {
-                    setRefreshing(false);
-                    return;
-                }
-                // 下拉刷新
-                state = CommonConst.PAGE_STATE.STATE_REFRESH;
-                isAutoLoadMore = true;
-                page = 0;
-                loadDatas();
-            });
-        }
-
-        if (recyclerView != null) {
-            recyclerView.addFooterAutoLoadMoreListener(this);
-        }
-    }
-
-    private void setRefreshing(boolean isRefreshing) {
-        refreshLayout.postDelayed(() -> {
-            refreshLayout.setRefreshing(isRefreshing);
-        }, 100);
-    }
-
-    /**
-     * 设置是否允许下拉刷新
-     *
-     * @param enable
-     */
-    protected void setEnableRefresh(boolean enable) {
-        isEnableRefresh = enable;
-    }
 
     @Override
     public int getPage() {
@@ -130,8 +103,6 @@ public abstract class BaseAbsListActivity<P extends BasePresenter<V>, V extends 
 
     @Override
     public void showContent() {
-        if (loadingView == null)
-            return;
         loadingView.showContent();
         mListAdapter.notifyAllDatas(mListData, recyclerView);
     }
@@ -171,6 +142,12 @@ public abstract class BaseAbsListActivity<P extends BasePresenter<V>, V extends 
         }
     }
 
+    private void setRefreshing(boolean isRefreshing) {
+        refreshLayout.postDelayed(() -> {
+            refreshLayout.setRefreshing(isRefreshing);
+        }, 100);
+    }
+
     @Override
     public void hideLoading() {
         setRefreshing(false);
@@ -200,25 +177,6 @@ public abstract class BaseAbsListActivity<P extends BasePresenter<V>, V extends 
     @Override
     public void showEmpty() {
         loadingView.showEmpty();
-    }
-
-    /**
-     * 是否允许下拉刷新
-     *
-     * @param hasEnableRefresh
-     */
-    protected void setRrefreshEnable(boolean hasEnableRefresh) {
-        refreshLayout.setEnabled(hasEnableRefresh);
-    }
-
-    /**
-     * 刷新数据
-     */
-    protected void refreshData() {
-        state = CommonConst.PAGE_STATE.STATE_REFRESH;
-        isAutoLoadMore = true;
-        page = 0;
-        loadDatas();
     }
 
     /**

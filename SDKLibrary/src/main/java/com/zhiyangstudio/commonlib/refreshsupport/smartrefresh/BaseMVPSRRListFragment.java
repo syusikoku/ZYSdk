@@ -39,9 +39,9 @@ public abstract class BaseMVPSRRListFragment<P extends BasePresenter<V>, V exten
     protected List<T> mList = new ArrayList<>();
     protected BaseQuickAdapter<T, BaseViewHolder> mAdapter;
     protected int mDataCount;
-    SmartRefreshLayout refreshLayout;
-    RecyclerView mRecyclerView;
-    LoadingLayout mLoadingLayout;
+    protected SmartRefreshLayout refreshLayout;
+    protected RecyclerView mRecyclerView;
+    protected LoadingLayout mLoadingLayout;
 
     @Override
     public int getContentId() {
