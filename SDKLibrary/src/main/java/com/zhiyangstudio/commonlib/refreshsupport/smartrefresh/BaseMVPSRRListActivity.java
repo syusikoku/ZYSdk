@@ -6,12 +6,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhiyangstudio.commonlib.R;
-import com.zhiyangstudio.commonlib.adapter.BaseRecyclerAdapter;
 import com.zhiyangstudio.commonlib.mvp.BaseMVPSupportActivivty;
 import com.zhiyangstudio.commonlib.mvp.inter.ISampleRefreshView;
 import com.zhiyangstudio.commonlib.mvp.presenter.BasePresenter;
@@ -21,7 +22,6 @@ import com.zhiyangstudio.commonlib.widget.recyclerview.LMRecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import ezy.ui.layout.LoadingLayout;
 import io.reactivex.annotations.NonNull;
 
 /**
@@ -35,11 +35,10 @@ public abstract class BaseMVPSRRListActivity<P extends BasePresenter<V>, V exten
 
     protected int mPage = 1;
     protected List<T> mList = new ArrayList<>();
-    protected BaseRecyclerAdapter<T> mAdapter;
+    protected BaseQuickAdapter<T, BaseViewHolder> mAdapter;
     protected int mDataCount;
     SmartRefreshLayout refreshLayout;
     RecyclerView mRecyclerView;
-    LoadingLayout loadingLayout;
 
     @Override
     public int getContentId() {
@@ -50,7 +49,6 @@ public abstract class BaseMVPSRRListActivity<P extends BasePresenter<V>, V exten
     public void initView() {
         refreshLayout = findViewById(R.id.refreshLayout);
         mRecyclerView = findViewById(R.id.recyclerView);
-        loadingLayout = findViewById(R.id.loading);
 
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
@@ -112,7 +110,8 @@ public abstract class BaseMVPSRRListActivity<P extends BasePresenter<V>, V exten
 
     protected abstract void initPageNumb();
 
-    protected abstract BaseRecyclerAdapter<T> getListAdapter();
+    protected abstract BaseQuickAdapter<T, BaseViewHolder> getListAdapter();
+
 
     @Override
     public void refreshUi() {
@@ -159,6 +158,10 @@ public abstract class BaseMVPSRRListActivity<P extends BasePresenter<V>, V exten
         this.mDataCount = total;
     }
 
+    @Override
+    public int getPage() {
+        return mPage;
+    }
 
     @Override
     public void setData(List<T> list) {
@@ -168,20 +171,17 @@ public abstract class BaseMVPSRRListActivity<P extends BasePresenter<V>, V exten
         if (list == null || list.size() == 0) {
             if (mPage == 1) {
                 // TODO: 2018/5/9 没有数据
-                if (loadingLayout != null) {
-                    loadingLayout.showEmpty();
-                }
             } else {
                 // TODO: 2018/5/9 没有更多数据
             }
         }
         mList.addAll(list);
+
+        mAdapter.setNewData(mList);
         if (mPage == 1) {
-            mAdapter.refresh(mList);
             refreshLayout.finishRefresh();
             refreshLayout.setNoMoreData(false);
         } else {
-            mAdapter.loadMore(mList);
             refreshLayout.finishLoadMore();
         }
     }

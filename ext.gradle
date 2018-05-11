@@ -144,8 +144,13 @@ project.ext {
             rxbinding_recyclerview          : 'com.jakewharton.rxbinding:rxbinding-recyclerview-v7:0.4.0',
             BasePopup                       : 'com.github.razerdp:BasePopup:v1.1.7',
 
+            //SmartRefreshLayout
             SmartRefreshLayout              : "com.scwang.smartrefresh:SmartRefreshLayout:$smartrefreshVersion",
             SmartRefreshHeader              : "com.scwang.smartrefresh:SmartRefreshHeader:$smartrefreshVersion",
+
+            haorefresh                      : 'com.github.fangx:haorefresh:1.0',
+            loadinglayout                   : 'com.github.czy1121:loadinglayout:1.0.1',
+
             FlycoTabLayout_Lib              : "com.flyco.tablayout:FlycoTabLayout_Lib:$tablayoutVersion",
             VerticalTabLayout               : "q.rorbin:VerticalTabLayout:$verticalTabLayoutVersion",
 

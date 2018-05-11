@@ -14,7 +14,7 @@ public abstract class BaseMVPSupportActivivty<P extends BasePresenter<V>, V exte
         BaseActivity implements IView {
 
     protected P mPresenter;
-    PermissionListener mPermissionListener = new PermissionListener() {
+    protected PermissionListener mPermissionListener = new PermissionListener() {
         @Override
         public void onGrant(int code) {
             onPermissonGrant(code);

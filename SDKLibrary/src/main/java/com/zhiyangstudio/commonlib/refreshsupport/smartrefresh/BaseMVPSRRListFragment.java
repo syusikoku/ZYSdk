@@ -1,15 +1,19 @@
 package com.zhiyangstudio.commonlib.refreshsupport.smartrefresh;
 
 import android.os.Bundle;
-import android.widget.AbsListView;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhiyangstudio.commonlib.R;
-import com.zhiyangstudio.commonlib.adapter.BaseRecyclerAdapter;
 import com.zhiyangstudio.commonlib.mvp.BaseMVPSupportFragment;
 import com.zhiyangstudio.commonlib.mvp.inter.ISampleRefreshView;
 import com.zhiyangstudio.commonlib.mvp.presenter.BasePresenter;
@@ -19,6 +23,7 @@ import com.zhiyangstudio.commonlib.widget.recyclerview.LMRecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import ezy.ui.layout.LoadingLayout;
 import io.reactivex.annotations.NonNull;
 
 /**
@@ -32,20 +37,27 @@ public abstract class BaseMVPSRRListFragment<P extends BasePresenter<V>, V exten
 
     protected int mPage = 1;
     protected List<T> mList = new ArrayList<>();
-    protected BaseRecyclerAdapter<T> mAdapter;
+    protected BaseQuickAdapter<T, BaseViewHolder> mAdapter;
     protected int mDataCount;
     SmartRefreshLayout refreshLayout;
-    AbsListView mListView;
+    RecyclerView mRecyclerView;
+    LoadingLayout mLoadingLayout;
 
     @Override
     public int getContentId() {
-        return R.layout.layout_base_smart_refresh_list_view;
+        return R.layout.layout_base_smart_refresh_recycler_view;
     }
 
     @Override
     public void initView() {
         refreshLayout = mRootView.findViewById(R.id.refreshLayout);
-        mListView = mRootView.findViewById(R.id.listView);
+        mRecyclerView = mRootView.findViewById(R.id.recyclerView);
+        mLoadingLayout = mRootView.findViewById(R.id.loading);
+
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(mContext,
+                DividerItemDecoration.VERTICAL));
     }
 
     @Override
@@ -90,7 +102,7 @@ public abstract class BaseMVPSRRListFragment<P extends BasePresenter<V>, V exten
         mAdapter = getListAdapter();
         // TODO: 2018/5/10 可用上面的这个也可以用自己写的这个
         if (mAdapter != null) {
-            mListView.setAdapter(mAdapter);
+            mRecyclerView.setAdapter(mAdapter);
         }
         UiUtils.postDelayed(new Runnable() {
             @Override
@@ -102,7 +114,7 @@ public abstract class BaseMVPSRRListFragment<P extends BasePresenter<V>, V exten
 
     protected abstract void initPageNumb();
 
-    protected abstract BaseRecyclerAdapter<T> getListAdapter();
+    protected abstract BaseQuickAdapter<T, BaseViewHolder> getListAdapter();
 
 
     @Override
@@ -163,18 +175,20 @@ public abstract class BaseMVPSRRListFragment<P extends BasePresenter<V>, V exten
         if (list == null || list.size() == 0) {
             if (mPage == 1) {
                 // TODO: 2018/5/9 没有数据
+                mLoadingLayout.showEmpty();
             } else {
                 // TODO: 2018/5/9 没有更多数据
             }
         }
         mList.addAll(list);
 
+        mAdapter.setNewData(mList);
         if (mPage == 1) {
-            mAdapter.refresh(mList);
+            mLoadingLayout.showContent();
             refreshLayout.finishRefresh();
             refreshLayout.setNoMoreData(false);
+
         } else {
-            mAdapter.loadMore(mList);
             refreshLayout.finishLoadMore();
         }
     }
