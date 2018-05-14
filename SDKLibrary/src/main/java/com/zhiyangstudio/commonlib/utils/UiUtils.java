@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.ColorInt;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,16 +32,8 @@ public class UiUtils {
         return BaseApp.getAppProcessId();
     }
 
-    public static int getMainThreadId() {
-        return BaseApp.getMainThreadId();
-    }
-
     public static Looper getAppLooper() {
         return BaseApp.getAppLooper();
-    }
-
-    public static Handler getAppHandler() {
-        return BaseApp.getAppHandler();
     }
 
     public static BaseApp getAppInstance() {
@@ -54,11 +47,8 @@ public class UiUtils {
         return getAppHandler().postDelayed(runnable, delayMillis);
     }
 
-    /**
-     * 在主线程执行runnable
-     */
-    public static boolean post(Runnable runnable) {
-        return getAppHandler().post(runnable);
+    public static Handler getAppHandler() {
+        return BaseApp.getAppHandler();
     }
 
     /**
@@ -68,17 +58,28 @@ public class UiUtils {
         getAppHandler().removeCallbacks(runnable);
     }
 
-    // 判断当前的线程是不是在主线程
-    public static boolean isRunInMainThread() {
-        return android.os.Process.myTid() == getMainThreadId();
-    }
-
     public static void runInMainThread(Runnable runnable) {
         if (isRunInMainThread()) {
             runnable.run();
         } else {
             post(runnable);
         }
+    }
+
+    // 判断当前的线程是不是在主线程
+    public static boolean isRunInMainThread() {
+        return android.os.Process.myTid() == getMainThreadId();
+    }
+
+    /**
+     * 在主线程执行runnable
+     */
+    public static boolean post(Runnable runnable) {
+        return getAppHandler().post(runnable);
+    }
+
+    public static int getMainThreadId() {
+        return BaseApp.getMainThreadId();
     }
 
     /**
@@ -104,16 +105,24 @@ public class UiUtils {
         }
     }
 
+    public static String getStr(int arrsResId) {
+        return getResources(getContext()).getString(arrsResId);
+    }
+
     private static void showToast(String str) {
         ToastUtils.showShort(str);
     }
 
-    public static View inflateView(int resId, ViewGroup parent) {
-        return LayoutInflater.from(getContext()).inflate(resId, parent, false);
+    public static Resources getResources(Context context) {
+        return context.getResources();
     }
 
     public static Context getContext() {
         return BaseApp.getContext();
+    }
+
+    public static View inflateView(int resId, ViewGroup parent) {
+        return LayoutInflater.from(getContext()).inflate(resId, parent, false);
     }
 
     public static View inflateView(int resId) {
@@ -122,14 +131,6 @@ public class UiUtils {
 
     public static String[] getStrArrs(int arrsResId) {
         return getResources(getContext()).getStringArray(arrsResId);
-    }
-
-    public static Resources getResources(Context context) {
-        return context.getResources();
-    }
-
-    public static String getStr(int arrsResId) {
-        return getResources(getContext()).getString(arrsResId);
     }
 
     public static float getDimension(int arrsResId) {
@@ -194,5 +195,25 @@ public class UiUtils {
         int color = typedArray.getColor(0, Color.LTGRAY);
         typedArray.recycle();
         return color;
+    }
+
+    public static int Dp2Px(Context context, int dpi) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpi, context
+                .getResources().getDisplayMetrics());
+    }
+
+    public static int Px2Dp(Context context, int px) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, px, context
+                .getResources().getDisplayMetrics());
+    }
+
+    public static int Sp2Px(Context context, int sp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, context
+                .getResources().getDisplayMetrics());
+    }
+
+    public static int Px2Sp(Context context, int px) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, px, context
+                .getResources().getDisplayMetrics());
     }
 }

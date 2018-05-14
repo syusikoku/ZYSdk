@@ -1,6 +1,7 @@
 package com.zhiyangstudio.commonlib.utils;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.os.Environment;
 import android.util.Log;
 
@@ -197,5 +198,21 @@ public class FileUtils {
             Log.e("获取文件大小", "文件不存在!");
         }
         return size;
+    }
+
+    public static double getMediaFileDuratoin(String filePath) {
+        MediaPlayer player = new MediaPlayer();
+        try {
+            player.setDataSource(filePath);  //recordingFilePath（）为音频文件的路径
+            player.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        double duration = player.getDuration();//获取音频的时间
+        Log.d("ACETEST", "### duration: " + duration);
+        player.release();//记得释放资源
+        return duration;
     }
 }
