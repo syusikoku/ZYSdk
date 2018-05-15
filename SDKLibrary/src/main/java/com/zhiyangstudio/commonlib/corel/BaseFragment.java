@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,9 @@ import com.zhiyangstudio.commonlib.inter.ILifecycle;
 import com.zhiyangstudio.commonlib.utils.LogListener;
 import com.zhiyangstudio.commonlib.utils.LoggerUtils;
 import com.zhiyangstudio.commonlib.utils.UiUtils;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -94,7 +98,8 @@ public abstract class BaseFragment extends SupportFragment implements ILifecycle
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
+            Bundle savedInstanceState) {
         LoggerUtils.loge(this, "onCreateView");
         mRootView = null;
         int layoutId = getContentId();
@@ -142,5 +147,17 @@ public abstract class BaseFragment extends SupportFragment implements ILifecycle
      */
     protected void lazyFetchData() {
         LoggerUtils.loge(this, "------>lazyFetchData");
+    }
+
+    protected String getTimeYMD(Date date) {//可根据需要自行截取数据显示
+        Log.d("getTime()", "choice date millis: " + date.getTime());
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        return format.format(date);
+    }
+
+    protected String getTimeYMDHMS(Date date) {//可根据需要自行截取数据显示
+        Log.d("getTime()", "choice date millis: " + date.getTime());
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssss");
+        return format.format(date);
     }
 }
