@@ -57,9 +57,6 @@ public class NotificationUtils {
 
     /**
      * 获取通知栏颜色
-     *
-     * @param context
-     * @return
      */
     public static int getNotificationColor(Context context) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
@@ -95,15 +92,6 @@ public class NotificationUtils {
 
     /**
      * 单行文本使用
-     *
-     * @param ticker
-     * @param title
-     * @param content
-     * @param smallIcon
-     * @param intent
-     * @param sound
-     * @param vibrate
-     * @param lights
      */
     public void sendSingleLineNotification(String ticker, String title, String content, int
             smallIcon, PendingIntent intent, boolean sound, boolean vibrate, boolean lights, int
@@ -157,15 +145,6 @@ public class NotificationUtils {
 
     /**
      * 多行文本使用
-     *
-     * @param ticker
-     * @param title
-     * @param content
-     * @param smallIcon
-     * @param intent
-     * @param sound
-     * @param vibrate
-     * @param lights
      */
     public void sendMoreLineNotification(String ticker, String title, String content, int
             smallIcon, PendingIntent intent, boolean sound, boolean vibrate, boolean lights, int
@@ -182,15 +161,6 @@ public class NotificationUtils {
 
     /**
      * 大图模式
-     *
-     * @param ticker
-     * @param title
-     * @param content
-     * @param smallIcon
-     * @param intent
-     * @param sound
-     * @param vibrate
-     * @param lights
      */
     public void sendBigPicNotification(String ticker, String title, String content, int
             smallIcon, PendingIntent intent, boolean sound, boolean vibrate, boolean lights, int
@@ -211,17 +181,6 @@ public class NotificationUtils {
 
     /**
      * 自定义通知视图
-     *
-     * @param ticker
-     * @param title
-     * @param content
-     * @param smallIcon
-     * @param intent
-     * @param contentView
-     * @param bigContentView
-     * @param sound
-     * @param vibrate
-     * @param lights
      */
     public void sendCustomerNotification(String ticker, String title, String content, int
             smallIcon, PendingIntent intent, RemoteViews contentView, RemoteViews bigContentView,
@@ -237,16 +196,6 @@ public class NotificationUtils {
 
     /**
      * 列表型通知
-     *
-     * @param ticker
-     * @param title
-     * @param content
-     * @param smallIcon
-     * @param intent
-     * @param conntents
-     * @param sound
-     * @param vibrate
-     * @param lights
      */
     public void sendListNotification(String ticker, String title, String content, int smallIcon,
                                      PendingIntent intent, ArrayList<String> conntents, boolean
@@ -269,28 +218,12 @@ public class NotificationUtils {
 
     /**
      * 双折叠双按钮通知
-     *
-     * @param ticker
-     * @param title
-     * @param content
-     * @param smallIcon
-     * @param intent
-     * @param leftIcon
-     * @param leftText
-     * @param leftPI
-     * @param rightIcon
-     * @param rightText
-     * @param rightPI
-     * @param sound
-     * @param vibrate
-     * @param lights
      */
     public void sendActionNotification(String ticker, String title, String content, int
             smallIcon, PendingIntent intent,
                                        int leftIcon, String leftText, PendingIntent leftPI,
                                        int rightIcon, String rightText, PendingIntent rightPI,
-                                       boolean sound, boolean vibrate, boolean lights, int
-                                               largeIcon) {
+                                       boolean sound, boolean vibrate, boolean lights, int largeIcon) {
         sample(ticker, title, content, smallIcon, intent, sound, vibrate, lights, largeIcon);
         builder.addAction(leftIcon, leftText, leftPI);
         builder.addAction(rightIcon, rightText, rightPI);
@@ -300,15 +233,6 @@ public class NotificationUtils {
 
     /**
      * 带进度条的通知栏
-     *
-     * @param ticker
-     * @param title
-     * @param content
-     * @param smallIcon
-     * @param intent
-     * @param sound
-     * @param vibrate
-     * @param lights
      */
     public void sendProgressNotification(String ticker, String title, String content, int
             smallIcon, PendingIntent intent, boolean sound, boolean vibrate, boolean lights, int

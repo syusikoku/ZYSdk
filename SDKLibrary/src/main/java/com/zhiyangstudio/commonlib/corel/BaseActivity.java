@@ -1,6 +1,5 @@
 package com.zhiyangstudio.commonlib.corel;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -55,7 +54,6 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
 
         }
     };
-    private ProgressDialog loadingDialog = null;
     private PermissionListener mListener;
 
     @Override
@@ -170,11 +168,6 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
 
     /**
      * 检查权限
-     *
-     * @param permission
-     * @param tips
-     * @param listener
-     * @param reqPermission
      */
     public void checkPermission(String permission, final String tips, PermissionListener
             listener, int reqPermission) {
@@ -209,8 +202,6 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
 
     /**
      * 显示权限拒绝的dialog
-     *
-     * @param tips
      */
     protected void showPermissionDenyDialog(String tips) {
         // TODO: 2018/2/2  用户拒绝过这个权限了，应该提示用户，为什么需要这个权限。
@@ -407,45 +398,6 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
                 UiUtils.getStr(R.string.str_dialog_confirm),
                 confirmListener, UiUtils.getStr(R.string.str_dialog_cancel),
                 cancelListener);
-    }
-
-    /**
-     * 显示带消息的进度框
-     */
-    protected void showLoadingDialog(String title) {
-        createLoadingDialog();
-        loadingDialog.setMessage(title);
-        if (!loadingDialog.isShowing())
-            loadingDialog.show();
-    }
-
-    /**
-     * 创建LodingDialog
-     */
-    private void createLoadingDialog() {
-        if (loadingDialog == null) {
-            loadingDialog = new ProgressDialog(this);
-            loadingDialog.setCancelable(true);
-            loadingDialog.setCanceledOnTouchOutside(false);
-        }
-    }
-
-    /**
-     * 显示进度框
-     */
-    protected void showLoadingDialog() {
-        createLoadingDialog();
-        if (!loadingDialog.isShowing())
-            loadingDialog.show();
-    }
-
-    /**
-     * 隐藏进度框
-     */
-    protected void hideLoadingDialog() {
-        if (loadingDialog != null && loadingDialog.isShowing()) {
-            loadingDialog.dismiss();
-        }
     }
 
     public void setOnClick(int viewID) {

@@ -1,7 +1,8 @@
 package com.zhiyangstudio.commonlib.net.callback;
 
-import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.JsonParseException;
+
+import com.blankj.utilcode.util.ToastUtils;
 import com.zhiyangstudio.commonlib.CommonConst;
 import com.zhiyangstudio.commonlib.R;
 import com.zhiyangstudio.commonlib.bean.BaseBean;
@@ -27,14 +28,20 @@ import io.reactivex.disposables.Disposable;
 
 public abstract class RxBaseObserver<T> implements Observer<BaseBean<T>> {
 
+    private boolean mHasShowNofity;
     protected IView mView;
     private String mTag;
     private BasePresenter mPresenter;
 
     public RxBaseObserver(BasePresenter presenter, String tag) {
+        this(presenter, tag, false);
+    }
+
+    public RxBaseObserver(BasePresenter presenter, String tag, boolean hasShowNofity) {
         this.mPresenter = presenter;
         mView = mPresenter.getView();
         this.mTag = tag;
+        this.mHasShowNofity = hasShowNofity;
     }
 
     @Override
@@ -50,7 +57,8 @@ public abstract class RxBaseObserver<T> implements Observer<BaseBean<T>> {
     public void onError(Throwable e) {
         LoggerUtils.loge("RxBaseObserver onError");
         hideLoading();
-        dealException(e);
+        if (mHasShowNofity)
+            dealException(e);
     }
 
     private void hideLoading() {

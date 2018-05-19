@@ -22,7 +22,7 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * Created by example on 2018/2/7.
+ * Created by zhi yang on 2018/2/7.
  */
 
 public class RxUtils {

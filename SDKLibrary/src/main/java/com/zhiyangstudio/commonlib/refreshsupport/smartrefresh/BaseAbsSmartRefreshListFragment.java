@@ -145,7 +145,7 @@ public abstract class BaseAbsSmartRefreshListFragment<P extends BasePresenter<V>
     private void setRefreshing(boolean isRefreshing) {
         refreshLayout.postDelayed(() -> {
             refreshLayout.setRefreshing(isRefreshing);
-        }, 100);
+        }, 50);
     }
 
     @Override

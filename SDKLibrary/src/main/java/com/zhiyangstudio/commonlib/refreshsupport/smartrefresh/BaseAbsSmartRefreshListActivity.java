@@ -63,8 +63,6 @@ public abstract class BaseAbsSmartRefreshListActivity<P extends BasePresenter<V>
 
     /**
      * 是否允许加载更多
-     *
-     * @return
      */
     protected abstract boolean isCanLoadMore();
 
@@ -76,8 +74,6 @@ public abstract class BaseAbsSmartRefreshListActivity<P extends BasePresenter<V>
 
     /**
      * 是否开启加载更多
-     *
-     * @param hasCanLoadMore
      */
     protected void setCanLoadMore(boolean hasCanLoadMore) {
         recyclerView.setCanLoadMore(hasCanLoadMore);
@@ -107,13 +103,11 @@ public abstract class BaseAbsSmartRefreshListActivity<P extends BasePresenter<V>
     private void setRefreshing(boolean isRefreshing) {
         refreshLayout.postDelayed(() -> {
             refreshLayout.setRefreshing(isRefreshing);
-        }, 100);
+        }, 50);
     }
 
     /**
      * 设置是否允许下拉刷新
-     *
-     * @param enable
      */
     protected void setEnableRefresh(boolean enable) {
         isEnableRefresh = enable;
@@ -205,8 +199,6 @@ public abstract class BaseAbsSmartRefreshListActivity<P extends BasePresenter<V>
 
     /**
      * 是否允许下拉刷新
-     *
-     * @param hasEnableRefresh
      */
     protected void setRrefreshEnable(boolean hasEnableRefresh) {
         refreshLayout.setEnabled(hasEnableRefresh);

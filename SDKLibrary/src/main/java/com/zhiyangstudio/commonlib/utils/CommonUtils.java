@@ -2,6 +2,7 @@ package com.zhiyangstudio.commonlib.utils;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,6 +13,7 @@ import android.support.annotation.RequiresPermission;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
+import android.util.ArrayMap;
 import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
@@ -19,20 +21,22 @@ import android.widget.TextView;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.regex.Pattern;
 
 /**
  * Created by zhiyang on 2018/2/24.
  */
 
 public class CommonUtils {
+    public static final String REGEX_MINI_USERNAME = "^[\\w\\u4e00-\\u9fa5]{6,16}(?<!_)$";
+    public static final String REGEX_F_USERNAME = "^[\\w\\u4e00-\\u9fa5]{6,20}(?<!_)$";
 
     /**
      * 是否需要校验权限
-     *
-     * @return
      */
     public static boolean hasNeedCheckPermission() {
         return hasMVersion();
@@ -40,8 +44,6 @@ public class CommonUtils {
 
     /**
      * 是否大于等于M版本
-     *
-     * @return
      */
     private static boolean hasMVersion() {
         return Build.VERSION.SDK_INT >= 23;
@@ -51,7 +53,6 @@ public class CommonUtils {
      * 检测某个应用是否在运行
      *
      * @param packName 是包名+服务的类名（例如：net.loonggg.testbackstage.TestService）
-     * @return
      */
     public static boolean isAppRunning(String packName) {
         boolean hasWork = false;
@@ -76,7 +77,6 @@ public class CommonUtils {
      * 检测某个服务是否在运行
      *
      * @param serviceName 是包名+服务的类名（例如：net.loonggg.testbackstage.TestService）
-     * @return
      */
     public static boolean isServiceWork(String serviceName) {
         boolean hasWork = false;
@@ -105,10 +105,37 @@ public class CommonUtils {
     }
 
     /**
-     * 是否有权限写入系统配置
+     * 判断某个Activity 界面是否在前台
+     */
+    public static boolean isForeground(Activity activity) {
+        return isForeground(activity, activity.getClass().getName());
+    }
+
+    /**
+     * 判断某个Activity 界面是否在前台
      *
-     * @param context
-     * @return
+     * @param className 某个界面名称
+     */
+    public static boolean isForeground(Context context, String className) {
+        if (context == null || TextUtils.isEmpty(className)) {
+            return false;
+        }
+
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(1);
+        if (list != null && list.size() > 0) {
+            ComponentName cpn = list.get(0).topActivity;
+            if (className.equals(cpn.getClassName())) {
+                return true;
+            }
+        }
+
+        return false;
+
+    }
+
+    /**
+     * 是否有权限写入系统配置
      */
     public static boolean canWriteOsSetting(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -177,6 +204,39 @@ public class CommonUtils {
     }
 
     /**
+     * 获取栈顶Activity
+     *
+     * @return 栈顶Activity
+     */
+    public static Activity getTopActivity() {
+        try {
+            Class activityThreadClass = Class.forName("android.app.ActivityThread");
+            Object activityThread = activityThreadClass.getMethod("currentActivityThread").invoke(null);
+            Field activitiesField = activityThreadClass.getDeclaredField("mActivities");
+            activitiesField.setAccessible(true);
+            Map activities = null;
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+                activities = (HashMap) activitiesField.get(activityThread);
+            } else {
+                activities = (ArrayMap) activitiesField.get(activityThread);
+            }
+            for (Object activityRecord : activities.values()) {
+                Class activityRecordClass = activityRecord.getClass();
+                Field pausedField = activityRecordClass.getDeclaredField("paused");
+                pausedField.setAccessible(true);
+                if (!pausedField.getBoolean(activityRecord)) {
+                    Field activityField = activityRecordClass.getDeclaredField("activity");
+                    activityField.setAccessible(true);
+                    return (Activity) activityField.get(activityRecord);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
      * 跳转到应用程序详情
      */
     public static void goAppDetailSetting() {
@@ -193,8 +253,6 @@ public class CommonUtils {
 
     /**
      * 使用浏览器打开
-     *
-     * @param url
      */
     public static void openByWebBroswer(String url) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -205,8 +263,6 @@ public class CommonUtils {
 
     /**
      * 分享文本
-     *
-     * @param txt
      */
     public static void shareText(String txt) {
         Intent intent = new Intent(Intent.ACTION_SEND);
@@ -217,8 +273,6 @@ public class CommonUtils {
 
     /**
      * 让菜单同时显示图标和文字
-     *
-     * @param menu
      */
     public static void makeHeightMenu(Menu menu) {
         if (menu != null) {
@@ -240,8 +294,6 @@ public class CommonUtils {
 
     /**
      * 删除搜索框背景
-     *
-     * @param searchView
      */
     public static void deleteSearchPlate(SearchView searchView) {
         if (searchView != null) {
@@ -266,8 +318,6 @@ public class CommonUtils {
 
     /**
      * 设置随机的字体颜色
-     *
-     * @param view
      */
     public static void setRandomTextColor(TextView view) {
         int color = getRandomColor();
@@ -276,8 +326,6 @@ public class CommonUtils {
 
     /**
      * 获取随机颜色
-     *
-     * @return
      */
     public static int getRandomColor() {
         int red, green, blue;
@@ -290,12 +338,36 @@ public class CommonUtils {
 
     /**
      * 设置随机的字体颜色
-     *
-     * @param view
      */
     public static void setRandomBgColor(TextView view) {
         int color = getRandomColor();
         view.setBackgroundColor(color);
     }
 
+    /**
+     * 6-16位校验
+     */
+    public static boolean miniSecucrityCheck(String str) {
+        boolean match = isMatch(REGEX_MINI_USERNAME, str);
+        return match;
+    }
+
+    /**
+     * 6-20位校验
+     */
+    public static boolean fullSecucrityCheck(String str) {
+        boolean match = isMatch(REGEX_F_USERNAME, str);
+        return match;
+    }
+
+    /**
+     * 判断是否匹配正则
+     *
+     * @param regex 正则表达式
+     * @param input 要匹配的字符串
+     * @return {@code true}: 匹配<br>{@code false}: 不匹配
+     */
+    public static boolean isMatch(final String regex, final CharSequence input) {
+        return input != null && input.length() > 0 && Pattern.matches(regex, input);
+    }
 }

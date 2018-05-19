@@ -58,7 +58,7 @@ public abstract class BaseMVPSRLListActivity<P extends BasePresenter<V>, V exten
                         mPage = 1;
                         loadRemoteData();
                     }
-                }, 300);
+                }, 50);
             }
         });
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
@@ -75,7 +75,7 @@ public abstract class BaseMVPSRLListActivity<P extends BasePresenter<V>, V exten
                             loadRemoteData();
                         }
                     }
-                }, 300);
+                }, 50);
             }
         });
     }
@@ -96,7 +96,7 @@ public abstract class BaseMVPSRLListActivity<P extends BasePresenter<V>, V exten
             public void run() {
                 loadRemoteData();
             }
-        }, 500);
+        }, 50);
     }
 
     protected abstract void initPageNumb();

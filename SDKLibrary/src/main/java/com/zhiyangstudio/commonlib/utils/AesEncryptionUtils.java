@@ -27,10 +27,6 @@ public class AesEncryptionUtils {
 
     /**
      * 密文解密
-     *
-     * @param key
-     * @param content
-     * @return
      */
     public static String decrypt(SecretKeySpec key, String content) {
         // 根据指定算法生成密码器
@@ -65,10 +61,6 @@ public class AesEncryptionUtils {
 
     /**
      * 密文加密
-     *
-     * @param key
-     * @param content
-     * @return
      */
     public static String encrypt(SecretKeySpec key, String content) {
         // 根据指定算法生成密码器
@@ -104,8 +96,6 @@ public class AesEncryptionUtils {
 
     /**
      * 生成AES密钥
-     *
-     * @return
      */
     public static SecretKeySpec createKey() {
         try {
@@ -129,11 +119,10 @@ public class AesEncryptionUtils {
 
     /**
      * 根据字节数组生成AES专用密钥
-     *
-     * @param bytes
-     * @return
      */
     public static SecretKeySpec getSecretKey(byte[] bytes) {
+        if (bytes == null || bytes.length == 0)
+            return null;
         return new SecretKeySpec(bytes, ENCRYPTION_ALGORITHM);
     }
 }

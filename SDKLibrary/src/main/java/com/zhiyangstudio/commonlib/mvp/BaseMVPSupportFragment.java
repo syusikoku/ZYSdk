@@ -48,4 +48,5 @@ public abstract class BaseMVPSupportFragment<P extends BasePresenter<V>, V exten
     public void release() {
 
     }
+
 }

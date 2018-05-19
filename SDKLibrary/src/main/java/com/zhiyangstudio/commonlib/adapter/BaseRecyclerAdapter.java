@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Created by example on 2018/5/9.
+ * Created by zhi yang on 2018/5/9.
  */
 
 public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<SmartViewHolder>
