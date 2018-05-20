@@ -1,9 +1,12 @@
 package com.zhiyangstudio.commonlib.refreshsupport.smartrefresh;
 
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -18,6 +21,7 @@ import com.zhiyangstudio.commonlib.mvp.inter.ISampleRefreshView;
 import com.zhiyangstudio.commonlib.mvp.presenter.BasePresenter;
 import com.zhiyangstudio.commonlib.utils.UiUtils;
 import com.zhiyangstudio.commonlib.widget.recyclerview.LMRecyclerView;
+import com.zhiyangstudio.commonlib.widget.recyclerview.LoadingLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +43,12 @@ public abstract class BaseMVPSRRListActivity<P extends BasePresenter<V>, V exten
     protected int mDataCount;
     protected SmartRefreshLayout refreshLayout;
     protected RecyclerView mRecyclerView;
+    protected LoadingLayout mLoadingLayout;
+    protected LinearLayout mExtRoot;
+    protected FrameLayout mRootContainer;
+    private DividerItemDecoration mDividerItemDecoration;
+    // 是否是来自其它界面的action
+    public boolean isFromOtherAction = false;
 
     @Override
     public int getContentId() {
@@ -47,13 +57,31 @@ public abstract class BaseMVPSRRListActivity<P extends BasePresenter<V>, V exten
 
     @Override
     public void initView() {
+        mRootContainer = findViewById(R.id.fl_root_container);
         refreshLayout = findViewById(R.id.refreshLayout);
         mRecyclerView = findViewById(R.id.recyclerView);
+        mLoadingLayout = findViewById(R.id.loading);
+        mExtRoot = findViewById(R.id.ll_ext_root);
 
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(mContext,
-                DividerItemDecoration.VERTICAL));
+        mDividerItemDecoration = new DividerItemDecoration(mContext,
+                DividerItemDecoration.VERTICAL);
+        if (getDividerItemDecorationColor() != 0) {
+            mDividerItemDecoration.setDrawable(new ColorDrawable(getDividerItemDecorationColor()));
+        }
+        mRecyclerView.addItemDecoration(mDividerItemDecoration);
+
+        initOtherProperty();
+    }
+
+    protected int getDividerItemDecorationColor() {
+        // 默认颜色
+        return UiUtils.getColor(R.color.red);
+    }
+
+    protected void initOtherProperty() {
+
     }
 
     @Override
@@ -65,7 +93,11 @@ public abstract class BaseMVPSRRListActivity<P extends BasePresenter<V>, V exten
                     @Override
                     public void run() {
                         mPage = 1;
-                        loadRemoteData();
+                        if (isFromOtherAction) {
+                            loadExtRemoteData();
+                        } else {
+                            loadRemoteData();
+                        }
                     }
                 }, 50);
             }
@@ -81,7 +113,11 @@ public abstract class BaseMVPSRRListActivity<P extends BasePresenter<V>, V exten
                             refreshLayout.finishLoadMoreWithNoMoreData();//将不会再次触发加载更多事件
                         } else {
                             mPage++;
-                            loadRemoteData();
+                            if (isFromOtherAction) {
+                                loadExtRemoteData();
+                            } else {
+                                loadRemoteData();
+                            }
                         }
                     }
                 }, 50);
@@ -89,11 +125,16 @@ public abstract class BaseMVPSRRListActivity<P extends BasePresenter<V>, V exten
         });
     }
 
+    protected void loadExtRemoteData() {
+
+    }
+
     protected abstract void loadRemoteData();
 
 
     @Override
     public void initData() {
+        mLoadingLayout.showLoding();
         initPageNumb();
         mAdapter = getListAdapter();
         // TODO: 2018/5/10 可用上面的这个也可以用自己写的这个
@@ -103,7 +144,11 @@ public abstract class BaseMVPSRRListActivity<P extends BasePresenter<V>, V exten
         UiUtils.postDelayed(new Runnable() {
             @Override
             public void run() {
-                loadRemoteData();
+                if (isFromOtherAction) {
+                    loadExtRemoteData();
+                } else {
+                    loadRemoteData();
+                }
             }
         }, 50);
     }
@@ -130,27 +175,43 @@ public abstract class BaseMVPSRRListActivity<P extends BasePresenter<V>, V exten
 
     @Override
     public void showLoading(String msg) {
+        mLoadingLayout.showLoding();
+    }
 
+    protected void showLoading() {
+        mLoadingLayout.showLoding();
     }
 
     @Override
     public void hideLoading() {
-
+        mLoadingLayout.showContent();
     }
 
     @Override
     public void showFail(String msg) {
-        ToastUtils.showShort(msg);
+//        ToastUtils.showShort(msg);
+        if (mPage == 1) {
+            refreshLayout.finishRefresh();
+        }
+        mLoadingLayout.showError();
     }
 
     @Override
     public void showError() {
-
+        if (mPage == 1) {
+            refreshLayout.finishRefresh();
+        }
+        mLoadingLayout.showError();
     }
 
     @Override
     public void showEmpty() {
-
+        UiUtils.runInMainThread(new Runnable() {
+            @Override
+            public void run() {
+                mLoadingLayout.showEmpty();
+            }
+        });
     }
 
     @Override
@@ -171,18 +232,33 @@ public abstract class BaseMVPSRRListActivity<P extends BasePresenter<V>, V exten
         if (list == null || list.size() == 0) {
             if (mPage == 1) {
                 // TODO: 2018/5/9 没有数据
+                mLoadingLayout.showEmpty();
             } else {
                 // TODO: 2018/5/9 没有更多数据
             }
         }
-        mList.addAll(list);
 
+        preProcessData(list);
+        mList.addAll(list);
         mAdapter.setNewData(mList);
         if (mPage == 1) {
+            if (list == null || list.size() == 0) {
+                mLoadingLayout.showEmpty();
+            } else {
+                mLoadingLayout.showContent();
+            }
             refreshLayout.finishRefresh();
             refreshLayout.setNoMoreData(false);
         } else {
             refreshLayout.finishLoadMore();
         }
     }
+
+    /**
+     * 允许用户对数据进行处理，然后 再设置到界面上
+     */
+    protected void preProcessData(List<T> list) {
+
+    }
+
 }

@@ -82,8 +82,6 @@ public abstract class BaseAbsSmartRefreshListFragment<P extends BasePresenter<V>
 
     /**
      * 是否能够自动加载更多
-     *
-     * @return
      */
     protected abstract boolean isCanLoadMore();
 
@@ -200,6 +198,4 @@ public abstract class BaseAbsSmartRefreshListFragment<P extends BasePresenter<V>
         isAutoLoadMore = false;
         loadMore();
     }
-
-
 }
