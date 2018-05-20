@@ -44,7 +44,6 @@ project.ext {
             lifecycle_runtime        : 'android.arch.lifecycle:runtime:1.0.3',
             lifecycle_extensions     : "android.arch.lifecycle:extensions:$lifecycleLibVersion",
             lifecycle_java8          : "android.arch.lifecycle:common-java8:$lifecycleLibVersion",
-            lifecycle_compiler       : "android.arch.lifecycle:compiler:$lifecycleLibVersion",
             arch_core_testing        : "android.arch.core:core-testing:$lifecycleLibVersion",
             persistence_room_runtime : "android.arch.persistence.room:runtime:$lifecycleLibVersion",
             lifecycle_compiler       : "android.arch.lifecycle:compiler:$lifecycleLibVersion",
