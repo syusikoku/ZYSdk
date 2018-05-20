@@ -56,7 +56,6 @@ project.ext {
     def daggerLibVersion = "2.11", retrofitLiVersion = "2.3.0", okhttpLibVersion = '3.9.1',
         gms = "11.8.0", google_play_services_client_library_version = "9.8.0", smartrefreshVersion = '1.0.5.1',
         tablayoutVersion = '2.1.2@aar', verticalTabLayoutVersion = '1.2.5'
-    /*扩展工具*/
     ext_tools = [
             /*rx*/
             rxjava                          : 'io.reactivex.rxjava2:rxjava:2.1.3',
@@ -72,8 +71,10 @@ project.ext {
             /* RxLifecycle */
             rxlifecycle_components          : 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.0',
             rxlifecycle_kotlin              : 'com.trello.rxlifecycle2:rxlifecycle-kotlin:2.2.0',
+
             /* RxPermissions */
             rxpermissions                   : 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4',
+
             /*retrofit*/
             retrofit                        : "com.squareup.retrofit2:retrofit:$retrofitLiVersion",
             converter_gson                  : "com.squareup.retrofit2:converter-gson:$retrofitLiVersion",
@@ -103,6 +104,7 @@ project.ext {
             play_services_base              : "com.google.android.gms:play-services-base:${gms}",
 
             // Google Play services split client libs.
+            play_services_gcm               : 'com.google.android.gms:play-services-gcm:9.4.0',
             play_services_analytics         : "com.google.android.gms:play-services-analytics:${google_play_services_client_library_version}",
             play_services_drive             : "com.google.android.gms:play-services-drive:${google_play_services_client_library_version}",
             play_services_maps              : "com.google.android.gms:play-services-maps:${google_play_services_client_library_version}",
@@ -114,35 +116,53 @@ project.ext {
             butterknife                     : 'com.jakewharton:butterknife:8.6.0',
             butterknife_compiler            : 'com.jakewharton:butterknife-compiler:8.6.0',
 
-            /*glide*/
+            /*图片加载*/
             glide                           : 'com.github.bumptech.glide:glide:4.3.1',
             glide_compiler                  : 'com.github.bumptech.glide:compiler:4.3.1',
+            GlideImageLoader                : 'com.github.piasy:GlideImageLoader:1.4.0',
+            glide_transformations           : 'jp.wasabeef:glide-transformations:2.0.1',
+
             fresco                          : 'com.facebook.fresco:fresco:0.8.+',
             picasso                         : 'com.squareup.picasso:picasso:2.71828',
 
             /*PhotoView*/
             PhotoView                       : 'com.github.chrisbanes:PhotoView:1.3.0',
-            material_dialogs                : 'com.afollestad.material-dialogs:commons:0.9.0.2',
-            NiceDialog                      : 'com.github.Othershe:NiceDialog:1.1.4',
+
             /* BigImageViewer */
             BigImageViewer                  : 'com.github.piasy:BigImageViewer:1.4.0',
-            GlideImageLoader                : 'com.github.piasy:GlideImageLoader:1.4.0',
+
             ProgressPieIndicator            : 'com.github.piasy:ProgressPieIndicator:1.4.0',
             circleimageview                 : 'de.hdodenhof:circleimageview:2.1.0',
             smoothprogressbar               : 'com.github.castorflex.smoothprogressbar:library:0.4.+',
             rollviewpager                   : 'com.jude:rollviewpager:1.4.5',
             roundedimageview                : 'com.makeramen:roundedimageview:2.2.1',
             BaseRecyclerViewAdapter         : 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.12',
-            haorefresh                      : 'com.github.fangx:haorefresh:1.0',
+
             indicatorseekbar                : 'com.github.warkiz.widget:indicatorseekbar:1.2.5',
             RecyclerViewPager               : 'com.github.lsjwzh.RecyclerViewPager:lib:v1.1.2@aar',
             tablayoutsupport                : 'com.github.lsjwzh.RecyclerViewPager:tablayoutsupport:v1.1.2@aar',
+
             FJMtSortButton                  : 'com.github.FJ917:FJMtSortButton:v1.1',
             expandabletextview              : 'cn.carbs.android:ExpandableTextView:1.0.3',
             ringprogressbar                 : 'com.github.HotBitmapGG:RingProgressBar:V1.2.3',
             stepview                        : 'com.github.baoyachi:StepView:1.9',
             rxbinding_recyclerview          : 'com.jakewharton.rxbinding:rxbinding-recyclerview-v7:0.4.0',
             BasePopup                       : 'com.github.razerdp:BasePopup:v1.1.7',
+
+            //takePhoto框架
+            takephoto_library               : 'com.jph.takephoto:takephoto_library:4.0.3',
+            imagepicker                     : 'com.lzy.widget:imagepicker:0.5.0',
+
+            /*选择器*/
+            Android_PickerView              : 'com.contrarywind:Android-PickerView:4.1.3',
+            wheelview                       : 'com.contrarywind:wheelview:4.0.5',
+
+            filepicker                      : 'com.nononsenseapps:filepicker:3.0.1',
+            icepick                         : 'frankiesardo:icepick:3.2.0',
+            icepick_processor               : 'frankiesardo:icepick-processor:3.2.0',
+
+            material_dialogs                : 'com.afollestad.material-dialogs:commons:0.9.0.2',
+            NiceDialog                      : 'com.github.Othershe:NiceDialog:1.1.4',
 
             //SmartRefreshLayout
             SmartRefreshLayout              : "com.scwang.smartrefresh:SmartRefreshLayout:$smartrefreshVersion",
@@ -154,8 +174,16 @@ project.ext {
             FlycoTabLayout_Lib              : "com.flyco.tablayout:FlycoTabLayout_Lib:$tablayoutVersion",
             VerticalTabLayout               : "q.rorbin:VerticalTabLayout:$verticalTabLayoutVersion",
 
+            //快速索引
+            indexablerecyclerview           : 'me.yokeyword:indexablerecyclerview:1.3.0',
+
+            //BGA系列
+            bga_refreshlayout               : 'cn.bingoogolapple:bga-refreshlayout:1.1.7',
+            bga_adapter                     : 'cn.bingoogolapple:bga-adapter:1.1.5@aar',
+
             /*图表控件*/
             MPAndroidChart                  : 'com.github.PhilJay:MPAndroidChart:v3.0.3',
+            hwc_chart                       : 'me.hwc:chart:1.0.2',
 
             fragmentation                   : 'me.yokeyword:fragmentation:0.7.10',
             fragmentation_swipeback         : 'me.yokeyword:fragmentation-swipeback:0.7.9',
@@ -168,11 +196,14 @@ project.ext {
             eventbus                        : 'org.greenrobot:eventbus:3.1.1',
             nineoldandroids_lib             : 'com.nineoldandroids:library:2.4.0',
             utilcode                        : 'com.blankj:utilcode:1.12.5',
-            sak                             : 'com.wanjian:sak:0.3.1',
+
             zxing                           : 'com.google.zxing:core:3.3.0',
+
+            /*解析Html*/
             jsoup                           : 'org.jsoup:jsoup:1.10.3',
+
             aviLib                          : 'com.wang.avi:library:1.0.1',
-            /*1.0.3无法 使用*/
+
             systembartint                   : 'com.readystatesoftware.systembartint:systembartint:1.0.4',
             statusbaruitl                   : 'com.jaeger.statusbaruitl:library:1.3.4',
 
@@ -190,7 +221,33 @@ project.ext {
 
             /*视频播放器*/
             jiecaovideoplayer               : 'fm.jiecao:jiecaovideoplayer:5.8.1',
+
             vitamio                         : 'com.charonchui.vitamio:vitamio:4.2.2',
+
+            /*exoplayer*/
+            exoplayer_core                  : 'com.google.android.exoplayer:exoplayer-core:2.7.3',
+            exoplayer_dash                  : 'com.google.android.exoplayer:exoplayer-dash:2.7.3',
+            exoplayer_ui                    : 'com.google.android.exoplayer:exoplayer-ui:2.2.7.3',
+
+            exoplayer                       : 'com.google.android.exoplayer:exoplayer:2.7.3',
+
+            /*GSYVideoPlayer*/
+            /*完整版引入*/
+            GSYVideoPlayer                  : 'com.shuyu:GSYVideoPlayer:4.1.2',
+
+            /*添加java和你想要的so支持：*/
+            gsyVideoPlayer_java             : 'com.shuyu:gsyVideoPlayer-java:4.1.2',
+
+            gsyVideoPlayer_armv5            : 'com.shuyu:gsyVideoPlayer-armv5:4.1.2',
+            gsyVideoPlayer_armv7a           : 'com.shuyu:gsyVideoPlayer-armv7a:4.1.2',
+            gsyVideoPlayer_arm64            : 'com.shuyu:gsyVideoPlayer-arm64:4.1.2',
+            gsyVideoPlayer_x64              : 'com.shuyu:gsyVideoPlayer-x64:4.1.2',
+            gsyVideoPlayer_x86              : 'com.shuyu:gsyVideoPlayer-x86:4.1.2',
+
+            /*支持其他格式协议的（mpeg，rtsp, concat、crypto协议）*/
+            /*A、B普通版本支持263/264/265等，对于mpeg编码会有声音无画面情况。 C 引入的so支持mpeg编码和其他补充协议，但是so包相对变大。*/
+            gsyVideoPlayer_java             : 'com.shuyu:gsyVideoPlayer-java:4.1.2',
+            gsyVideoPlayer_ex_so            : 'com.shuyu:gsyVideoPlayer-ex_so:4.1.2',
 
             /* Leak Canary */
             leakcanary_android              : 'com.squareup.leakcanary:leakcanary-android:1.5.2',
@@ -201,17 +258,91 @@ project.ext {
             blockcanary_android             : 'com.github.markzhai:blockcanary-android:1.5.0',
             blockcanary_no_op               : 'com.github.markzhai:blockcanary-no-op:1.5.0',
 
+            /*ui尺寸标注*/
+            sak                             : 'com.wanjian:sak:0.3.1',
+
+            /*ue工具*/
+            uetool                          : 'me.ele:uetool:1.0.12',
+            uetool_no_op                    : 'me.ele:uetool-no-op:1.0.12',
+            uetool_fresco                   : 'me.ele:uetool-fresco:1.0.12',
+
             imagepicker                     : 'com.lzy.widget:imagepicker:0.5.5',
+
             bmob_sdk                        : 'cn.bmob.android:bmob-sdk:3.5.5',
             bmob_sdk_http_legacy            : 'cn.bmob.android:http-legacy:1.0',
+
             PhotoPicker                     : 'me.iwf.photopicker:PhotoPicker:0.8.5@aar',
+
             jsbridge                        : 'com.github.lzyzsd:jsbridge:1.0.4',
+
+            //自定义日期控件
+            material_calendarview           : 'com.prolificinteractive:material-calendarview:1.4.0',
+
+            //阿里巴巴
+            vlayout                         : 'com.alibaba.android:vlayout:1.2.2@aar',
+
+//            compile('com.alibaba.android:vlayout:1.2.2@aar') {
+//                transitive = true
+//            }
 
             //material-design-iconic
             m_iconics_core                  : 'com.mikepenz:iconics-core:2.5.5@aar',
             m_iconic_typeface               : 'com.mikepenz:material-design-iconic-typeface:2.2.0.1@aar',
             m_fontawesome_typeface          : 'com.mikepenz:fontawesome-typeface:4.5.0.1@aar',
-            m_foundation_icons_typeface     : 'com.mikepenz:foundation-icons-typeface:3.0.0.1@aar'
+            m_foundation_icons_typeface     : 'com.mikepenz:foundation-icons-typeface:3.0.0.1@aar',
+
+            banner                          : "com.youth.banner:banner:1.4.10",
+
+            // https://github.com/hongyangAndroid/FlowLayout 洪洋大神流式布局
+            flowlayout_lib                  : 'com.hyman:flowlayout-lib:1.1.2',
+
+            barlibrary                      : 'com.gyf.barlibrary:barlibrary:2.3.0',
+
+            /*agentweb https://github.com/Justson/AbutterknifegentWeb */
+            agentweb                        : 'com.just.agentweb:agentweb:4.0.1',
+            agentweb_download               : 'com.just.agentweb:download:4.0.2',
+            agentweb_filechooser            : 'com.just.agentweb:filechooser:4.0.2',
+
+            multidex                        : 'com.android.support:multidex:1.0.3',
+
+            /*有兼容性的问题需要使用如下:
+             //解决支持库版本不兼容问题
+             configurations.all {resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+             def requested = details.requested
+             if (requested.group == 'com.android.support') {if (!requested.name.startsWith("multidex")) {details.useVersion '25.3.0'}}}}*/
+            lottie                          : "com.airbnb.android:lottie:2.5.4",
+
+            /*Android屏幕适配方案*/
+            autolayout                      : 'com.zhy:autolayout:1.4.5',
+            screenadaptation                : 'me.yatoooon:screenadaptation:1.0.9',
+            easypermissions                 : 'pub.devrel:easypermissions:0.4.2',
+
+            gridPasswordView                : 'com.jungly:gridPasswordView:0.3',
+            ShiftyTextview                  : 'com.github.yiwent:ShiftyTextview:1.1.0',
+
+            tagsoup                         : 'org.ccil.cowan.tagsoup:tagsoup:1.2.1',
+
+            //环信
+            hyphenate_sdk                   : 'com.hyphenate:hyphenate-sdk:3.3.0',
+            hyphenate_sdk_lite              : 'com.hyphenate:hyphenate-sdk-lite:3.3.0',
+
+            //关于开源库，都已经放到的github上，https://github.com/yangchong211
+            YCStateLib                      : 'cn.yc:YCStateLib:1.1',                                  //状态管理
+            YCPhotoLib                      : 'cn.yc:YCPhotoLib:1.0',                                  //图片选择器
+            YCDialogLib                     : 'cn.yc:YCDialogLib:3.2',                                //弹窗
+            YCCountDownViewLib              : 'cn.yc:YCCountDownViewLib:1.0',                          //倒计时器
+            YCUtilsLib                      : 'cn.yc:YCUtilsLib:1.5',                                  //公共类
+            YCMultiInputViewLib             : 'cn.yc:YCMultiInputViewLib:1.0',                         //倒计数
+            YCProgressLib                   : 'cn.yc:YCProgressLib:1.0',                              //进度条
+            YCCardViewLib                   : 'cn.yc:YCCardViewLib:1.2',                               //滑动卡片
+            YCCustomTextLib                 : 'cn.yc:YCCustomTextLib:2.1',                             //自定义超文本
+            YCRecycleViewLib                : 'cn.yc:YCRecycleViewLib:1.1',                            //RecycleView封装类，多选单选
+            YCWeatherLib                    : 'cn.yc:YCWeatherLib:1.0',                                //天气自定义控件
+            YCGalleryLib                    : 'cn.yc:YCGalleryLib:1.1',                                //自定义画廊
+            YCBaseAdapterLib                : 'cn.yc:YCBaseAdapterLib:1.2',                            //adapter封装
+            YCBannerLib                     : 'cn.yc:YCBannerLib:1.2',                                //轮播图
+            YCRefreshViewLib                : 'org.yczbj:YCRefreshViewLib:1.4'                        //RecyclerView封装，刷新加载
     ]
+    /*扩展工具*/
 }
 
