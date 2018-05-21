@@ -10,7 +10,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
 /**
- * Created by example on 2018/1/31.
+ * Created by zhi yang on 2018/1/31.
  */
 
 public class RxTimerUtils {

@@ -82,8 +82,6 @@ public abstract class BaseAbsSmartRefreshListFragment<P extends BasePresenter<V>
 
     /**
      * 是否能够自动加载更多
-     *
-     * @return
      */
     protected abstract boolean isCanLoadMore();
 
@@ -145,7 +143,7 @@ public abstract class BaseAbsSmartRefreshListFragment<P extends BasePresenter<V>
     private void setRefreshing(boolean isRefreshing) {
         refreshLayout.postDelayed(() -> {
             refreshLayout.setRefreshing(isRefreshing);
-        }, 100);
+        }, 50);
     }
 
     @Override
@@ -200,6 +198,4 @@ public abstract class BaseAbsSmartRefreshListFragment<P extends BasePresenter<V>
         isAutoLoadMore = false;
         loadMore();
     }
-
-
 }

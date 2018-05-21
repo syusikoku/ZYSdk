@@ -1,7 +1,8 @@
 package com.zhiyangstudio.commonlib.net.callback;
 
-import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.JsonParseException;
+
+import com.blankj.utilcode.util.ToastUtils;
 import com.zhiyangstudio.commonlib.CommonConst;
 import com.zhiyangstudio.commonlib.R;
 import com.zhiyangstudio.commonlib.mvp.inter.IView;
@@ -25,14 +26,20 @@ import io.reactivex.disposables.Disposable;
 
 public abstract class AbsBaseObserver<T> implements Observer<T> {
 
+    private boolean mHasShowNofity;
     protected IView mView;
     private String mTag;
     private BasePresenter mPresenter;
 
     public AbsBaseObserver(BasePresenter presenter, String tag) {
+        this(presenter, tag, false);
+    }
+
+    public AbsBaseObserver(BasePresenter presenter, String tag, boolean hasShowNofity) {
         this.mPresenter = presenter;
         mView = mPresenter.getView();
         this.mTag = tag;
+        this.mHasShowNofity = hasShowNofity;
     }
 
     @Override
@@ -47,7 +54,8 @@ public abstract class AbsBaseObserver<T> implements Observer<T> {
     public void onError(Throwable e) {
         LoggerUtils.loge("AbsBaseObserver onError");
         hideLoading();
-        dealException(e);
+        if (mHasShowNofity)
+            dealException(e);
     }
 
     protected void hideLoading() {

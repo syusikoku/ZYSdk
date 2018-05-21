@@ -3,7 +3,7 @@ package com.zhiyangstudio.commonlib.mvp.inter;
 import io.reactivex.disposables.Disposable;
 
 /**
- * Created by example on 2018/4/9.
+ * Created by zhi yang on 2018/4/9.
  */
 
 public interface IPresenter<V extends IView> {

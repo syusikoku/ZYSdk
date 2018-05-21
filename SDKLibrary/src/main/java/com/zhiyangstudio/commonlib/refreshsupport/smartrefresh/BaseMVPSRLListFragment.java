@@ -1,7 +1,7 @@
 package com.zhiyangstudio.commonlib.refreshsupport.smartrefresh;
 
 import android.os.Bundle;
-import android.widget.AbsListView;
+import android.widget.ListView;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -15,6 +15,7 @@ import com.zhiyangstudio.commonlib.mvp.inter.ISampleRefreshView;
 import com.zhiyangstudio.commonlib.mvp.presenter.BasePresenter;
 import com.zhiyangstudio.commonlib.utils.UiUtils;
 import com.zhiyangstudio.commonlib.widget.recyclerview.LMRecyclerView;
+import com.zhiyangstudio.commonlib.widget.recyclerview.LoadingLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,10 @@ public abstract class BaseMVPSRLListFragment<P extends BasePresenter<V>, V exten
     protected BaseRecyclerAdapter<T> mAdapter;
     protected int mDataCount;
     protected SmartRefreshLayout refreshLayout;
-    protected AbsListView mListView;
+    protected LoadingLayout mLoadingLayout;
+    // 是否是来自其它界面的action
+    public boolean isFromOtherAction = false;
+    private ListView mListView;
 
     @Override
     public int getContentId() {
@@ -46,6 +50,13 @@ public abstract class BaseMVPSRLListFragment<P extends BasePresenter<V>, V exten
     public void initView() {
         refreshLayout = mRootView.findViewById(R.id.refreshLayout);
         mListView = mRootView.findViewById(R.id.listView);
+        mLoadingLayout = mRootView.findViewById(R.id.loading);
+
+        initOtherProperty();
+    }
+
+    protected void initOtherProperty() {
+
     }
 
     @Override
@@ -57,9 +68,13 @@ public abstract class BaseMVPSRLListFragment<P extends BasePresenter<V>, V exten
                     @Override
                     public void run() {
                         mPage = 1;
-                        loadRemoteData();
+                        if (isFromOtherAction) {
+                            loadExtRemoteData();
+                        } else {
+                            loadRemoteData();
+                        }
                     }
-                }, 300);
+                }, 50);
             }
         });
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
@@ -73,12 +88,20 @@ public abstract class BaseMVPSRLListFragment<P extends BasePresenter<V>, V exten
                             refreshLayout.finishLoadMoreWithNoMoreData();//将不会再次触发加载更多事件
                         } else {
                             mPage++;
-                            loadRemoteData();
+                            if (isFromOtherAction) {
+                                loadExtRemoteData();
+                            } else {
+                                loadRemoteData();
+                            }
                         }
                     }
-                }, 300);
+                }, 50);
             }
         });
+    }
+
+    protected void loadExtRemoteData() {
+
     }
 
     protected abstract void loadRemoteData();
@@ -86,6 +109,7 @@ public abstract class BaseMVPSRLListFragment<P extends BasePresenter<V>, V exten
 
     @Override
     public void initData() {
+        mLoadingLayout.showLoding();
         initPageNumb();
         mAdapter = getListAdapter();
         // TODO: 2018/5/10 可用上面的这个也可以用自己写的这个
@@ -95,9 +119,13 @@ public abstract class BaseMVPSRLListFragment<P extends BasePresenter<V>, V exten
         UiUtils.postDelayed(new Runnable() {
             @Override
             public void run() {
-                loadRemoteData();
+                if (isFromOtherAction) {
+                    loadExtRemoteData();
+                } else {
+                    loadRemoteData();
+                }
             }
-        }, 500);
+        }, 50);
     }
 
     protected abstract void initPageNumb();
@@ -122,33 +150,42 @@ public abstract class BaseMVPSRLListFragment<P extends BasePresenter<V>, V exten
 
     @Override
     public void showLoading(String msg) {
+        mLoadingLayout.showLoding();
+    }
 
+    protected void showLoading() {
+        mLoadingLayout.showLoding();
     }
 
     @Override
     public void hideLoading() {
-
+        mLoadingLayout.showContent();
     }
 
     @Override
     public void showFail(String msg) {
-        ToastUtils.showShort(msg);
+        if (mPage == 1) {
+            refreshLayout.finishRefresh();
+        }
+        mLoadingLayout.showError();
     }
 
     @Override
     public void showError() {
-
+        if (mPage == 1) {
+            refreshLayout.finishRefresh();
+        }
+        mLoadingLayout.showError();
     }
 
     @Override
     public void showEmpty() {
-
-    }
-
-
-    @Override
-    protected void initArguments(Bundle bundle) {
-
+        UiUtils.runInMainThread(new Runnable() {
+            @Override
+            public void run() {
+                mLoadingLayout.showEmpty();
+            }
+        });
     }
 
     @Override
@@ -169,19 +206,37 @@ public abstract class BaseMVPSRLListFragment<P extends BasePresenter<V>, V exten
         if (list == null || list.size() == 0) {
             if (mPage == 1) {
                 // TODO: 2018/5/9 没有数据
+                mLoadingLayout.showEmpty();
             } else {
                 // TODO: 2018/5/9 没有更多数据
             }
         }
-        mList.addAll(list);
 
+        preProcessData(list);
+        mList.addAll(list);
         if (mPage == 1) {
             mAdapter.refresh(mList);
+            if (list == null || list.size() == 0) {
+                mLoadingLayout.showEmpty();
+            } else {
+                mLoadingLayout.showContent();
+            }
             refreshLayout.finishRefresh();
             refreshLayout.setNoMoreData(false);
         } else {
             mAdapter.loadMore(mList);
             refreshLayout.finishLoadMore();
         }
+    }
+
+    /**
+     * 允许用户对数据进行处理，然后 再设置到界面上
+     */
+    protected void preProcessData(List<T> list) {
+
+    }
+
+    @Override
+    protected void initArguments(Bundle bundle) {
     }
 }

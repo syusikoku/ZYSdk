@@ -3,7 +3,6 @@ package com.zhiyangstudio.commonlib.widget.recyclerview;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,46 +53,49 @@ public class LoadingLayout extends FrameLayout {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        if (changed) {
-            int count = getChildCount();
-            for (int i = 0; i < count; i++) {
-                mContentView = getChildAt(i);
-                if (mContentView instanceof RecyclerView)
-                    break;
-            }
-        }
+//        if (changed) {
+//            int count = getChildCount();
+//            for (int i = 0; i < count; i++) {
+//                mContentView = getChildAt(i);
+//                if (mContentView instanceof RecyclerView)
+//                    break;
+//            }
+//        }
     }
 
     //loading
     public void showLoding() {
-        mLoadingView.setVisibility(VISIBLE);
+        if (mLoadingView != null && mLoadingView.getVisibility() != VISIBLE)
+            mLoadingView.setVisibility(VISIBLE);
         mErrorView.setVisibility(GONE);
         mEmptyView.setVisibility(GONE);
-        if (mContentView != null)
+        if (mContentView != null && mContentView.getVisibility() != GONE)
             mContentView.setVisibility(GONE);
     }
 
     //error
     public void showError() {
-        mErrorView.setVisibility(VISIBLE);
+        if (mErrorView != null && mErrorView.getVisibility() != VISIBLE)
+            mErrorView.setVisibility(VISIBLE);
         mLoadingView.setVisibility(GONE);
         mEmptyView.setVisibility(GONE);
-        if (mContentView != null)
+        if (mContentView != null && mContentView.getVisibility() != GONE)
             mContentView.setVisibility(GONE);
     }
 
     //empty
     public void showEmpty() {
-        mEmptyView.setVisibility(VISIBLE);
+        if (mEmptyView != null && mEmptyView.getVisibility() != VISIBLE)
+            mEmptyView.setVisibility(VISIBLE);
         mLoadingView.setVisibility(GONE);
         mErrorView.setVisibility(GONE);
-        if (mContentView != null)
+        if (mContentView != null && mContentView.getVisibility() != GONE)
             mContentView.setVisibility(GONE);
     }
 
     //content
     public void showContent() {
-        if (mContentView != null)
+        if (mContentView != null && mContentView.getVisibility() != VISIBLE)
             mContentView.setVisibility(VISIBLE);
         mLoadingView.setVisibility(GONE);
         mErrorView.setVisibility(GONE);

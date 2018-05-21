@@ -4,9 +4,10 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.zhiyangstudio.commonlib.corel.BaseActivity;
 import com.zhiyangstudio.commonlib.mvp.inter.IView;
 import com.zhiyangstudio.commonlib.mvp.presenter.BasePresenter;
+import com.zhiyangstudio.commonlib.widget.dialog.LoadingDialog;
 
 /**
- * Created by example on 2018/4/9.
+ * Created by zhi yang on 2018/4/9.
  * mvp模式支持的activity
  */
 
@@ -28,27 +29,28 @@ public abstract class BaseMVPSupportActivivty<P extends BasePresenter<V>, V exte
 
     @Override
     public void showLoading(String msg) {
-        showLoadingDialog(msg);
+        LoadingDialog.show(this, msg, true, null);
     }
 
     @Override
     public void hideLoading() {
-        hideLoadingDialog();
+        LoadingDialog.hideDialog();
     }
 
     @Override
     public void showFail(String msg) {
+        LoadingDialog.hideDialog();
         ToastUtils.showShort(msg);
     }
 
     @Override
     public void showError() {
-
+        LoadingDialog.hideDialog();
     }
 
     @Override
     public void showEmpty() {
-
+        LoadingDialog.hideDialog();
     }
 
     protected void onPermissonGrant(int code) {

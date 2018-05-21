@@ -48,7 +48,6 @@ dependencies {
     implementation rootProject.ext.ext_tools.SmartRefreshHeader
 
     implementation rootProject.ext.ext_tools.haorefresh
-    implementation rootProject.ext.ext_tools.loadinglayout
 
     implementation rootProject.ext.ext_tools.rxjava
     implementation rootProject.ext.ext_tools.rxandroid
@@ -66,8 +65,4 @@ dependencies {
     /*glide*/
     implementation rootProject.ext.ext_tools.glide
     annotationProcessor rootProject.ext.ext_tools.glide_compiler
-    // 其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.2.7
-    // (注：从2.1.5开始要分开Bugly SDK和NDK的配置）
-//    implementation 'com.tencent.bugly:crashreport:latest.release'
-//    implementation 'com.tencent.bugly:nativecrashreport:latest.release'
 }

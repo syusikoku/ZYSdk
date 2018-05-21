@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
- * Created by example on 2018/4/9.
+ * Created by zhi yang on 2018/4/9.
  */
 
 public class PreUtils {

@@ -10,7 +10,7 @@ import com.zhiyangstudio.commonlib.R;
 import butterknife.ButterKnife;
 
 /**
- * Created by example on 2018/5/4.
+ * Created by zhi yang on 2018/5/4.
  */
 
 public abstract class BaseToolbarSupportActivity extends BaseActivity {
