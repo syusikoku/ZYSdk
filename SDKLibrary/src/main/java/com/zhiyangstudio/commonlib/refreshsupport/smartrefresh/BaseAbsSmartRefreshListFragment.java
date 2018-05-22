@@ -3,8 +3,9 @@ package com.zhiyangstudio.commonlib.mvp.refreshsupport.smartrefresh;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.blankj.utilcode.util.ToastUtils;
@@ -17,6 +18,8 @@ import com.zhiyangstudio.commonlib.mvp.inter.IView;
 import com.zhiyangstudio.commonlib.mvp.presenter.BasePresenter;
 import com.zhiyangstudio.commonlib.widget.recyclerview.LMRecyclerView;
 import com.zhiyangstudio.commonlib.widget.recyclerview.LoadingLayout;
+import com.zhiyangstudio.commonlib.widget.recyclerview.divider.GridDivider;
+import com.zhiyangstudio.commonlib.widget.recyclerview.divider.LinearDivider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +29,8 @@ import java.util.List;
  * 列表fragment:loadingpager+RecyclerView+SwipeRefreshLayout
  */
 
-public abstract class BaseAbsSmartRefreshListFragment<P extends BasePresenter<V>, V extends IView, T> extends
+public abstract class BaseAbsSmartRefreshListFragment<P extends BasePresenter<V>, V extends
+        IView, T> extends
         BaseMVPSupportFragment<P, V> implements LMRecyclerView.OnFooterAutoLoadMoreListener,
         IListDataView<T> {
 
@@ -61,9 +65,20 @@ public abstract class BaseAbsSmartRefreshListFragment<P extends BasePresenter<V>
             page = 0;
             loadDatas();
         });
-        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        recyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration
-                .VERTICAL));
+        RecyclerView.LayoutManager layoutManager = getLayoutManager();
+        if (layoutManager != null) {
+            recyclerView.setLayoutManager(layoutManager);
+            if (layoutManager instanceof GridLayoutManager) {
+                GridDivider gridDivider = new GridDivider(mContext, getDividerHight(),
+                        getDividerColor());
+                recyclerView.addItemDecoration(gridDivider);
+            } else if (layoutManager instanceof LinearLayoutManager) {
+                LinearDivider itemDecoration = getItemDecoration();
+                if (itemDecoration != null) {
+                    recyclerView.addItemDecoration(itemDecoration);
+                }
+            }
+        }
         recyclerView.setCanLoadMore(isCanLoadMore());
         recyclerView.addFooterAutoLoadMoreListener(this);
         mListAdapter = getListAdapter();
@@ -81,6 +96,40 @@ public abstract class BaseAbsSmartRefreshListFragment<P extends BasePresenter<V>
     public abstract void loadDatas();
 
     /**
+     * 可覆盖重写,重写的时候要调整分割线
+     *
+     * @return
+     */
+    protected RecyclerView.LayoutManager getLayoutManager() {
+        return new LinearLayoutManager(mContext, LinearLayoutManager
+                .VERTICAL, false);
+    }
+
+    /**
+     * 分割线高度
+     *
+     * @return
+     */
+    protected int getDividerHight() {
+        return 1;
+    }
+
+    /**
+     * 分割线颜色
+     *
+     * @return
+     */
+    protected int getDividerColor() {
+        return getResources().getColor(R
+                .color.gray);
+    }
+
+    protected LinearDivider getItemDecoration() {
+        return new LinearDivider(mContext, LinearLayoutManager.VERTICAL,
+                getDividerHight(), getDividerColor());
+    }
+
+    /**
      * 是否能够自动加载更多
      */
     protected abstract boolean isCanLoadMore();
@@ -88,6 +137,15 @@ public abstract class BaseAbsSmartRefreshListFragment<P extends BasePresenter<V>
     protected abstract BaseListAdapter getListAdapter();
 
     protected abstract View initHeaderView();
+
+    /**
+     * 是否允许加载更多或下拉刷新
+     *
+     * @return
+     */
+    protected boolean hasEnableRereshAndLoadMore() {
+        return true;
+    }
 
     @Override
     public int getPage() {

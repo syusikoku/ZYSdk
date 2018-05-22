@@ -25,7 +25,8 @@ public class LinearDivider extends RecyclerView.ItemDecoration {
      * int dividerHight  分割线的线宽
      * Drawable dividerDrawable  充当分割线的图片
      */
-    public LinearDivider(Context context, int orientation, int dividerHight, Drawable dividerDrawable) {
+    public LinearDivider(Context context, int orientation, int dividerHight, Drawable
+            dividerDrawable) {
         this(context, orientation);
         mDividerHight = dividerHight;
         mDividerDarwable = dividerDrawable;
@@ -42,7 +43,8 @@ public class LinearDivider extends RecyclerView.ItemDecoration {
     }
 
     public void setOrientation(int orientation) {
-        if (orientation != LinearLayoutManager.HORIZONTAL && orientation != LinearLayoutManager.VERTICAL) {
+        if (orientation != LinearLayoutManager.HORIZONTAL && orientation != LinearLayoutManager
+                .VERTICAL) {
             throw new IllegalArgumentException("方向参数错误！");
         }
         mOrientation = orientation;
@@ -97,7 +99,8 @@ public class LinearDivider extends RecyclerView.ItemDecoration {
         final int childCount = parent.getChildCount();
         for (int i = 0; i < childCount; i++) {
             final View child = parent.getChildAt(i);
-            final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+            final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
+                    .getLayoutParams();
             final int top = child.getBottom() + params.bottomMargin;
             final int bottom = top + mDividerHight;
             if (mDividerDarwable != null) {
@@ -111,12 +114,13 @@ public class LinearDivider extends RecyclerView.ItemDecoration {
     }
 
     @Override
-    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State
+            state) {
         super.getItemOffsets(outRect, view, parent, state);
         if (mOrientation == LinearLayoutManager.HORIZONTAL) {
-            outRect.set(0, 0, 0, mDividerHight);
-        } else {
             outRect.set(0, 0, mDividerHight, 0);
+        } else {
+            outRect.set(0, 0, 0, mDividerHight);
         }
     }
 }

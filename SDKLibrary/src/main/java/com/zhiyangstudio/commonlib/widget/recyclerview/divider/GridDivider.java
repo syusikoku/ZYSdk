@@ -51,7 +51,6 @@ public class GridDivider extends RecyclerView.ItemDecoration {
     }
 
     public void drawHorizontalDivider(Canvas c, RecyclerView parent) {
-
         final int childCount = parent.getChildCount();
         for (int i = 0; i < childCount; i++) {
             final View child = parent.getChildAt(i);
@@ -92,7 +91,8 @@ public class GridDivider extends RecyclerView.ItemDecoration {
         final int childCount = parent.getChildCount();
         for (int i = 0; i < childCount; i++) {
             final View child = parent.getChildAt(i);
-            final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+            final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
+                    .getLayoutParams();
 
             final int top = child.getTop() - params.topMargin;
             final int bottom = child.getBottom() + params.bottomMargin;

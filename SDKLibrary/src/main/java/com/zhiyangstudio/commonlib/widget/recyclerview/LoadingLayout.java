@@ -7,8 +7,10 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.zhiyangstudio.commonlib.R;
+import com.zhiyangstudio.commonlib.utils.EmptyUtils;
 
 /**
  * Created by zhiyang on 2018/4/10.
@@ -21,6 +23,9 @@ public class LoadingLayout extends FrameLayout {
     private View mErrorView;
     private View mEmptyView;
     private View mContentView;
+    // 是否被关闭
+    private boolean hasDismiss;
+    private TextView mLoadTips;
 
     public LoadingLayout(@NonNull Context context) {
         this(context, null);
@@ -40,6 +45,7 @@ public class LoadingLayout extends FrameLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
         mLoadingView = mInflater.inflate(R.layout.loading_layout, this, false);
+        mLoadTips = mLoadingView.findViewById(R.id.tv_tips);
         mErrorView = mInflater.inflate(R.layout.error_layout, this, false);
         mEmptyView = mInflater.inflate(R.layout.empty_layout, this, false);
         addView(mLoadingView);
@@ -75,6 +81,7 @@ public class LoadingLayout extends FrameLayout {
 
     //error
     public void showError() {
+        hasDismiss = true;
         if (mErrorView != null && mErrorView.getVisibility() != VISIBLE)
             mErrorView.setVisibility(VISIBLE);
         mLoadingView.setVisibility(GONE);
@@ -85,6 +92,7 @@ public class LoadingLayout extends FrameLayout {
 
     //empty
     public void showEmpty() {
+        hasDismiss = true;
         if (mEmptyView != null && mEmptyView.getVisibility() != VISIBLE)
             mEmptyView.setVisibility(VISIBLE);
         mLoadingView.setVisibility(GONE);
@@ -95,10 +103,21 @@ public class LoadingLayout extends FrameLayout {
 
     //content
     public void showContent() {
+        hasDismiss = true;
         if (mContentView != null && mContentView.getVisibility() != VISIBLE)
             mContentView.setVisibility(VISIBLE);
         mLoadingView.setVisibility(GONE);
         mErrorView.setVisibility(GONE);
         mEmptyView.setVisibility(GONE);
+    }
+
+    public void setTips(String str) {
+        if (!hasDismiss) {
+            if (mLoadTips != null) {
+                if (EmptyUtils.isNotEmpty(str)) {
+                    mLoadTips.setText(str);
+                }
+            }
+        }
     }
 }

@@ -1,9 +1,9 @@
 package com.zhiyangstudio.commonlib.refreshsupport.smartrefresh;
 
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.FrameLayout;
@@ -23,6 +23,8 @@ import com.zhiyangstudio.commonlib.mvp.presenter.BasePresenter;
 import com.zhiyangstudio.commonlib.utils.UiUtils;
 import com.zhiyangstudio.commonlib.widget.recyclerview.LMRecyclerView;
 import com.zhiyangstudio.commonlib.widget.recyclerview.LoadingLayout;
+import com.zhiyangstudio.commonlib.widget.recyclerview.divider.GridDivider;
+import com.zhiyangstudio.commonlib.widget.recyclerview.divider.LinearDivider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,8 @@ public abstract class BaseMVPSRRListFragment<P extends BasePresenter<V>, V exten
         ISampleRefreshView, T> extends BaseMVPSupportFragment<P, V> implements LMRecyclerView
         .OnFooterAutoLoadMoreListener, ISampleRefreshView<T> {
 
+    // 是否是来自其它界面的action
+    public boolean isFromOtherAction = false;
     protected int mPage = 1;
     protected List<T> mList = new ArrayList<>();
     protected BaseQuickAdapter<T, BaseViewHolder> mAdapter;
@@ -48,8 +52,6 @@ public abstract class BaseMVPSRRListFragment<P extends BasePresenter<V>, V exten
     protected LinearLayout mExtRoot;
     protected FrameLayout mRootContainer;
     private DividerItemDecoration mDividerItemDecoration;
-    // 是否是来自其它界面的action
-    public boolean isFromOtherAction = false;
 
     @Override
     public int getContentId() {
@@ -65,20 +67,65 @@ public abstract class BaseMVPSRRListFragment<P extends BasePresenter<V>, V exten
         mExtRoot = mRootView.findViewById(R.id.ll_ext_root);
 
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        mDividerItemDecoration = new DividerItemDecoration(mContext,
-                DividerItemDecoration.VERTICAL);
-        if (getDividerItemDecorationColor() != 0) {
-            mDividerItemDecoration.setDrawable(new ColorDrawable(getDividerItemDecorationColor()));
+        RecyclerView.LayoutManager layoutManager = getLayoutManager();
+        if (layoutManager != null) {
+            mRecyclerView.setLayoutManager(layoutManager);
+            if (layoutManager instanceof GridLayoutManager) {
+                GridDivider gridDivider = new GridDivider(mContext, getDividerHight(),
+                        getDividerColor());
+                mRecyclerView.addItemDecoration(gridDivider);
+            } else if (layoutManager instanceof LinearLayoutManager) {
+                LinearDivider itemDecoration = getItemDecoration();
+                if (itemDecoration != null) {
+                    mRecyclerView.addItemDecoration(itemDecoration);
+                }
+            }
         }
-        mRecyclerView.addItemDecoration(mDividerItemDecoration);
-
+        refreshLayout.setEnabled(hasEnableRereshAndLoadMore());
         initOtherProperty();
     }
 
-    protected int getDividerItemDecorationColor() {
-        // 默认颜色
-        return UiUtils.getColor(R.color.red);
+    /**
+     * 可覆盖重写,重写的时候要调整分割线
+     *
+     * @return
+     */
+    protected RecyclerView.LayoutManager getLayoutManager() {
+        return new LinearLayoutManager(mContext, LinearLayoutManager
+                .VERTICAL, false);
+    }
+
+    /**
+     * 分割线高度
+     *
+     * @return
+     */
+    protected int getDividerHight() {
+        return 1;
+    }
+
+    /**
+     * 分割线颜色
+     *
+     * @return
+     */
+    protected int getDividerColor() {
+        return getResources().getColor(R
+                .color.gray);
+    }
+
+    protected LinearDivider getItemDecoration() {
+        return new LinearDivider(mContext, LinearLayoutManager.VERTICAL,
+                getDividerHight(), getDividerColor());
+    }
+
+    /**
+     * 是否允许加载更多或下拉刷新
+     *
+     * @return
+     */
+    protected boolean hasEnableRereshAndLoadMore() {
+        return true;
     }
 
     protected void initOtherProperty() {
@@ -179,10 +226,6 @@ public abstract class BaseMVPSRRListFragment<P extends BasePresenter<V>, V exten
         mLoadingLayout.showLoding();
     }
 
-    protected void showLoading() {
-        mLoadingLayout.showLoding();
-    }
-
     @Override
     public void hideLoading() {
         mLoadingLayout.showContent();
@@ -190,7 +233,6 @@ public abstract class BaseMVPSRRListFragment<P extends BasePresenter<V>, V exten
 
     @Override
     public void showFail(String msg) {
-//        ToastUtils.showShort(msg);
         if (mPage == 1) {
             refreshLayout.finishRefresh();
         }
@@ -213,6 +255,10 @@ public abstract class BaseMVPSRRListFragment<P extends BasePresenter<V>, V exten
                 mLoadingLayout.showEmpty();
             }
         });
+    }
+
+    protected void showLoading() {
+        mLoadingLayout.showLoding();
     }
 
     @Override
