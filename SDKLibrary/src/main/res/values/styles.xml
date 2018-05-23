@@ -164,4 +164,14 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
     </style>
+    
+    <style name="SampleAppToolbarPopupTheme" parent="Widget.AppCompat.PopupMenu.Overflow">
+        <item name="android:dropDownListViewStyle">@style/SampleAppDropDownListViewStyle</item>
+    </style>
+    
+    <style name="SampleAppDropDownListViewStyle" parent="Widget.AppCompat.ListView.DropDown">
+        <item name="android:showDividers">middle</item>
+        <item name="android:divider">@color/gray</item>
+        <item name="android:dividerHeight">1px</item>
+    </style>
 </resources>

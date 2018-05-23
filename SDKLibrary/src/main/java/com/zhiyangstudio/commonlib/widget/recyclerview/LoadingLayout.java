@@ -71,6 +71,7 @@ public class LoadingLayout extends FrameLayout {
 
     //loading
     public void showLoding() {
+        hasDismiss = false;
         if (mLoadingView != null && mLoadingView.getVisibility() != VISIBLE)
             mLoadingView.setVisibility(VISIBLE);
         mErrorView.setVisibility(GONE);

@@ -34,6 +34,9 @@ public abstract class BaseToolbarSupportActivity extends BaseActivity {
                     onNavigationClick();
                 });
             }
+            if (hasSupportMenuDivider()) {
+                toolbar.setPopupTheme(R.style.SampleAppToolbarPopupTheme);
+            }
         } else {
             toolbar.setVisibility(View.GONE);
         }
@@ -59,6 +62,15 @@ public abstract class BaseToolbarSupportActivity extends BaseActivity {
     protected void onNavigationClick() {
         finish();
         release();
+    }
+
+    /**
+     * 默认支持分割线，灰色，如果不想要返回false即可
+     *
+     * @return
+     */
+    protected boolean hasSupportMenuDivider() {
+        return true;
     }
 
     protected abstract int getContentLayoutId();

@@ -22,8 +22,9 @@ import java.util.List;
  * Created by zhiyang on 2018/4/11.
  * 列表activity:loadingpager+RecyclerView+SwipeRefreshLayout
  */
-
-public abstract class BaseAbsSmartRefreshListActivity<P extends BasePresenter<V>, V extends IView, T> extends
+@Deprecated
+public abstract class BaseAbsSmartRefreshListActivity<P extends BasePresenter<V>, V extends
+        IView, T> extends
         BaseMVPSupportActivivty<P, V> implements LMRecyclerView.OnFooterAutoLoadMoreListener,
         IListDataView<T> {
 

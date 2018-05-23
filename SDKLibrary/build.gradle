@@ -5,7 +5,7 @@ android {
     buildToolsVersion rootProject.ext._android.buildToolsVersion as String
 
     defaultConfig {
-        minSdkVersion rootProject.ext._android.minSdkVersion as Integer
+        minSdkVersion 16
         targetSdkVersion rootProject.ext._android.targetSdkVersion as Integer
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

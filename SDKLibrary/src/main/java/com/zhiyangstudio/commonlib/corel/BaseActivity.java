@@ -51,10 +51,14 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
     protected BaseInternalHandler mH = new BaseInternalHandler(this) {
         @Override
         protected void processMessage(Message pMessage) {
-
+            onMessageGoing(pMessage);
         }
     };
     private PermissionListener mListener;
+
+    protected void onMessageGoing(Message message) {
+
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle bundle) {
