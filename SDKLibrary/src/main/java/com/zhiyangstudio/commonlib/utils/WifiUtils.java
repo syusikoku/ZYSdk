@@ -9,6 +9,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.support.annotation.RequiresPermission;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.zhiyangstudio.commonlib.corel.BaseActivity;
 
 import java.lang.reflect.InvocationTargetException;
@@ -148,71 +149,6 @@ public class WifiUtils extends BaseUtils {
     }
 
     /**
-     * 扫描周围可用wifi
-     */
-    public static List<ScanResult> getScanResults() {
-        List<ScanResult> list = sWifiManager.getScanResults();
-        if (list != null && list.size() > 0) {
-            return fileterScanReuslt(list);
-        } else {
-            return new ArrayList<>();
-        }
-    }
-
-    /**
-     * 过滤wifi扫描结果
-     */
-    private static List<ScanResult> fileterScanReuslt(List<ScanResult> list) {
-        List<ScanResult> results = new ArrayList<>();
-        if (results == null) {
-            return results;
-        }
-
-        for (ScanResult scanResult : list) {
-            if (EmptyUtils.isNotEmpty(scanResult.SSID) && scanResult.level > -80) {
-                results.add(scanResult);
-            }
-        }
-
-        // TODO: 2018/4/7 对结果进行排序
-        for (int i = 0; i < results.size(); i++) {
-            for (int j = 0; j < results.size(); j++) {
-                // 将搜索到的wifi根据信号强度从强到弱进行排序
-                ScanResult tmp = results.get(i);
-                results.set(i, results.get(j));
-                results.set(j, tmp);
-            }
-        }
-        return results;
-    }
-
-    /**
-     * 获取周围信号强度大于-80的wifi列表(wifi强度为负数，值越大信号越好
-     */
-    @RequiresPermission(Manifest.permission.CHANGE_WIFI_STATE)
-    private static List<ScanResult> getWifiScanList(List<ScanResult> list) {
-        List<ScanResult> resultList = new ArrayList<>();
-        if (sWifiManager.startScan()) {
-            List<ScanResult> tmpList = sWifiManager.getScanResults();
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            if (tmpList != null && tmpList.size() > 0) {
-                for (ScanResult scanResult : tmpList) {
-                    if (scanResult.level > -80) {
-                        resultList.add(scanResult);
-                    }
-                }
-            } else {
-                LoggerUtils.loge((BaseActivity) CommonUtils.getCurrentActivity(), "扫描为空");
-            }
-        }
-        return resultList;
-    }
-
-    /**
      * 获取当前连接wifi的SSID
      */
     public static String getConnectedSSID() {
@@ -291,7 +227,8 @@ public class WifiUtils extends BaseUtils {
         config.status = WifiConfiguration.Status.ENABLED;
         // 通过反射设置热点
         try {
-            Method method = sWifiManager.getClass().getMethod("setWifiApEnabled", WifiConfiguration.class, Boolean.TYPE);
+            Method method = sWifiManager.getClass().getMethod("setWifiApEnabled",
+                    WifiConfiguration.class, Boolean.TYPE);
             boolean enable = (boolean) method.invoke(sWifiManager, config, true);
             if (enable) {
                 hasCretaeSucess = true;
@@ -330,7 +267,8 @@ public class WifiUtils extends BaseUtils {
             Method method = sWifiManager.getClass().getMethod("getWifiApConfiguration");
             method.setAccessible(true);
             WifiConfiguration config = (WifiConfiguration) method.invoke(sWifiManager);
-            Method method2 = sWifiManager.getClass().getMethod("setWifiApEnabled", WifiConfiguration.class, boolean.class);
+            Method method2 = sWifiManager.getClass().getMethod("setWifiApEnabled",
+                    WifiConfiguration.class, boolean.class);
             method2.invoke(sWifiManager, config, false);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
@@ -342,4 +280,205 @@ public class WifiUtils extends BaseUtils {
             e.printStackTrace();
         }
     }
+
+    /**
+     * 得到配置好的网络连接
+     *
+     * @return
+     */
+    public static List<WifiConfiguration> getConfiguredNetworks() {
+        return sWifiManager.getConfiguredNetworks();
+    }
+
+    /**
+     * 获取可用的wifi列表，去除重复，信号强度在80%以上
+     */
+    public static List<ScanResult> getWifiList() {
+        List<ScanResult> list = getScanResults();
+        // TODO: 2018/5/24 对数据进行过滤 ,去除重复
+        List<ScanResult> mWifiList = new ArrayList();
+        if (list != null && list.size() > 0) {
+            LoggerUtils.loge("Wifi onScanResultsAvaliable list = " + list.size());
+            // 过滤，其实是对数据进行了排序
+            // 获取可用的wifi,信号强度在80以上
+            List<ScanResult> results = getAvaliableWifiScanList(list);
+            //得到扫描结果
+            // 得到配置好的网络连接
+            if (results == null) {
+                int wifiState = getWifiState();
+                if (wifiState == 3) {
+                    ToastUtils.showShort("当前区域没有无线网络");
+                } else if (wifiState == 2) {
+                    ToastUtils.showShort("wifi正在开启，请稍后扫描");
+                } else {
+                    ToastUtils.showShort("WiFi没有开启");
+                }
+            } else {
+                for (ScanResult result : results) {
+                    if (result.SSID == null || result.SSID.length() == 0 ||
+                            result.capabilities.contains("[IBSS]")) {
+                        continue;
+                    }
+                    boolean found = false;
+                    for (ScanResult item : mWifiList) {
+                        if (item.SSID.equals(result.SSID) && item.capabilities
+                                .equals(result.capabilities)) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        mWifiList.add(result);
+                    }
+                }
+            }
+        }
+        return mWifiList;
+    }
+
+    /**
+     * 扫描周围可用wifi
+     */
+    public static List<ScanResult> getScanResults() {
+        List<ScanResult> list = sWifiManager.getScanResults();
+        if (list != null && list.size() > 0) {
+            return fileterScanReuslt(list);
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * 获取周围信号强度大于-80的wifi列表(wifi强度为负数，值越大信号越好
+     */
+    @RequiresPermission(Manifest.permission.CHANGE_WIFI_STATE)
+    public static List<ScanResult> getAvaliableWifiScanList(List<ScanResult> list) {
+        List<ScanResult> resultList = new ArrayList<>();
+        if (sWifiManager.startScan()) {
+            List<ScanResult> tmpList = sWifiManager.getScanResults();
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if (tmpList != null && tmpList.size() > 0) {
+                for (ScanResult scanResult : tmpList) {
+                    if (scanResult.level > -80) {
+                        resultList.add(scanResult);
+                    }
+                }
+            } else {
+                LoggerUtils.loge((BaseActivity) CommonUtils.getCurrentActivity(), "扫描为空");
+            }
+        }
+        return resultList;
+    }
+
+    /**
+     * 获取wifi状态
+     *
+     * @return
+     */
+    public static int getWifiState() {
+        return sWifiManager.getWifiState();
+    }
+
+    /**
+     * 过滤wifi扫描结果
+     */
+    public static List<ScanResult> fileterScanReuslt(List<ScanResult> list) {
+        List<ScanResult> results = new ArrayList<>();
+        if (results == null) {
+            return results;
+        }
+
+        for (ScanResult scanResult : list) {
+            if (EmptyUtils.isNotEmpty(scanResult.SSID) && scanResult.level > -80) {
+                results.add(scanResult);
+            }
+        }
+
+        // TODO: 2018/4/7 对结果进行排序
+        for (int i = 0; i < results.size(); i++) {
+            for (int j = 0; j < results.size(); j++) {
+                // 将搜索到的wifi根据信号强度从强到弱进行排序
+                ScanResult tmp = results.get(i);
+                results.set(i, results.get(j));
+                results.set(j, tmp);
+            }
+        }
+        return results;
+    }
+
+    //更新或创建WifiConfiguration
+    public static WifiConfiguration configWifiInfo(Context context, String SSID, String password,
+                                                   int type) {
+        WifiConfiguration config = null;
+        WifiManager mWifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        if (mWifiManager != null) {
+            List<WifiConfiguration> existingConfigs = mWifiManager.getConfiguredNetworks();
+            for (WifiConfiguration existingConfig : existingConfigs) {
+                if (existingConfig == null) continue;
+                if (existingConfig.SSID.equals("\"" + SSID + "\"")  /*&&  existingConfig
+                .preSharedKey.equals("\""  +  password  +  "\"")*/) {
+                    config = existingConfig;
+                    break;
+                }
+            }
+        }
+        if (config == null) {
+            config = new WifiConfiguration();
+        }
+        config.allowedAuthAlgorithms.clear();
+        config.allowedGroupCiphers.clear();
+        config.allowedKeyManagement.clear();
+        config.allowedPairwiseCiphers.clear();
+        config.allowedProtocols.clear();
+        config.SSID = "\"" + SSID + "\"";
+        // 分为三种情况：0没有密码1用wep加密2用wpa加密
+        if (type == 0) {// WIFICIPHER_NOPASSwifiCong.hiddenSSID = false;
+            config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+        } else if (type == 1) {  //  WIFICIPHER_WEP
+            config.hiddenSSID = true;
+            config.wepKeys[0] = "\"" + password + "\"";
+            config.allowedAuthAlgorithms
+                    .set(WifiConfiguration.AuthAlgorithm.SHARED);
+            config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
+            config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
+            config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
+            config.allowedGroupCiphers
+                    .set(WifiConfiguration.GroupCipher.WEP104);
+            config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+            config.wepTxKeyIndex = 0;
+        } else if (type == 2) {   // WIFICIPHER_WPA
+            config.preSharedKey = "\"" + password + "\"";
+            config.hiddenSSID = true;
+            config.allowedAuthAlgorithms
+                    .set(WifiConfiguration.AuthAlgorithm.OPEN);
+            config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
+            config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
+            config.allowedPairwiseCiphers
+                    .set(WifiConfiguration.PairwiseCipher.TKIP);
+            config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
+            config.allowedPairwiseCiphers
+                    .set(WifiConfiguration.PairwiseCipher.CCMP);
+            config.status = WifiConfiguration.Status.ENABLED;
+        }
+        return config;
+    }
+
+    /**
+     * 获取热点的加密类型
+     */
+    private int getType(ScanResult scanResult) {
+        int type = 0;
+        if (scanResult.capabilities.contains("WPA"))
+            type = 2;
+        else if (scanResult.capabilities.contains("WEP"))
+            type = 1;
+        else
+            type = 0;
+        return type;
+    }
+
 }

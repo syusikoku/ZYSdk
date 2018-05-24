@@ -9,13 +9,19 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.annotation.ColorInt;
 import android.support.annotation.RequiresPermission;
+import android.support.design.internal.NavigationMenuPresenter;
+import android.support.design.internal.NavigationMenuView;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.view.Menu;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import java.lang.reflect.Field;
@@ -174,7 +180,8 @@ public class CommonUtils {
         Class activityThreadClass = null;
         try {
             activityThreadClass = Class.forName("android.app.ActivityThread");
-            Object activityThread = activityThreadClass.getMethod("currentActivityThread").invoke(null);
+            Object activityThread = activityThreadClass.getMethod("currentActivityThread").invoke
+                    (null);
             Field activitiesField = activityThreadClass.getDeclaredField("mActivities");
             activitiesField.setAccessible(true);
             Map activities = (Map) activitiesField.get(activityThread);
@@ -211,7 +218,8 @@ public class CommonUtils {
     public static Activity getTopActivity() {
         try {
             Class activityThreadClass = Class.forName("android.app.ActivityThread");
-            Object activityThread = activityThreadClass.getMethod("currentActivityThread").invoke(null);
+            Object activityThread = activityThreadClass.getMethod("currentActivityThread").invoke
+                    (null);
             Field activitiesField = activityThreadClass.getDeclaredField("mActivities");
             activitiesField.setAccessible(true);
             Map activities = null;
@@ -272,13 +280,14 @@ public class CommonUtils {
     }
 
     /**
-     * 让菜单同时显示图标和文字
+     * 让toolbar菜单同时显示图标和文字
      */
     public static void makeHeightMenu(Menu menu) {
         if (menu != null) {
             if (menu.getClass().getSimpleName().equalsIgnoreCase("MenuBuilder")) {
                 try {
-                    Method m = menu.getClass().getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);
+                    Method m = menu.getClass().getDeclaredMethod("setOptionalIconsVisible",
+                            Boolean.TYPE);
                     m.setAccessible(true);
                     m.invoke(menu, true);
                 } catch (NoSuchMethodException e) {
@@ -289,6 +298,51 @@ public class CommonUtils {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    /**
+     * 设置navigationview menu item的分割线的颜色和高度
+     *
+     * @param navigationView
+     * @param color
+     * @param height
+     */
+    public static void setNavigationMenuLineStyle(NavigationView navigationView, @ColorInt final
+    int color, final int height) {
+        try {
+            Field fieldByPressenter = navigationView.getClass().getDeclaredField("mPresenter");
+            fieldByPressenter.setAccessible(true);
+            NavigationMenuPresenter menuPresenter = (NavigationMenuPresenter) fieldByPressenter
+                    .get(navigationView);
+            Field fieldByMenuView = menuPresenter.getClass().getDeclaredField("mMenuView");
+            fieldByMenuView.setAccessible(true);
+            final NavigationMenuView mMenuView = (NavigationMenuView) fieldByMenuView.get
+                    (menuPresenter);
+            mMenuView.addOnChildAttachStateChangeListener(new RecyclerView
+                    .OnChildAttachStateChangeListener() {
+                @Override
+                public void onChildViewAttachedToWindow(View view) {
+                    RecyclerView.ViewHolder viewHolder = mMenuView.getChildViewHolder(view);
+                    if (viewHolder != null && "SeparatorViewHolder".equals(viewHolder.getClass()
+                            .getSimpleName()) && viewHolder.itemView != null) {
+                        if (viewHolder.itemView instanceof FrameLayout) {
+                            FrameLayout frameLayout = (FrameLayout) viewHolder.itemView;
+                            View line = frameLayout.getChildAt(0);
+                            line.setBackgroundColor(color);
+                            line.getLayoutParams().height = height;
+                            line.setLayoutParams(line.getLayoutParams());
+                        }
+                    }
+                }
+
+                @Override
+                public void onChildViewDetachedFromWindow(View view) {
+
+                }
+            });
+        } catch (Throwable e) {
+            e.printStackTrace();
         }
     }
 
@@ -353,14 +407,6 @@ public class CommonUtils {
     }
 
     /**
-     * 6-20位校验
-     */
-    public static boolean fullSecucrityCheck(String str) {
-        boolean match = isMatch(REGEX_F_USERNAME, str);
-        return match;
-    }
-
-    /**
      * 判断是否匹配正则
      *
      * @param regex 正则表达式
@@ -370,4 +416,14 @@ public class CommonUtils {
     public static boolean isMatch(final String regex, final CharSequence input) {
         return input != null && input.length() > 0 && Pattern.matches(regex, input);
     }
+
+    /**
+     * 6-20位校验
+     */
+    public static boolean fullSecucrityCheck(String str) {
+        boolean match = isMatch(REGEX_F_USERNAME, str);
+        return match;
+    }
+
+
 }

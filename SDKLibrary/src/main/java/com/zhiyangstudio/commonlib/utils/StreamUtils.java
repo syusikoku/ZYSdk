@@ -61,7 +61,6 @@ public class StreamUtils {
     }
 
     /**
-     * 验证-
      * 普通的读取方式
      *
      * @param inputStream
@@ -84,8 +83,6 @@ public class StreamUtils {
     }
 
     /**
-     * 验证-
-     *
      * @param inputStream
      */
     public static String convertStr4Is4(InputStream inputStream) {
