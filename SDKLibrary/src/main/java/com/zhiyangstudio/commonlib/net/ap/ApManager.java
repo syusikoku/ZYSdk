@@ -3,7 +3,7 @@ package com.zhiyangstudio.commonlib.net.ap;
 import com.zhiyangstudio.commonlib.utils.WifiUtils;
 
 /**
- * Created by zzg on 2018/4/6.
+ * Created by zhiyang on 2018/4/6.
  */
 
 public class ApManager {

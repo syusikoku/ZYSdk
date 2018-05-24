@@ -13,7 +13,7 @@ import com.zhiyangstudio.commonlib.refreshsupport.smartrefresh.BaseMVPSRRListAct
 import com.zhiyangstudio.commonlib.utils.UiUtils;
 
 /**
- * Created by example on 2018/5/23.
+ * Created by zhiyang on 2018/5/23.
  */
 
 public abstract class BaseMVPToolbarSupportSRListActivity<P extends BasePresenter<V>, V extends

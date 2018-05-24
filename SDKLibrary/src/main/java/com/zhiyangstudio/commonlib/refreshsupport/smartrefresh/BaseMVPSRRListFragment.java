@@ -6,6 +6,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -70,14 +71,16 @@ public abstract class BaseMVPSRRListFragment<P extends BasePresenter<V>, V exten
         RecyclerView.LayoutManager layoutManager = getLayoutManager();
         if (layoutManager != null) {
             mRecyclerView.setLayoutManager(layoutManager);
-            if (layoutManager instanceof GridLayoutManager) {
-                GridDivider gridDivider = new GridDivider(mContext, getDividerHight(),
-                        getDividerColor());
-                mRecyclerView.addItemDecoration(gridDivider);
-            } else if (layoutManager instanceof LinearLayoutManager) {
-                LinearDivider itemDecoration = getItemDecoration();
-                if (itemDecoration != null) {
-                    mRecyclerView.addItemDecoration(itemDecoration);
+            if (hasSupportItemDivider()) {
+                if (layoutManager instanceof GridLayoutManager) {
+                    GridDivider gridDivider = new GridDivider(mContext, getDividerHight(),
+                            getDividerColor());
+                    mRecyclerView.addItemDecoration(gridDivider);
+                } else if (layoutManager instanceof LinearLayoutManager) {
+                    LinearDivider itemDecoration = getItemDecoration();
+                    if (itemDecoration != null) {
+                        mRecyclerView.addItemDecoration(itemDecoration);
+                    }
                 }
             }
         }
@@ -86,9 +89,14 @@ public abstract class BaseMVPSRRListFragment<P extends BasePresenter<V>, V exten
     }
 
     /**
+     * 是否支持条目分割线
+     */
+    protected boolean hasSupportItemDivider() {
+        return true;
+    }
+
+    /**
      * 可覆盖重写,重写的时候要调整分割线
-     *
-     * @return
      */
     protected RecyclerView.LayoutManager getLayoutManager() {
         return new LinearLayoutManager(mContext, LinearLayoutManager
@@ -97,8 +105,6 @@ public abstract class BaseMVPSRRListFragment<P extends BasePresenter<V>, V exten
 
     /**
      * 分割线高度
-     *
-     * @return
      */
     protected int getDividerHight() {
         return 1;
@@ -106,8 +112,6 @@ public abstract class BaseMVPSRRListFragment<P extends BasePresenter<V>, V exten
 
     /**
      * 分割线颜色
-     *
-     * @return
      */
     protected int getDividerColor() {
         return getResources().getColor(R
@@ -121,8 +125,6 @@ public abstract class BaseMVPSRRListFragment<P extends BasePresenter<V>, V exten
 
     /**
      * 是否允许加载更多或下拉刷新
-     *
-     * @return
      */
     protected boolean hasEnableRereshAndLoadMore() {
         return true;
@@ -182,6 +184,7 @@ public abstract class BaseMVPSRRListFragment<P extends BasePresenter<V>, V exten
 
     @Override
     public void initData() {
+        mRecyclerView.setVisibility(View.INVISIBLE);
         mLoadingLayout.showLoding();
         initPageNumb();
         mAdapter = getListAdapter();
@@ -293,6 +296,9 @@ public abstract class BaseMVPSRRListFragment<P extends BasePresenter<V>, V exten
                 mLoadingLayout.showEmpty();
             } else {
                 mLoadingLayout.showContent();
+                if (mRecyclerView.getVisibility() != View.VISIBLE) {
+                    mRecyclerView.setVisibility(View.VISIBLE);
+                }
             }
             refreshLayout.finishRefresh();
             refreshLayout.setNoMoreData(false);

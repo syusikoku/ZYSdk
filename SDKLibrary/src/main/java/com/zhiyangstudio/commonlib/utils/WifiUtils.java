@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by zzg on 2018/4/7.
+ * Created by zhiyang on 2018/4/7.
  */
 
 public class WifiUtils extends BaseUtils {

@@ -1,7 +1,7 @@
 package com.zhiyangstudio.commonlib.mvp.inter;
 
 /**
- * Created by zhi yang on 2018/4/9.
+ * Created by zhiyang on 2018/4/9.
  */
 
 public interface IView {

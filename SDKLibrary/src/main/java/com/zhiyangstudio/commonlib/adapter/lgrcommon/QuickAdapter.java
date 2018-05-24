@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by zzg on 2018/4/17.
+ * Created by zhiyang on 2018/4/17.
  * RecyclerView、ListView、GridView通用的适配器
  */
 

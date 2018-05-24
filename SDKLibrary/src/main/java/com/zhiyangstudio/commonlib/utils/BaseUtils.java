@@ -5,7 +5,7 @@ import android.app.Activity;
 import com.zhiyangstudio.commonlib.corel.BaseActivity;
 
 /**
- * Created by zhi yang on 2018/4/8.
+ * Created by zhiyang on 2018/4/8.
  */
 
 public class BaseUtils {

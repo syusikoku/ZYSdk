@@ -9,7 +9,7 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 
 /**
- * Created by zhi yang on 2018/4/12.
+ * Created by zhiyang on 2018/4/12.
  */
 
 public class IntentUtils {

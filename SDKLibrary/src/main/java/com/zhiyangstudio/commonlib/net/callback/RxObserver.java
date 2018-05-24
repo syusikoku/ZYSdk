@@ -6,7 +6,7 @@ import com.zhiyangstudio.commonlib.mvp.presenter.BasePresenter;
 import com.zhiyangstudio.commonlib.utils.LoggerUtils;
 
 /**
- * Created by zhi yang on 2018/4/17.
+ * Created by zhiyang on 2018/4/17.
  * 通用Observer回调
  */
 

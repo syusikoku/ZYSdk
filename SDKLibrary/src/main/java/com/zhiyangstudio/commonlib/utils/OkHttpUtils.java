@@ -14,7 +14,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
- * Created by sample 2018/4/8.
+ * Created by zhi yang 2018/4/8.
  */
 
 public class OkHttpUtils {

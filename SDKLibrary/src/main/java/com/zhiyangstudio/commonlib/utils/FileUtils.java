@@ -16,7 +16,7 @@ import java.nio.channels.FileChannel;
 import java.text.DecimalFormat;
 
 /**
- * Created by zzg on 2018/4/25.
+ * Created by zhiyang on 2018/4/25.
  */
 
 public class FileUtils {

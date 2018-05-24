@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
- * Created by jiajiewang on 16/9/6.
+ * Created by zhiyang on 16/9/6.
  */
 public class SPTools {
 

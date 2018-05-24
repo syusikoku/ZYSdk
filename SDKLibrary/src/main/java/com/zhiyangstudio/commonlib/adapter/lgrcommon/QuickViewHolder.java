@@ -25,7 +25,7 @@ import com.zhiyangstudio.commonlib.utils.EmptyUtils;
 import java.lang.ref.WeakReference;
 
 /**
- * Created by zzg on 2018/4/17.
+ * Created by zhiyang on 2018/4/17.
  * listview gridview recyclerview共用的viewholder
  */
 public class QuickViewHolder extends RecyclerView.ViewHolder {

@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.zhiyangstudio.commonlib.R;
 
 /**
- * Created by zzg on 2018/5/19.
+ * Created by zhiyang on 2018/5/19.
  */
 
 public class LoadingDialog extends Dialog {

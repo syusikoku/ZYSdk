@@ -16,7 +16,7 @@ import com.zhiyangstudio.commonlib.utils.WifiUtils;
 import java.util.List;
 
 /**
- * Created by zzg on 2018/4/7.
+ * Created by zhiyang on 2018/4/7.
  */
 
 public abstract class WifiBroadcastReceiver extends BroadcastReceiver implements LogListener {

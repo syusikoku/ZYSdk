@@ -47,7 +47,6 @@ public abstract class RxBaseObserver<T> implements Observer<BaseBean<T>> {
     @Override
     public void onSubscribe(Disposable d) {
         LoggerUtils.loge("RxBaseObserver onSubscribe");
-//        showLoading();
         if (mTag != null) {
             mPresenter.addRequestTag(mTag, d);
         }
@@ -102,7 +101,6 @@ public abstract class RxBaseObserver<T> implements Observer<BaseBean<T>> {
                 ToastUtils.showShort(R.string.connect_timeout);
                 break;
             case CommonConst.NET_CONFIG.PARSE_ERROR:
-                ToastUtils.showShort(R.string.parse_error);
                 break;
             case CommonConst.NET_CONFIG.REQUEST_TIMEOUT:
                 ToastUtils.showShort(R.string.request_timeout);

@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 import retrofit2.Response;
 
 /**
- * Created by zhi yang on 2018/1/30.
+ * Created by zhiyang on 2018/1/30.
  */
 
 public class ApiResponse<T> {

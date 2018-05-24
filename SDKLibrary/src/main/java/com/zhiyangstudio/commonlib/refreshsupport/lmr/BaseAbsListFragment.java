@@ -25,7 +25,7 @@ import java.util.List;
  * Created by zhiyang on 2018/4/10.
  * 列表fragment:loadingpager+RecyclerView+SwipeRefreshLayout
  */
-
+@Deprecated
 public abstract class BaseAbsListFragment<P extends BasePresenter<V>, V extends IView, T> extends
         BaseMVPSupportFragment<P, V> implements LMRecyclerView.OnFooterAutoLoadMoreListener,
         IListDataView<T> {
@@ -82,8 +82,6 @@ public abstract class BaseAbsListFragment<P extends BasePresenter<V>, V extends 
 
     /**
      * 是否能够自动加载更多
-     *
-     * @return
      */
     protected abstract boolean isCanLoadMore();
 

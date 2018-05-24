@@ -11,7 +11,7 @@ import com.zhiyangstudio.commonlib.utils.LoggerUtils;
 
 
 /**
- * Created by zzg on 2018/4/6.
+ * Created by zhiyang on 2018/4/6.
  */
 
 public abstract class HotSpotBroadcastReceiver extends BroadcastReceiver implements LogListener {

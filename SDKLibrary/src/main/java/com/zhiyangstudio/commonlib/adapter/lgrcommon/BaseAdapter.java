@@ -9,7 +9,7 @@ import android.widget.ListAdapter;
 import android.widget.SpinnerAdapter;
 
 /**
- * Created by zzg on 2018/4/17.
+ * Created by zhiyang on 2018/4/17.
  */
 
 public class BaseAdapter extends RecyclerView.Adapter implements ListAdapter, SpinnerAdapter {

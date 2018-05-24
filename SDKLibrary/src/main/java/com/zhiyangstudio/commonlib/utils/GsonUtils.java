@@ -7,7 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import java.util.List;
 
 /**
- * Created by zzg on 2018/4/6.
+ * Created by zhiyang on 2018/4/6.
  */
 
 public class GsonUtils {

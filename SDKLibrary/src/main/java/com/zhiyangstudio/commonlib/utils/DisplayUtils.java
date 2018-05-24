@@ -12,7 +12,7 @@ import android.view.WindowManager;
 import java.lang.reflect.InvocationTargetException;
 
 /**
- * Created by zhi yang on 2018/4/8.
+ * Created by zhiyang on 2018/4/8.
  */
 
 public class DisplayUtils {
