@@ -347,6 +347,21 @@ public class CommonUtils {
     }
 
     /**
+     * 删除navigationview的滚动条
+     *
+     * @param navigationView
+     */
+    public static void disableNavigationViewScrollbars(NavigationView navigationView) {
+        if (navigationView != null) {
+            NavigationMenuView navigationMenuView = (NavigationMenuView) navigationView
+                    .getChildAt(0);
+            if (navigationMenuView != null) {
+                navigationMenuView.setVerticalScrollBarEnabled(false);
+            }
+        }
+    }
+
+    /**
      * 删除搜索框背景
      */
     public static void deleteSearchPlate(SearchView searchView) {

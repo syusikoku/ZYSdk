@@ -174,4 +174,11 @@
         <item name="android:divider">@color/gray</item>
         <item name="android:dividerHeight">1px</item>
     </style>
+    
+    <!--自定义edittext下划线颜色-->
+    <style name="SampleEditText" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@android:color/darker_gray</item>
+        <item name="colorControlActivated">@android:color/holo_orange_dark</item>
+    </style>
+    
 </resources>

@@ -12,6 +12,7 @@ import android.support.annotation.RequiresPermission;
 import com.blankj.utilcode.util.ToastUtils;
 import com.zhiyangstudio.commonlib.corel.BaseActivity;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -201,6 +202,20 @@ public class WifiUtils extends BaseUtils {
 
     /**
      * 创建wifi热点
+     * <p>
+     * * java.lang.reflect.InvocationTargetException
+     * android m 上会报java.lang.SecurityException: com.example.sash was not granted  either of
+     * these
+     * permissions: android.permission.CHANGE_NETWORK_STATE, android.permission.WRITE_SETTINGS.
+     * <p>
+     * 使用以下的方式申请
+     * //     * if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+     * //            if (!Settings.System.canWrite(this)) {
+     * //            Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
+     * //            intent.setData(Uri.parse("package:" + getPackageName()));
+     * //            startActivityForResult(intent, REQUEST_CODE_WRITE_SETTINGS);
+     * //            }
+     * //        }
      *
      * @param ssidStr
      * @param pwdStr
@@ -410,9 +425,87 @@ public class WifiUtils extends BaseUtils {
         return results;
     }
 
-    //更新或创建WifiConfiguration
+    /**
+     * 获取热点的加密类型
+     */
+    public static int getType(ScanResult scanResult) {
+        int type = 0;
+        if (scanResult.capabilities.contains("WPA"))
+            type = 2;
+        else if (scanResult.capabilities.contains("WEP"))
+            type = 1;
+        else
+            type = 0;
+        return type;
+    }
+
+    //通过反射的方式去判断wifi是否已经连接上，并且可以开始传输数据
+    public static boolean checkWiFiConnectSuccess() {
+        Class classType = WifiInfo.class;
+        try {
+            Object invo = classType.newInstance();
+            Object result = invo.getClass().getMethod("getMeteredHint").invoke(invo);
+            return (boolean) result;
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+            return false;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return false;
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+            return false;
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    /**
+     * 连接到指定的wifi
+     *
+     * @param context
+     * @param ssid
+     * @param pwd
+     * @param wifiType
+     */
+    public static boolean connectWifi(Context context, String ssid, String pwd, int wifiType) {
+        // 获取密码，连接wifi,无论成功或失败都关闭对话框
+        WifiConfiguration wifiConfiguration = WifiUtils.configWifiInfo(context, ssid, pwd,
+                wifiType);
+        WifiManager wifiManger = WifiUtils.getWifiManger();
+        //createWifiConfig主要用于构建一个WifiConfiguration，代码中的例子主要用于连接不需要密码的Wifi
+        //WifiManager的addNetwork接口，传入WifiConfiguration后，得到对应的NetworkId
+        int netId = wifiManger.addNetwork(wifiConfiguration);
+        if (netId != -1) {
+            LoggerUtils.loge("添加成功");
+        } else {
+            LoggerUtils.loge("添加失败");
+        }
+        //WifiManager的enableNetwork接口，就可以连接到netId对应的wifi了
+        //其中boolean参数，主要用于指定是否需要断开其它Wifi网络
+        boolean isConected = wifiManger.enableNetwork(netId, true);
+        LoggerUtils.loge("enable: " + isConected);
+        //可选操作，让Wifi重新连接最近使用过的接入点
+        //如果上文的enableNetwork成功，那么reconnect同样连接netId对应的网络
+        //若失败，则连接之前成功过的网络
+        boolean reconnect = wifiManger.reconnect();
+        LoggerUtils.loge("reconnect: " + reconnect);
+        WifiInfo connectionInfo = wifiManger.getConnectionInfo();
+        // TODO: 2018/5/25 判断wifi是否连接成功
+        boolean hasConnectSuccess = checkWiFiConnectSuccess(connectionInfo);
+        LoggerUtils.loge("hasConnectSuccess: " + hasConnectSuccess);
+        return isConected;
+    }
+
+    /**
+     * 更新或创建WifiConfiguration
+     * https://blog.csdn.net/gaugamela/article/details/64442989
+     */
     public static WifiConfiguration configWifiInfo(Context context, String SSID, String password,
                                                    int type) {
+        //初始化WifiConfiguration
         WifiConfiguration config = null;
         WifiManager mWifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         if (mWifiManager != null) {
@@ -434,11 +527,23 @@ public class WifiUtils extends BaseUtils {
         config.allowedKeyManagement.clear();
         config.allowedPairwiseCiphers.clear();
         config.allowedProtocols.clear();
+
+        //指定对应的SSID
         config.SSID = "\"" + SSID + "\"";
+
+        //如果之前有类似的配置
+        WifiConfiguration tempConfig = isExist(SSID);
+        if (tempConfig != null) {
+            //则清除旧有配置
+            mWifiManager.removeNetwork(tempConfig.networkId);
+        }
+
         // 分为三种情况：0没有密码1用wep加密2用wpa加密
-        if (type == 0) {// WIFICIPHER_NOPASSwifiCong.hiddenSSID = false;
+        if (type == 0) {
+            // WIFICIPHER_NOPASSwifiCong.hiddenSSID = false; 不需要密码的场景
             config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
-        } else if (type == 1) {  //  WIFICIPHER_WEP
+        } else if (type == 1) {
+            //  WIFICIPHER_WEP 以WEP加密的场景
             config.hiddenSSID = true;
             config.wepKeys[0] = "\"" + password + "\"";
             config.allowedAuthAlgorithms
@@ -450,7 +555,8 @@ public class WifiUtils extends BaseUtils {
                     .set(WifiConfiguration.GroupCipher.WEP104);
             config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
             config.wepTxKeyIndex = 0;
-        } else if (type == 2) {   // WIFICIPHER_WPA
+        } else if (type == 2) {
+            // WIFICIPHER_WPA 以WPA加密的场景，自己测试时，发现热点以WPA2建立时，同样可以用这种配置连接
             config.preSharedKey = "\"" + password + "\"";
             config.hiddenSSID = true;
             config.allowedAuthAlgorithms
@@ -467,18 +573,37 @@ public class WifiUtils extends BaseUtils {
         return config;
     }
 
-    /**
-     * 获取热点的加密类型
-     */
-    private int getType(ScanResult scanResult) {
-        int type = 0;
-        if (scanResult.capabilities.contains("WPA"))
-            type = 2;
-        else if (scanResult.capabilities.contains("WEP"))
-            type = 1;
-        else
-            type = 0;
-        return type;
+    public static WifiManager getWifiManger() {
+        return sWifiManager;
     }
 
+    /**
+     * 通过反射的方式去判断wifi是否已经连接上，并且可以开始传输数据
+     * https://www.cnblogs.com/819158327fan/p/6689120.html
+     */
+    public static boolean checkWiFiConnectSuccess(WifiInfo wifiInfo) {
+        Class classType = wifiInfo.getClass();
+        try {
+            Field field = classType.getDeclaredField("mMeteredHint");//设置为可以访问
+            field.setAccessible(true);
+            boolean result = (boolean) field.get(wifiInfo);
+            return result;
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static WifiConfiguration isExist(String ssid) {
+        List<WifiConfiguration> configs = sWifiManager.getConfiguredNetworks();
+
+        for (WifiConfiguration config : configs) {
+            if (config.SSID.equals("\"" + ssid + "\"")) {
+                return config;
+            }
+        }
+        return null;
+    }
 }

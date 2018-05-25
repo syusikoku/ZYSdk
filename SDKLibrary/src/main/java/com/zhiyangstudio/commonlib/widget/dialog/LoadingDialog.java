@@ -81,6 +81,22 @@ public class LoadingDialog extends Dialog {
         return loadingDialog;
     }
 
+    public static LoadingDialog show(Activity context) {
+        loadingDialog = new LoadingDialog(context, R.style.loadingDialog);
+        loadingDialog.setTitle("");
+        loadingDialog.setContentView(R.layout.layout_loading_dialog);
+        loadingDialog.setCancelable(true);
+        // 设置属性
+        Window window = loadingDialog.getWindow();
+        WindowManager.LayoutParams attributes = window.getAttributes();
+        attributes.gravity = Gravity.CENTER;
+        // 设置背景层透明效果
+//        attributes.dimAmount = 0.2f;
+        window.setAttributes(attributes);
+        loadingDialog.show();
+        return loadingDialog;
+    }
+
     /**
      * 加载数据对话框
      */
