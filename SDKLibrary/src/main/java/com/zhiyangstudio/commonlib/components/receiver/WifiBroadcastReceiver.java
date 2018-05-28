@@ -25,7 +25,7 @@ public abstract class WifiBroadcastReceiver extends BroadcastReceiver implements
         if (intent != null) {
             String action = intent.getAction();
             if (action.equalsIgnoreCase(WifiManager.WIFI_STATE_CHANGED_ACTION)) {
-                LoggerUtils.loge(this, "action -> WifiManager.WIFI_STATE_CHANGED_ACTION");
+                LoggerUtils.loge(this, "action -> ELWifiManager.WIFI_STATE_CHANGED_ACTION");
                 // 监听wifi开启，关闭事件
                 int wifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE, 0);
                 if (wifiState == WifiManager.WIFI_STATE_ENABLED) {
@@ -36,14 +36,14 @@ public abstract class WifiBroadcastReceiver extends BroadcastReceiver implements
                     onWifiDisabled();
                 }
             } else if (action.equalsIgnoreCase(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)) {
-                LoggerUtils.loge(this, "action -> WifiManager.SCAN_RESULTS_AVAILABLE_ACTION");
+                LoggerUtils.loge(this, "action -> ELWifiManager.SCAN_RESULTS_AVAILABLE_ACTION");
                 List<ScanResult> wifiList = WifiUtils.getScanResults();
                 if (WifiUtils.isWifiEnabled() && wifiList != null && wifiList.size() > 0) {
                     // 成功扫描
                     onScanResultsAvaliable(wifiList);
                 }
             } else if (action.equalsIgnoreCase(WifiManager.NETWORK_STATE_CHANGED_ACTION)) {
-                LoggerUtils.loge(this, "action -> WifiManager.NETWORK_STATE_CHANGED_ACTION");
+                LoggerUtils.loge(this, "action -> ELWifiManager.NETWORK_STATE_CHANGED_ACTION");
                 // 网络状态改变的广播
                 NetworkInfo networkInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
                 if (networkInfo != null) {
