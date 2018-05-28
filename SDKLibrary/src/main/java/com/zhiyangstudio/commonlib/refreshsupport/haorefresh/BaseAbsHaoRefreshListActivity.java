@@ -1,4 +1,4 @@
-package com.zhiyangstudio.commonlib.mvp.refreshsupport.haorefresh;
+package com.zhiyangstudio.commonlib.refreshsupport.haorefresh;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;

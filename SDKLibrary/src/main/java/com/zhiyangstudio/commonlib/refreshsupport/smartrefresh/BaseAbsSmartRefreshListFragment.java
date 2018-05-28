@@ -1,4 +1,4 @@
-package com.zhiyangstudio.commonlib.mvp.refreshsupport.smartrefresh;
+package com.zhiyangstudio.commonlib.refreshsupport.smartrefresh;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

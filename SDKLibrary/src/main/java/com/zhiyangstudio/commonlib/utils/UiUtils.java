@@ -125,12 +125,20 @@ public class UiUtils {
         return LayoutInflater.from(getContext()).inflate(resId, parent, false);
     }
 
+    public static View inflateViewY(int resId, ViewGroup parent) {
+        return LayoutInflater.from(getContext()).inflate(resId, parent, true);
+    }
+
     public static View inflateView(int resId) {
         return LayoutInflater.from(getContext()).inflate(resId, null, false);
     }
 
     public static String[] getStrArrs(int arrsResId) {
         return getResources(getContext()).getStringArray(arrsResId);
+    }
+
+    public static int[] getIntArrs(int arrsID) {
+        return getResources(getContext()).getIntArray(arrsID);
     }
 
     public static float getDimension(int arrsResId) {
@@ -216,4 +224,6 @@ public class UiUtils {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, px, context
                 .getResources().getDisplayMetrics());
     }
+
+
 }

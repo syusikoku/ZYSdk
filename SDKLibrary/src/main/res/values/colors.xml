@@ -553,4 +553,5 @@
     <color name="material_yellow_accent_700">#FFD600</color>
     <color name="ic_app_shortcut_background">#F5F5F5</color>
     <color name="s_fcfcfc">#FCFCFC</color>
+    <color name="c_ececec">#ECECEC</color>
 </resources>
