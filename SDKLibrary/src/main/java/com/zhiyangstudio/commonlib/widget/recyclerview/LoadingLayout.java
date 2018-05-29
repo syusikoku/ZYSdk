@@ -3,6 +3,7 @@ package com.zhiyangstudio.commonlib.widget.recyclerview;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,14 +60,14 @@ public class LoadingLayout extends FrameLayout {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-//        if (changed) {
-//            int count = getChildCount();
-//            for (int i = 0; i < count; i++) {
-//                mContentView = getChildAt(i);
-//                if (mContentView instanceof RecyclerView)
-//                    break;
-//            }
-//        }
+        if (changed) {
+            int count = getChildCount();
+            for (int i = 0; i < count; i++) {
+                mContentView = getChildAt(i);
+                if (mContentView instanceof RecyclerView)
+                    break;
+            }
+        }
     }
 
     //loading
