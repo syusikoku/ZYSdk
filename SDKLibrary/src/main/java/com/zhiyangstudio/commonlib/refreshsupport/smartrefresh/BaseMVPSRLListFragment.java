@@ -24,21 +24,21 @@ import io.reactivex.annotations.NonNull;
 
 /**
  * Created by zhiyang on 2018/4/10.
- * SmartRefreshLayout + AbsListView
+ * SmartRefreshLayout + AbsListView+LoadingLayout
  */
 
 public abstract class BaseMVPSRLListFragment<P extends BasePresenter<V>, V extends
         ISampleRefreshView, T> extends BaseMVPSupportFragment<P, V> implements LMRecyclerView
         .OnFooterAutoLoadMoreListener, ISampleRefreshView<T> {
 
+    // 是否是来自其它界面的action
+    public boolean isFromOtherAction = false;
     protected int mPage = 1;
     protected List<T> mList = new ArrayList<>();
     protected BaseRecyclerAdapter<T> mAdapter;
     protected int mDataCount;
     protected SmartRefreshLayout refreshLayout;
     protected LoadingLayout mLoadingLayout;
-    // 是否是来自其它界面的action
-    public boolean isFromOtherAction = false;
     private ListView mListView;
 
     @Override
@@ -153,10 +153,6 @@ public abstract class BaseMVPSRLListFragment<P extends BasePresenter<V>, V exten
         mLoadingLayout.showLoding();
     }
 
-    protected void showLoading() {
-        mLoadingLayout.showLoding();
-    }
-
     @Override
     public void hideLoading() {
         mLoadingLayout.showContent();
@@ -166,16 +162,16 @@ public abstract class BaseMVPSRLListFragment<P extends BasePresenter<V>, V exten
     public void showFail(String msg) {
         if (mPage == 1) {
             refreshLayout.finishRefresh();
+            mLoadingLayout.showError();
         }
-        mLoadingLayout.showError();
     }
 
     @Override
     public void showError() {
         if (mPage == 1) {
             refreshLayout.finishRefresh();
+            mLoadingLayout.showError();
         }
-        mLoadingLayout.showError();
     }
 
     @Override
@@ -186,6 +182,10 @@ public abstract class BaseMVPSRLListFragment<P extends BasePresenter<V>, V exten
                 mLoadingLayout.showEmpty();
             }
         });
+    }
+
+    protected void showLoading() {
+        mLoadingLayout.showLoding();
     }
 
     @Override

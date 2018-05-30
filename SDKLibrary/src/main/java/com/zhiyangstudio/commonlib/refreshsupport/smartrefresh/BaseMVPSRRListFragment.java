@@ -34,7 +34,7 @@ import io.reactivex.annotations.NonNull;
 
 /**
  * Created by zhiyang on 2018/4/10.
- * SmartRefreshLayout+RecyclerView
+ * SmartRefreshLayout+RecyclerView+LoadingLayout
  */
 
 public abstract class BaseMVPSRRListFragment<P extends BasePresenter<V>, V extends
@@ -89,18 +89,18 @@ public abstract class BaseMVPSRRListFragment<P extends BasePresenter<V>, V exten
     }
 
     /**
-     * 是否支持条目分割线
-     */
-    protected boolean hasSupportItemDivider() {
-        return true;
-    }
-
-    /**
      * 可覆盖重写,重写的时候要调整分割线
      */
     protected RecyclerView.LayoutManager getLayoutManager() {
         return new LinearLayoutManager(mContext, LinearLayoutManager
                 .VERTICAL, false);
+    }
+
+    /**
+     * 是否支持条目分割线
+     */
+    protected boolean hasSupportItemDivider() {
+        return true;
     }
 
     /**
@@ -238,16 +238,16 @@ public abstract class BaseMVPSRRListFragment<P extends BasePresenter<V>, V exten
     public void showFail(String msg) {
         if (mPage == 1) {
             refreshLayout.finishRefresh();
+            mLoadingLayout.showError();
         }
-        mLoadingLayout.showError();
     }
 
     @Override
     public void showError() {
         if (mPage == 1) {
             refreshLayout.finishRefresh();
+            mLoadingLayout.showError();
         }
-        mLoadingLayout.showError();
     }
 
     @Override

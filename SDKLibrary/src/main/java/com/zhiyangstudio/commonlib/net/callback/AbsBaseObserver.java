@@ -54,6 +54,7 @@ public abstract class AbsBaseObserver<T> implements Observer<T> {
     public void onError(Throwable e) {
         LoggerUtils.loge("AbsBaseObserver onError");
         hideLoading();
+        mView.showError();
         if (mHasShowNofity)
             dealException(e);
     }

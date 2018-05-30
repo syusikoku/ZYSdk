@@ -23,7 +23,7 @@ import io.reactivex.annotations.NonNull;
 
 /**
  * Created by zhiyang on 2018/4/11.
- * SmartRefreshLayout+AbsListView
+ * SmartRefreshLayout+AbsListView+LoadingLayout
  */
 
 public abstract class BaseMVPSRLListActivity<P extends BasePresenter<V>, V extends
@@ -165,16 +165,16 @@ public abstract class BaseMVPSRLListActivity<P extends BasePresenter<V>, V exten
 //        ToastUtils.showShort(msg);
         if (mPage == 1) {
             refreshLayout.finishRefresh();
+            mLoadingLayout.showError();
         }
-        mLoadingLayout.showError();
     }
 
     @Override
     public void showError() {
         if (mPage == 1) {
             refreshLayout.finishRefresh();
+            mLoadingLayout.showError();
         }
-        mLoadingLayout.showError();
     }
 
     @Override

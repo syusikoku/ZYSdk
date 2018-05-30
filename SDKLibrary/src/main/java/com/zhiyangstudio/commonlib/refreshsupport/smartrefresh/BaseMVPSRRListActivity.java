@@ -32,7 +32,7 @@ import io.reactivex.annotations.NonNull;
 
 /**
  * Created by zhiyang on 2018/4/11.
- * SmartRefreshLayout+RecyclerView
+ * SmartRefreshLayout+RecyclerView+LoadingLayout
  */
 
 public abstract class BaseMVPSRRListActivity<P extends BasePresenter<V>, V extends
@@ -86,8 +86,6 @@ public abstract class BaseMVPSRRListActivity<P extends BasePresenter<V>, V exten
 
     /**
      * 可覆盖重写,重写的时候要调整分割线
-     *
-     * @return
      */
     protected RecyclerView.LayoutManager getLayoutManager() {
         return new LinearLayoutManager(mContext, LinearLayoutManager
@@ -96,8 +94,6 @@ public abstract class BaseMVPSRRListActivity<P extends BasePresenter<V>, V exten
 
     /**
      * 分割线高度
-     *
-     * @return
      */
     protected int getDividerHight() {
         return 1;
@@ -105,8 +101,6 @@ public abstract class BaseMVPSRRListActivity<P extends BasePresenter<V>, V exten
 
     /**
      * 分割线颜色
-     *
-     * @return
      */
     protected int getDividerColor() {
         return getResources().getColor(R
@@ -120,8 +114,6 @@ public abstract class BaseMVPSRRListActivity<P extends BasePresenter<V>, V exten
 
     /**
      * 是否允许加载更多或下拉刷新
-     *
-     * @return
      */
     protected boolean hasEnableRereshAndLoadMore() {
         return true;
@@ -232,16 +224,16 @@ public abstract class BaseMVPSRRListActivity<P extends BasePresenter<V>, V exten
     public void showFail(String msg) {
         if (mPage == 1) {
             refreshLayout.finishRefresh();
+            mLoadingLayout.showError();
         }
-        mLoadingLayout.showError();
     }
 
     @Override
     public void showError() {
         if (mPage == 1) {
             refreshLayout.finishRefresh();
+            mLoadingLayout.showError();
         }
-        mLoadingLayout.showError();
     }
 
     @Override

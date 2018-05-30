@@ -1,9 +1,12 @@
 package com.zhiyangstudio.commonlib.utils;
 
+import android.app.Activity;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -88,6 +91,86 @@ public class NotificationUtils {
             viewGroups.remove(viewGroup1);
         }
         return color;
+    }
+
+    /**
+     * 通知消息展示
+     * 支持8.0版本
+     */
+    public static void notifyPushMsg(Context context, String title, String content, int largeIcon,
+                                     int smallIcon, Class<? extends Activity> targetClas) {
+        NotificationManager manager = (NotificationManager) context.getSystemService(Context
+                .NOTIFICATION_SERVICE);
+        Notification notification = null;
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 1, new Intent(context,
+                targetClas), PendingIntent.FLAG_UPDATE_CURRENT);
+        Bitmap largetIcon = BitmapFactory.decodeResource(context.getResources(), largeIcon);
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            //获取通知实例
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+            //为实例设置属性
+            builder.setSmallIcon(smallIcon);//设置小图标
+            // (必须设置，若LargeIcon没设置，默认也是它，而且通知栏没下拉的时候显示也是它)
+            builder.setLargeIcon(largetIcon);
+            builder.setDefaults(Notification.DEFAULT_ALL);
+            //设置大图标
+            builder.setContentTitle(title);//设置标题内容
+            builder.setContentText(content);//设置正文内容
+            builder.setTicker(content);//设置滚动内容
+            builder.setAutoCancel(true);//点击后消失
+            builder.setOngoing(true);//是否一直显示（设置了这个方法后，不能通过左右滑动通知让通知栏消失，只有通过点击通知才能让通知消失）
+            // builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);//设置优先级，级别越高，显示的位置越高
+            //设置通知的点击事件（一般用来跳转到真正要显示的页面内）
+            builder.setContentIntent(pendingIntent);
+            notification = builder.build();
+        } else {
+            // TODO: 2018/5/30 8.0的通知
+            String channelId = "1";
+            String channelName = "Channel1";
+            NotificationChannel channel = new NotificationChannel(channelId,
+                    channelName, NotificationManager.IMPORTANCE_DEFAULT);
+            channel.enableLights(true); //是否在桌面icon右上角展示小红点
+            channel.setLightColor(Color.GREEN); //小红点颜色
+            channel.setShowBadge(true); //是否在久按桌面图标时显示此渠道的通知
+            manager.createNotificationChannel(channel);
+
+            Notification.Builder builder = new Notification.Builder(context, channelId);
+            //为实例设置属性
+            builder.setSmallIcon(smallIcon);//设置小图标
+            // (必须设置，若LargeIcon没设置，默认也是它，而且通知栏没下拉的时候显示也是它)
+            builder.setLargeIcon(largetIcon);
+            builder.setDefaults(Notification.DEFAULT_ALL);
+            //设置大图标
+            builder.setContentTitle(title);//设置标题内容
+            builder.setContentText(content);//设置正文内容
+            builder.setTicker(content);//设置滚动内容
+            builder.setAutoCancel(true);//点击后消失
+            builder.setOngoing(true);//是否一直显示（设置了这个方法后，不能通过左右滑动通知让通知栏消失，只有通过点击通知才能让通知消失）
+            // builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);//设置优先级，级别越高，显示的位置越高
+            //设置通知的点击事件（一般用来跳转到真正要显示的页面内）
+            builder.setNumber(10); //久按桌面图标时允许的此条通知的数量
+            builder.setContentIntent(pendingIntent);
+            notification = builder.build();
+        }
+        //发送通知
+        manager.notify(1, notification);
+    }
+
+    /**
+     * 清除通知，支持8.0
+     *
+     * @param context
+     * @param notifyId
+     */
+    public static void clearNotify(Context context, int notifyId) {
+        NotificationManager manager = (NotificationManager) context.getSystemService(Context
+                .NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            manager.cancel(notifyId);
+        } else {
+            manager.deleteNotificationChannel(notifyId + "");
+        }
     }
 
     /**

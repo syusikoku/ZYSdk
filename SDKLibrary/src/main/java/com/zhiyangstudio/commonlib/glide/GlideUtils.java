@@ -4,13 +4,15 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 
+import com.zhiyangstudio.commonlib.R;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
 /**
  * Created by zhiyang on 2018/4/4.
- *  glide 工具类
+ * glide 工具类
  */
 
 public class GlideUtils {
@@ -44,4 +46,22 @@ public class GlideUtils {
 
     }
 
+    public static void loadPic(Context context, String url, ImageView imageView) {
+        loadPic(context, url, 0, 0, imageView);
+    }
+
+    public static void loadPic(Context context, String url, int placeImgRes, int errorImgRes, ImageView imageView) {
+        GlideRequests glideRequests = GlideApp.with(context);
+        if (placeImgRes == 0) {
+            placeImgRes = R.drawable.iv_img_default;
+        }
+
+        if (errorImgRes == 0) {
+            placeImgRes = R.drawable.iv_img_default;
+        }
+        glideRequests.load(url)
+                .placeholder(placeImgRes)
+                .error(errorImgRes)
+                .into(imageView);
+    }
 }

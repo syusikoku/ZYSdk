@@ -26,7 +26,7 @@ import java.util.List;
 
 /**
  * Created by zhiyang on 2018/4/10.
- * 列表fragment:loadingpager+RecyclerView+SwipeRefreshLayout
+ * 列表fragment:LoadingLayout+RecyclerView+SwipeRefreshLayout
  */
 public abstract class BaseAbsSmartRefreshListFragment<P extends BasePresenter<V>, V extends
         IView, T> extends
