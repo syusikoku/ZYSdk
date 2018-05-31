@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="sr_color_primary">#1379d6</color>
+    <color name="sr_color_primary_dark">#1079d6</color>
+    <color name="sr_window_background">#FFFEFEFE</color>
+    <color name="ic_app_shortcut_background">#F5F5F5</color>
+
+    <color name="s_fcfcfc">#FCFCFC</color>
+    <color name="c_ececec">#ECECEC</color>
+    <color name="c_efefef">#EFEFEF</color>
+    <color name="c_e9e9e9">#E9E9E9</color>
+    <color name="c_8E8E8E">#8E8E8E</color>
+    <color name="c_fefefe">#FEFEFE</color>
+    <color name="c_fbfbfb">#FBFBFB</color>
+    <color name="c_fafafa">#FAFAFA</color>
+    <color name="c_f9f9f9">#FAFAFA</color>
+    <color name="c_f0f0f0">#F0F0F0</color>
+</resources>
