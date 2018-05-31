@@ -1,6 +1,8 @@
 package com.zhiyangstudio.commonlib.refreshsupport.smartrefresh;
 
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
+import android.widget.AbsListView;
 import android.widget.ListView;
 
 import com.blankj.utilcode.util.ToastUtils;
@@ -10,6 +12,7 @@ import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhiyangstudio.commonlib.R;
 import com.zhiyangstudio.commonlib.adapter.BaseRecyclerAdapter;
+import com.zhiyangstudio.commonlib.glide.GlideUtils;
 import com.zhiyangstudio.commonlib.mvp.BaseMVPSupportFragment;
 import com.zhiyangstudio.commonlib.mvp.inter.ISampleRefreshView;
 import com.zhiyangstudio.commonlib.mvp.presenter.BasePresenter;
@@ -61,6 +64,21 @@ public abstract class BaseMVPSRLListFragment<P extends BasePresenter<V>, V exten
 
     @Override
     public void addListener() {
+        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if (scrollState != RecyclerView.SCROLL_STATE_IDLE) {
+                    GlideUtils.pauseLoadPic(view.getContext());
+                } else {
+                    GlideUtils.reLoadPic(view.getContext());
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            }
+        });
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull final RefreshLayout refreshLayout) {

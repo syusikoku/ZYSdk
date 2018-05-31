@@ -15,13 +15,20 @@ import java.security.MessageDigest;
  * Created by zhiyang on 2018/4/3.
  */
 public class GlideCircleTransform extends BitmapTransformation {
+    private boolean mHasTransform = true;
+
     public GlideCircleTransform(Context context) {
         super(context);
     }
 
+    public GlideCircleTransform(Context context, boolean hasTransform) {
+        super(context);
+        this.mHasTransform = hasTransform;
+    }
+
     @Override
     protected Bitmap transform(BitmapPool pool, Bitmap toTransform, int outWidth, int outHeight) {
-        return circleCrop(pool, toTransform);
+        return mHasTransform ? circleCrop(pool, toTransform) : toTransform;
     }
 
     private static Bitmap circleCrop(BitmapPool pool, Bitmap source) {

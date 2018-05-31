@@ -25,6 +25,7 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.zhiyangstudio.commonlib.CommonConst;
 import com.zhiyangstudio.commonlib.R;
 import com.zhiyangstudio.commonlib.inter.IActivityLifeCycle;
+import com.zhiyangstudio.commonlib.utils.AppActivityManager;
 import com.zhiyangstudio.commonlib.utils.CommonUtils;
 import com.zhiyangstudio.commonlib.utils.EmptyUtils;
 import com.zhiyangstudio.commonlib.utils.LogListener;
@@ -72,6 +73,7 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
         super.onCreate(bundle);
 
         LoggerUtils.loge(this, "onCreate");
+        AppActivityManager.getInstance().addActivity(this);//新建时添加到栈
         if (getContentId() != 0) {
             mContext = this;
             beforeSetContentView();
@@ -267,6 +269,7 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
     @Override
     protected void onDestroy() {
         mH.destory();
+        AppActivityManager.getInstance().removeActivity(this);
         super.onDestroy();
         LoggerUtils.loge(this, "onDestroy");
         if (unbinder != null) {

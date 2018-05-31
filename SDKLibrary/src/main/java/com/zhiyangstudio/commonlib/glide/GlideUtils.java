@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.zhiyangstudio.commonlib.R;
 
 import java.io.ByteArrayOutputStream;
@@ -47,10 +48,17 @@ public class GlideUtils {
     }
 
     public static void loadPic(Context context, String url, ImageView imageView) {
-        loadPic(context, url, 0, 0, imageView);
+        loadPic(context, url, 0, 0, imageView, false);
     }
 
-    public static void loadPic(Context context, String url, int placeImgRes, int errorImgRes, ImageView imageView) {
+    /**
+     * 加载图片
+     *
+     * @param url           图片url
+     * @param displayCircle 是否支持圆角
+     */
+    public static void loadPic(Context context, String url, int placeImgRes, int errorImgRes, ImageView imageView,
+                               boolean displayCircle) {
         GlideRequests glideRequests = GlideApp.with(context);
         if (placeImgRes == 0) {
             placeImgRes = R.drawable.iv_img_default;
@@ -59,9 +67,29 @@ public class GlideUtils {
         if (errorImgRes == 0) {
             placeImgRes = R.drawable.iv_img_default;
         }
+        GlideCircleTransform circleTransform = new GlideCircleTransform(context, displayCircle);
         glideRequests.load(url)
+                .centerCrop()
+                //禁用磁盘缓存
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                //跳过内存缓存,这里不要跳过内存缓存，会导致列表的时候滑动的时候图片会闪烁
+//                .skipMemoryCache(true)
+                .dontAnimate()  // 取消加载动画
                 .placeholder(placeImgRes)
+                .transform(circleTransform)
                 .error(errorImgRes)
                 .into(imageView);
+    }
+
+    public static void loadPic(Context context, String url, ImageView imageView, int placeImgRes, int errorImgRes) {
+        loadPic(context, url, placeImgRes, errorImgRes, imageView, false);
+    }
+
+    public static void pauseLoadPic(Context context) {
+        GlideApp.with(context).pauseRequests();
+    }
+
+    public static void reLoadPic(Context context) {
+        GlideApp.with(context).resumeRequests();
     }
 }

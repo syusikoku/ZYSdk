@@ -16,6 +16,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhiyangstudio.commonlib.R;
+import com.zhiyangstudio.commonlib.glide.GlideUtils;
 import com.zhiyangstudio.commonlib.mvp.BaseMVPSupportActivivty;
 import com.zhiyangstudio.commonlib.mvp.inter.ISampleRefreshView;
 import com.zhiyangstudio.commonlib.mvp.presenter.BasePresenter;
@@ -125,6 +126,17 @@ public abstract class BaseMVPSRRListActivity<P extends BasePresenter<V>, V exten
 
     @Override
     public void addListener() {
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState != RecyclerView.SCROLL_STATE_IDLE) {
+                    GlideUtils.pauseLoadPic(recyclerView.getContext());
+                } else {
+                    GlideUtils.reLoadPic(recyclerView.getContext());
+                }
+            }
+        });
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull final RefreshLayout refreshLayout) {

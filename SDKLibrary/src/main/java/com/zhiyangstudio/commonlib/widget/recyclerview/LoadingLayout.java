@@ -64,7 +64,7 @@ public class LoadingLayout extends FrameLayout {
             int count = getChildCount();
             for (int i = 0; i < count; i++) {
                 mContentView = getChildAt(i);
-                if (mContentView instanceof RecyclerView)
+                if (mContentView != null && mContentView instanceof RecyclerView)
                     break;
             }
         }

@@ -18,6 +18,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhiyangstudio.commonlib.R;
+import com.zhiyangstudio.commonlib.glide.GlideUtils;
 import com.zhiyangstudio.commonlib.mvp.BaseMVPSupportFragment;
 import com.zhiyangstudio.commonlib.mvp.inter.ISampleRefreshView;
 import com.zhiyangstudio.commonlib.mvp.presenter.BasePresenter;
@@ -67,7 +68,8 @@ public abstract class BaseMVPSRRListFragment<P extends BasePresenter<V>, V exten
         mLoadingLayout = mRootView.findViewById(R.id.loading);
         mExtRoot = mRootView.findViewById(R.id.ll_ext_root);
 
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        DefaultItemAnimator animator = new DefaultItemAnimator();
+        mRecyclerView.setItemAnimator(animator);
         RecyclerView.LayoutManager layoutManager = getLayoutManager();
         if (layoutManager != null) {
             mRecyclerView.setLayoutManager(layoutManager);
@@ -92,8 +94,10 @@ public abstract class BaseMVPSRRListFragment<P extends BasePresenter<V>, V exten
      * 可覆盖重写,重写的时候要调整分割线
      */
     protected RecyclerView.LayoutManager getLayoutManager() {
-        return new LinearLayoutManager(mContext, LinearLayoutManager
+        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager
                 .VERTICAL, false);
+        layoutManager.setAutoMeasureEnabled(hasSupportAutoMeasure());
+        return layoutManager;
     }
 
     /**
@@ -134,8 +138,23 @@ public abstract class BaseMVPSRRListFragment<P extends BasePresenter<V>, V exten
 
     }
 
+    protected boolean hasSupportAutoMeasure() {
+        return false;
+    }
+
     @Override
     public void addListener() {
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState != RecyclerView.SCROLL_STATE_IDLE) {
+                    GlideUtils.pauseLoadPic(recyclerView.getContext());
+                } else {
+                    GlideUtils.reLoadPic(recyclerView.getContext());
+                }
+            }
+        });
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
