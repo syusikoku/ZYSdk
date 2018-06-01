@@ -42,8 +42,7 @@ import me.yokeyword.fragmentation.SupportActivity;
  */
 
 public abstract class BaseActivity extends SupportActivity implements IActivityLifeCycle, View
-        .OnClickListener,
-        LogListener {
+        .OnClickListener, LogListener {
     protected Context mContext;
     protected LayoutInflater layoutInflater;
     protected int screenWidth;
@@ -414,6 +413,17 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
     protected void checkCameraPermission(PermissionListener permissionListener) {
         checkPermission(CommonConst.PERMISSION.PERMISSION_CAMERA, "CAMERA", permissionListener,
                 CommonConst.PERMISSION.REQ_CAMERA_PERMISSION);
+    }
+
+    protected boolean checkSelfPermission(String permission, int requestCode) {
+        LoggerUtils.loge("checkSelfPermission " + permission + " " + requestCode);
+        if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{permission},
+                    requestCode);
+            return false;
+        }
+        return true;
     }
 
     public interface PermissionListener extends LogListener {
