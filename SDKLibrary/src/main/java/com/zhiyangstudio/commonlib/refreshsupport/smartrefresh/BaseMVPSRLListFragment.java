@@ -55,7 +55,24 @@ public abstract class BaseMVPSRLListFragment<P extends BasePresenter<V>, V exten
         mListView = mRootView.findViewById(R.id.listView);
         mLoadingLayout = mRootView.findViewById(R.id.loading);
 
+        initLoadingView();
+
         initOtherProperty();
+    }
+
+    private void initLoadingView() {
+        mLoadingLayout.setEmptyTextColor(getLoadingTipColor());
+        mLoadingLayout.setErrorTextColor(getLoadingTipColor());
+        mLoadingLayout.setLoadingTextColor(getLoadingTipColor());
+
+        mLoadingLayout.setOnRetryListener(() -> {
+            mPage = 1;
+            loadRemoteData();
+        });
+    }
+
+    protected int getLoadingTipColor() {
+        return UiUtils.getColor(R.color.white);
     }
 
     protected void initOtherProperty() {

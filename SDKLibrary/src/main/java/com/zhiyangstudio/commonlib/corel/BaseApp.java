@@ -18,13 +18,13 @@ import com.zhiyangstudio.commonlib.CommonConst;
 
 public class BaseApp extends Application {
 
-    private static BaseApp mAppInstance;
-    private static Context mContext;
-    private static int mThreadId;
-    private static String mThreadName;
-    private static Handler handler;
-    private static Looper looper;
-    private static int myPid;
+    protected static BaseApp mAppInstance;
+    protected static Context mContext;
+    protected static int mThreadId;
+    protected static String mThreadName;
+    protected static Handler handler;
+    protected static Looper looper;
+    protected static int myPid;
 
     public static String getMainThreadName() {
         return mThreadName;
@@ -70,8 +70,6 @@ public class BaseApp extends Application {
         Utils.init(this);
 
         initLogger();
-
-//        CrashReport.initCrashReport(this);
     }
 
     private void initLogger() {
@@ -100,8 +98,6 @@ public class BaseApp extends Application {
 
     /**
      * 是否需要打印日志默认是需要,可以使用自己工程的Build.ISDEBUG
-     *
-     * @return
      */
     protected boolean isDebugModel() {
         return true;

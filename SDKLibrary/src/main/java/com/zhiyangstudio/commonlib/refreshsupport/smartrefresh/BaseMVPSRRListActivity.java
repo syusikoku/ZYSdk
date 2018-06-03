@@ -66,6 +66,8 @@ public abstract class BaseMVPSRRListActivity<P extends BasePresenter<V>, V exten
         mLoadingLayout = findViewById(R.id.loading);
         mExtRoot = findViewById(R.id.ll_ext_root);
 
+        initLoadingView();
+
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         RecyclerView.LayoutManager layoutManager = getLayoutManager();
         if (layoutManager != null) {
@@ -83,6 +85,21 @@ public abstract class BaseMVPSRRListActivity<P extends BasePresenter<V>, V exten
         }
         refreshLayout.setEnabled(hasEnableRereshAndLoadMore());
         initOtherProperty();
+    }
+
+    private void initLoadingView() {
+        mLoadingLayout.setEmptyTextColor(getLoadingTipColor());
+        mLoadingLayout.setErrorTextColor(getLoadingTipColor());
+        mLoadingLayout.setLoadingTextColor(getLoadingTipColor());
+
+        mLoadingLayout.setOnRetryListener(() -> {
+            mPage = 1;
+            loadRemoteData();
+        });
+    }
+
+    protected int getLoadingTipColor() {
+        return UiUtils.getColor(R.color.white);
     }
 
     /**

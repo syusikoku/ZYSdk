@@ -22,6 +22,7 @@ import com.zhiyangstudio.commonlib.glide.GlideUtils;
 import com.zhiyangstudio.commonlib.mvp.BaseMVPSupportFragment;
 import com.zhiyangstudio.commonlib.mvp.inter.ISampleRefreshView;
 import com.zhiyangstudio.commonlib.mvp.presenter.BasePresenter;
+import com.zhiyangstudio.commonlib.utils.LoggerUtils;
 import com.zhiyangstudio.commonlib.utils.UiUtils;
 import com.zhiyangstudio.commonlib.widget.recyclerview.LMRecyclerView;
 import com.zhiyangstudio.commonlib.widget.recyclerview.LoadingLayout;
@@ -68,6 +69,8 @@ public abstract class BaseMVPSRRListFragment<P extends BasePresenter<V>, V exten
         mLoadingLayout = mRootView.findViewById(R.id.loading);
         mExtRoot = mRootView.findViewById(R.id.ll_ext_root);
 
+        initLoadingView();
+
         DefaultItemAnimator animator = new DefaultItemAnimator();
         mRecyclerView.setItemAnimator(animator);
         RecyclerView.LayoutManager layoutManager = getLayoutManager();
@@ -88,6 +91,21 @@ public abstract class BaseMVPSRRListFragment<P extends BasePresenter<V>, V exten
         }
         refreshLayout.setEnabled(hasEnableRereshAndLoadMore());
         initOtherProperty();
+    }
+
+    private void initLoadingView() {
+        mLoadingLayout.setEmptyTextColor(getLoadingTipColor());
+        mLoadingLayout.setErrorTextColor(getLoadingTipColor());
+        mLoadingLayout.setLoadingTextColor(getLoadingTipColor());
+
+        mLoadingLayout.setOnRetryListener(() -> {
+            mPage = 1;
+            loadRemoteData();
+        });
+    }
+
+    protected int getLoadingTipColor() {
+        return UiUtils.getColor(R.color.white);
     }
 
     /**
@@ -295,6 +313,7 @@ public abstract class BaseMVPSRRListFragment<P extends BasePresenter<V>, V exten
 
     @Override
     public void setData(List<T> list) {
+        LoggerUtils.loge("setData");
         if (mPage == 1) {
             mList.clear();
         }

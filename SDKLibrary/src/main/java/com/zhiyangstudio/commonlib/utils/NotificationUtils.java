@@ -97,13 +97,17 @@ public class NotificationUtils {
      * 通知消息展示
      * 支持8.0版本
      */
-    public static void notifyPushMsg(Context context, String title, String content, int largeIcon,
-                                     int smallIcon, Class<? extends Activity> targetClas) {
+    public static void notifyMsg(Context context, String title, String content, int largeIcon,
+                                 int smallIcon, Class<? extends Activity> targetClas) {
         NotificationManager manager = (NotificationManager) context.getSystemService(Context
                 .NOTIFICATION_SERVICE);
         Notification notification = null;
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 1, new Intent(context,
-                targetClas), PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent intent = new Intent(context, targetClas);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
         Bitmap largetIcon = BitmapFactory.decodeResource(context.getResources(), largeIcon);
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
@@ -159,9 +163,6 @@ public class NotificationUtils {
 
     /**
      * 清除通知，支持8.0
-     *
-     * @param context
-     * @param notifyId
      */
     public static void clearNotify(Context context, int notifyId) {
         NotificationManager manager = (NotificationManager) context.getSystemService(Context

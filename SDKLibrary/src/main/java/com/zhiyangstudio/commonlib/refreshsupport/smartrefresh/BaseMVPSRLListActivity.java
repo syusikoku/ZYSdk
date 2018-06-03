@@ -53,7 +53,25 @@ public abstract class BaseMVPSRLListActivity<P extends BasePresenter<V>, V exten
         refreshLayout = findViewById(R.id.refreshLayout);
         mListView = findViewById(R.id.listView);
         mLoadingLayout = findViewById(R.id.loading);
+
+        initLoadingView();
+
         initOtherProperty();
+    }
+
+    private void initLoadingView() {
+        mLoadingLayout.setEmptyTextColor(getLoadingTipColor());
+        mLoadingLayout.setErrorTextColor(getLoadingTipColor());
+        mLoadingLayout.setLoadingTextColor(getLoadingTipColor());
+
+        mLoadingLayout.setOnRetryListener(() -> {
+            mPage = 1;
+            loadRemoteData();
+        });
+    }
+
+    protected int getLoadingTipColor() {
+        return UiUtils.getColor(R.color.white);
     }
 
     protected void initOtherProperty() {

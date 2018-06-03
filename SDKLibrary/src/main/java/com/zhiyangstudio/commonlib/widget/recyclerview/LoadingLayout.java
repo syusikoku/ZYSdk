@@ -27,6 +27,7 @@ public class LoadingLayout extends FrameLayout {
     // 是否被关闭
     private boolean hasDismiss;
     private TextView mLoadTips;
+    private OnRetryListner mRetryListener;
 
     public LoadingLayout(@NonNull Context context) {
         this(context, null);
@@ -81,11 +82,58 @@ public class LoadingLayout extends FrameLayout {
             mContentView.setVisibility(GONE);
     }
 
+    public interface OnRetryListner {
+        void onRetry();
+    }
+
+    public void setOnRetryListener(OnRetryListner retryListener) {
+        this.mRetryListener = retryListener;
+    }
+
+    public void setEmptyTextColor(int color) {
+        if (mEmptyView.findViewById(R.id.tv_empty) != null) {
+            TextView textView = mEmptyView.findViewById(R.id.tv_empty);
+            if (textView != null) {
+                textView.setTextColor(color);
+            }
+        }
+    }
+
+    public void setLoadingTextColor(int color) {
+        if (mLoadingView.findViewById(R.id.tv_tips) != null) {
+            TextView textView = mLoadingView.findViewById(R.id.tv_tips);
+            if (textView != null) {
+                textView.setTextColor(color);
+            }
+        }
+    }
+
+    public void setErrorTextColor(int color) {
+        if (mErrorView.findViewById(R.id.tv_error) != null) {
+            TextView textView = mErrorView.findViewById(R.id.tv_error);
+            if (textView != null) {
+                textView.setTextColor(color);
+            }
+        }
+        if (mErrorView.findViewById(R.id.tv_retry) != null) {
+            TextView textView = mErrorView.findViewById(R.id.tv_retry);
+            if (textView != null) {
+                textView.setTextColor(color);
+            }
+        }
+    }
+
     //error
     public void showError() {
         hasDismiss = true;
-        if (mErrorView != null && mErrorView.getVisibility() != VISIBLE)
+        if (mErrorView != null && mErrorView.getVisibility() != VISIBLE) {
             mErrorView.setVisibility(VISIBLE);
+            mErrorView.setOnClickListener(v -> {
+                if (mRetryListener != null) {
+                    mRetryListener.onRetry();
+                }
+            });
+        }
         mLoadingView.setVisibility(GONE);
         mEmptyView.setVisibility(GONE);
         if (mContentView != null && mContentView.getVisibility() != GONE)

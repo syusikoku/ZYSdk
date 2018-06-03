@@ -12,6 +12,7 @@ import com.zhiyangstudio.commonlib.mvp.BaseMVPSupportActivivty;
 import com.zhiyangstudio.commonlib.mvp.inter.IListDataView;
 import com.zhiyangstudio.commonlib.mvp.inter.IView;
 import com.zhiyangstudio.commonlib.mvp.presenter.BasePresenter;
+import com.zhiyangstudio.commonlib.utils.UiUtils;
 import com.zhiyangstudio.commonlib.widget.recyclerview.LMRecyclerView;
 import com.zhiyangstudio.commonlib.widget.recyclerview.LoadingLayout;
 
@@ -48,6 +49,8 @@ public abstract class BaseAbsSmartRefreshListActivity<P extends BasePresenter<V>
         loadingView = findViewById(R.id.base_loadinglayout);
         recyclerView = findViewById(R.id.base_recyclerview);
 
+        initLoadingView();
+
         if (recyclerView == null)
             return;
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
@@ -59,6 +62,21 @@ public abstract class BaseAbsSmartRefreshListActivity<P extends BasePresenter<V>
             loadingView.showLoding();
             loadDatas();
         }
+    }
+
+    private void initLoadingView() {
+        loadingView.setEmptyTextColor(getLoadingTipColor());
+        loadingView.setErrorTextColor(getLoadingTipColor());
+        loadingView.setLoadingTextColor(getLoadingTipColor());
+
+        loadingView.setOnRetryListener(() -> {
+            page = 1;
+            loadDatas();
+        });
+    }
+
+    protected int getLoadingTipColor() {
+        return UiUtils.getColor(R.color.white);
     }
 
     /**

@@ -11,4 +11,5 @@
     <string name="parse_error">解析错误</string>
     <string name="unknown_error">未知错误</string>
 	<string name="str_loading_txt">数据加载中,请稍候...</string>
+    <string name="tip_retry">点击重新加载</string>
 </resources>

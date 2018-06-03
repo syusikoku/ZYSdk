@@ -1,8 +1,8 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion rootProject.ext._android.compileSdkVersion as Integer
-    buildToolsVersion rootProject.ext._android.buildToolsVersion as String
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         minSdkVersion 16
@@ -20,35 +20,30 @@ android {
     }
 
     compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+    dexOptions {
+        incremental true
     }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation rootProject.ext.support.constraint_layout
     implementation rootProject.ext.support.design
     implementation rootProject.ext.support.recyclerview
     implementation rootProject.ext.support.appcompat
-
     implementation rootProject.ext.ext_tools.logger
-
     implementation rootProject.ext.ext_tools.gson
     implementation rootProject.ext.ext_tools.systembartint
-
     implementation rootProject.ext.ext_tools.utilcode
     implementation rootProject.ext.ext_tools.fragmentation
-
     implementation rootProject.ext.ext_tools.BaseRecyclerViewAdapter
-
     //SmartRefreshLayout
     implementation rootProject.ext.ext_tools.SmartRefreshLayout
     implementation rootProject.ext.ext_tools.SmartRefreshHeader
-
     implementation rootProject.ext.ext_tools.haorefresh
-
     implementation rootProject.ext.ext_tools.rxjava
     implementation rootProject.ext.ext_tools.rxandroid
     implementation rootProject.ext.ext_tools.retrofit
@@ -57,11 +52,9 @@ dependencies {
     implementation rootProject.ext.ext_tools.converter_scalars
     implementation rootProject.ext.ext_tools.okhttp
     implementation rootProject.ext.ext_tools.logging_interceptor
-
     /*butternife*/
     implementation rootProject.ext.ext_tools.butterknife
     annotationProcessor rootProject.ext.ext_tools.butterknife_compiler
-
     /*glide*/
     implementation rootProject.ext.ext_tools.glide
     annotationProcessor rootProject.ext.ext_tools.glide_compiler

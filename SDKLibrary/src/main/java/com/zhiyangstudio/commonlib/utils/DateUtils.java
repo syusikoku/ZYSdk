@@ -37,6 +37,12 @@ public class DateUtils {
     private static final String ONE_MONTH_AGO = "月前";
     private static final String ONE_YEAR_AGO = "年前";
 
+    public static final String[] WEEKS = {
+            "星期日", "星期一", "星期二",
+            "星期三", "星期四", "星期五",
+            "星期六"
+    };
+
     static long getFirstSundayTimeMillisOfWeek() {
         Calendar calendar = Calendar.getInstance();
         int daysFromSunday = calendar.get(Calendar.DAY_OF_WEEK) - 1;
@@ -114,9 +120,6 @@ public class DateUtils {
 
     /**
      * 根据Date获取描述性时间，如3分钟前，1天前
-     *
-     * @param date
-     * @return
      */
     public static String getDescriptionTimeFromDate(Date date) {
         long delta = new Date().getTime() - date.getTime();
@@ -292,9 +295,6 @@ public class DateUtils {
 
     /**
      * 格式化时间
-     *
-     * @param time
-     * @return
      */
     public static String parseTime(long time) {
         long tmpTime;
@@ -324,9 +324,6 @@ public class DateUtils {
 
     /**
      * 毫秒转化时分秒毫秒
-     *
-     * @param ms
-     * @return
      */
     public static String formatTime(Long ms) {
         Integer ss = 1000;
@@ -361,8 +358,6 @@ public class DateUtils {
 
     /**
      * 获取当前日
-     *
-     * @return
      */
     public static int getCurrentDay() {
         Calendar cal = Calendar.getInstance();
@@ -573,8 +568,6 @@ public class DateUtils {
 
     /**
      * 获取当前年
-     *
-     * @return
      */
     public static int getCurrentYear() {
         Calendar cal = Calendar.getInstance();
@@ -583,8 +576,6 @@ public class DateUtils {
 
     /**
      * 获取当前月
-     *
-     * @return
      */
     public static int getCurrentMonth() {
         Calendar cal = Calendar.getInstance();
@@ -700,9 +691,7 @@ public class DateUtils {
     /**
      * 根据指定的年、月、日返回当前是星期几。1表示星期天、2表示星期一、7表示星期六。
      *
-     * @param year
      * @param month month是从1开始的12结束
-     * @param day
      * @return 返回一个代表当期日期是星期几的数字。1表示星期天、2表示星期一、7表示星期六。
      */
     public static int getDayOfWeek(String year, String month, String day) {
@@ -716,9 +705,7 @@ public class DateUtils {
      * 返回制定日期所在的周是一年中的第几个周。<br>
      * created by wangmj at 20060324.<br>
      *
-     * @param year
      * @param month 范围1-12<br>
-     * @param day
      * @return int
      */
     public static int getWeekOfYear(String year, String month, String day) {
@@ -770,8 +757,7 @@ public class DateUtils {
     /**
      * 返回指定日期的前一天。<br>
      *
-     * @param sourceDate
-     * @param format     yyyy MM dd hh mm ss
+     * @param format yyyy MM dd hh mm ss
      * @return 返回日期字符串，形式和formcat一致。
      */
     public static String getYestoday(String sourceDate, String format) {
@@ -814,7 +800,6 @@ public class DateUtils {
     /**
      * 返回明天的日期，<br>
      *
-     * @param format
      * @return 返回日期字符串，形式和formcat一致。
      */
     public static String getFormatTomorrow(String format) {
@@ -824,8 +809,6 @@ public class DateUtils {
     /**
      * 返回指定日期的后一天。<br>
      *
-     * @param sourceDate
-     * @param format
      * @return 返回日期字符串，形式和formcat一致。
      */
     public static String getFormatDateTommorrow(String sourceDate, String format) {
@@ -835,7 +818,6 @@ public class DateUtils {
     /**
      * 根据主机的默认 TimeZone，来获得指定形式的时间字符串。
      *
-     * @param dateFormat
      * @return 返回日期字符串，形式和formcat一致。
      */
     public static String getCurrentDateString(String dateFormat) {
@@ -1154,9 +1136,6 @@ public class DateUtils {
     /**
      * 获取月份的下拉框
      *
-     * @param selectName
-     * @param value
-     * @param hasBlank
      * @return 返回月份的下拉框。
      */
     public static String getMonthSelect(String selectName, String value, boolean hasBlank) {
@@ -1179,10 +1158,6 @@ public class DateUtils {
     /**
      * 获取月份的下拉框
      *
-     * @param selectName
-     * @param value
-     * @param hasBlank
-     * @param js
      * @return 返回月份的下拉框。
      */
     public static String getMonthSelect(String selectName, String value, boolean hasBlank, String
@@ -1206,9 +1181,6 @@ public class DateUtils {
     /**
      * 获取天的下拉框，默认的为1-31。 注意：此方法不能够和月份下拉框进行联动。
      *
-     * @param selectName
-     * @param value
-     * @param hasBlank
      * @return 获得天的下拉框
      */
     public static String getDaySelect(String selectName, String value, boolean hasBlank) {
@@ -1231,10 +1203,6 @@ public class DateUtils {
     /**
      * 获取天的下拉框，默认的为1-31
      *
-     * @param selectName
-     * @param value
-     * @param hasBlank
-     * @param js
      * @return 获取天的下拉框
      */
     public static String getDaySelect(String selectName, String value, boolean hasBlank, String
@@ -1320,7 +1288,6 @@ public class DateUtils {
     /**
      * 根据指定的年、月、日返回当前是星期几。1表示星期天、2表示星期一、7表示星期六。
      *
-     * @param date
      * @return 返回一个代表当期日期是星期几的数字。1表示星期天、2表示星期一、7表示星期六。
      */
     public static int getDayOfWeek(Date date) {
@@ -1460,6 +1427,33 @@ public class DateUtils {
         localFormater.setTimeZone(TimeZone.getDefault());
         String localTime = localFormater.format(gpsUTCDate.getTime());
         return localTime;
+    }
+
+    /**
+     * 获取当前星期
+     */
+    public static String getCurrentWeek() {
+        Calendar calendar = Calendar.getInstance();
+        int week = calendar.get(Calendar.DAY_OF_WEEK);
+        week = week - 1;
+        if (week < 0) {
+            week = 0;
+        }
+        return WEEKS[week];
+    }
+
+    /**
+     * 获取当前星期
+     * 注：格式化字符串存在区分大小写
+     *
+     * 对于创建SimpleDateFormat传入的参数：EEEE代表星期，如“星期四”；MMMM代表中文月份，如“十一月”；MM代表月份，如“11”；
+     *
+     * yyyy代表年份，如“2010”；dd代表天，如“25”
+     */
+    public static String getCurrentWeek2() {
+        Date date = new Date();
+        SimpleDateFormat dateFm = new SimpleDateFormat("EEEE");
+        return dateFm.format(date);
     }
 
     private static class FormatDateTimeHolder {

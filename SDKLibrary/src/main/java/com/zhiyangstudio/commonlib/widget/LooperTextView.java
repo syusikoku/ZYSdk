@@ -73,12 +73,12 @@ public class LooperTextView extends FrameLayout {
 
     private TextView newTextView() {
         TextView textView = new TextView(getContext());
-        LayoutParams lp = new LayoutParams(
-                LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, Gravity.CENTER_VERTICAL);
+        LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
         textView.setLayoutParams(lp);
-        textView.setCompoundDrawablePadding(10);
+//        textView.setCompoundDrawablePadding(10);
         textView.setGravity(Gravity.CENTER_VERTICAL);
         textView.setLines(2);
+//        textView.setBackgroundColor(UiUtils.getColor(R.color.violet));
         textView.setEllipsize(TextUtils.TruncateAt.END);
         textView.setTextColor(Color.parseColor(DEFAULT_TEXT_COLOR));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_TEXT_SIZE);
@@ -158,7 +158,6 @@ public class LooperTextView extends FrameLayout {
     }
 
     public void setDefaultTextSize(int defaultTextSize) {
-
         tv_tip_out.setTextSize(TypedValue.COMPLEX_UNIT_DIP, defaultTextSize);
     }
 

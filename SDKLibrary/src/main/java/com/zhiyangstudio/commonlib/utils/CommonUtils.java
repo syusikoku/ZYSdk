@@ -5,6 +5,7 @@ import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -17,6 +18,7 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.view.Menu;
@@ -24,6 +26,9 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -303,10 +308,6 @@ public class CommonUtils {
 
     /**
      * 设置navigationview menu item的分割线的颜色和高度
-     *
-     * @param navigationView
-     * @param color
-     * @param height
      */
     public static void setNavigationMenuLineStyle(NavigationView navigationView, @ColorInt final
     int color, final int height) {
@@ -348,8 +349,6 @@ public class CommonUtils {
 
     /**
      * 删除navigationview的滚动条
-     *
-     * @param navigationView
      */
     public static void disableNavigationViewScrollbars(NavigationView navigationView) {
         if (navigationView != null) {
@@ -441,4 +440,45 @@ public class CommonUtils {
     }
 
 
+    public static String getProcessName(Context cxt, int pid) {
+        ActivityManager am = (ActivityManager) cxt.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> runningApps = am.getRunningAppProcesses();
+        if (runningApps == null) {
+            return null;
+        }
+        for (ActivityManager.RunningAppProcessInfo procInfo : runningApps) {
+            if (procInfo.pid == pid) {
+                return procInfo.processName;
+            }
+        }
+        return null;
+    }
+
+    public static String getProcessName() {
+        try {
+            File file = new File("/proc/" + android.os.Process.myPid() + "/" + "cmdline");
+            BufferedReader mBufferedReader = new BufferedReader(new FileReader(file));
+            String processName = mBufferedReader.readLine().trim();
+            mBufferedReader.close();
+            return processName;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static void requestedOrientation(Activity activity) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//设置竖屏模式
+        }
+    }
+
+    /**
+     * 修复自定义内容的toolbar文字不能水平居中的问题
+     */
+    public static void fixToolbar(Toolbar toolbar) {
+        int contentInsetStartWithNavigation = toolbar.getContentInsetStartWithNavigation();
+        LoggerUtils.loge("nav:" + contentInsetStartWithNavigation);
+        toolbar.setContentInsetsRelative(contentInsetStartWithNavigation, contentInsetStartWithNavigation);
+    }
 }

@@ -16,6 +16,7 @@ import com.zhiyangstudio.commonlib.mvp.BaseMVPSupportFragment;
 import com.zhiyangstudio.commonlib.mvp.inter.IListDataView;
 import com.zhiyangstudio.commonlib.mvp.inter.IView;
 import com.zhiyangstudio.commonlib.mvp.presenter.BasePresenter;
+import com.zhiyangstudio.commonlib.utils.UiUtils;
 import com.zhiyangstudio.commonlib.widget.recyclerview.LMRecyclerView;
 import com.zhiyangstudio.commonlib.widget.recyclerview.LoadingLayout;
 import com.zhiyangstudio.commonlib.widget.recyclerview.divider.GridDivider;
@@ -52,6 +53,23 @@ public abstract class BaseAbsSmartRefreshListFragment<P extends BasePresenter<V>
         refreshLayout = mRootView.findViewById(R.id.base_swiperefrsh);
         loadingView = mRootView.findViewById(R.id.base_loadinglayout);
         recyclerView = mRootView.findViewById(R.id.base_recyclerview);
+
+        initLoadingView();
+    }
+
+    private void initLoadingView() {
+        loadingView.setEmptyTextColor(getLoadingTipColor());
+        loadingView.setErrorTextColor(getLoadingTipColor());
+        loadingView.setLoadingTextColor(getLoadingTipColor());
+
+        loadingView.setOnRetryListener(() -> {
+            page = 1;
+            loadDatas();
+        });
+    }
+
+    protected int getLoadingTipColor() {
+        return UiUtils.getColor(R.color.white);
     }
 
     @Override
