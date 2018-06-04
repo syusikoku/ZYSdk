@@ -23,6 +23,8 @@ import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.view.Menu;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -480,5 +482,35 @@ public class CommonUtils {
         int contentInsetStartWithNavigation = toolbar.getContentInsetStartWithNavigation();
         LoggerUtils.loge("nav:" + contentInsetStartWithNavigation);
         toolbar.setContentInsetsRelative(contentInsetStartWithNavigation, contentInsetStartWithNavigation);
+    }
+
+    /**
+     * 设置隐藏标题栏
+     *
+     * @param activity
+     */
+    public static void setNoTitleBar(Activity activity) {
+        activity.requestWindowFeature(Window.FEATURE_NO_TITLE);
+    }
+
+    /**
+     * 设置全屏
+     *
+     * @param activity
+     */
+    public static void setFullScreen(Activity activity) {
+        activity.getWindow().setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
+
+    /**
+     * 取消全屏
+     *
+     * @param activity
+     */
+    public static void cancelFullScreen(Activity activity) {
+        activity.getWindow().clearFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 }

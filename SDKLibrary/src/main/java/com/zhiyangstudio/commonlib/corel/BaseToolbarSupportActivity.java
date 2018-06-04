@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.zhiyangstudio.commonlib.R;
+import com.zhiyangstudio.commonlib.utils.UiUtils;
 
 import butterknife.ButterKnife;
 
@@ -27,7 +28,9 @@ public abstract class BaseToolbarSupportActivity extends BaseActivity {
         containerLayout = (LinearLayout) findViewById(R.id.frameLayout);
         if (initToolBar()) {
             setSupportActionBar(toolbar);
-            toolbar.setBackgroundResource(getToolbarBgColor());
+            int toolbarBgColor = getToolbarBgColor();
+            if (toolbarBgColor != 0)
+                toolbar.setBackgroundColor(toolbarBgColor);
             if (hasShowHome()) {
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 toolbar.setNavigationOnClickListener(v -> {
@@ -51,9 +54,13 @@ public abstract class BaseToolbarSupportActivity extends BaseActivity {
         }
     }
 
-    protected abstract boolean initToolBar();
+    protected boolean initToolBar() {
+        return true;
+    }
 
-    protected abstract int getToolbarBgColor();
+    protected int getToolbarBgColor() {
+        return UiUtils.getColor(R.color.sr_color_primary);
+    }
 
     protected boolean hasShowHome() {
         return false;
@@ -66,8 +73,6 @@ public abstract class BaseToolbarSupportActivity extends BaseActivity {
 
     /**
      * 默认支持分割线，灰色，如果不想要返回false即可
-     *
-     * @return
      */
     protected boolean hasSupportMenuDivider() {
         return true;

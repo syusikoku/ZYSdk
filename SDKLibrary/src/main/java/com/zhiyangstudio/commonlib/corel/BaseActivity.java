@@ -55,6 +55,8 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
         }
     };
     private PermissionListener mListener;
+    private int mReqPermission;
+    private String mPermissionTip;
 
     protected void onMessageGoing(Message message) {
 
@@ -92,13 +94,11 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
         // TODO: 2018/4/6 andorid 23以上版本检查运行时权限
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (hasCheckPermission()
-                    && (
-                    getClass().getSimpleName().equals("MainActivity")
-                            || getClass().getSimpleName().equals("SplashActivity")
-                            || getClass().getSimpleName().equals("WelcomeActivity")
-                            || getClass().getSimpleName().equals("StartActivity")
-                            || getClass().getSimpleName().equals("GuideActivity"))
-                    ) {
+                    && (getClass().getSimpleName().equals("MainActivity")
+                    || getClass().getSimpleName().equals("SplashActivity")
+                    || getClass().getSimpleName().equals("WelcomeActivity")
+                    || getClass().getSimpleName().equals("StartActivity")
+                    || getClass().getSimpleName().equals("GuideActivity"))) {
                 checkSDCardPermission(getPermissonCallBack());
             }
         }
@@ -176,6 +176,8 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
      */
     public void checkPermission(String permission, final String tips, PermissionListener
             listener, int reqPermission) {
+        this.mReqPermission = reqPermission;
+        this.mPermissionTip = tips;
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return;
         }
@@ -231,7 +233,7 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
         dialog.show();
     }
 
-    private void callListener(int result, int code) {
+    protected void callListener(int result, int code) {
         if (result == -1) {
             if (mListener != null) {
                 mListener.onDeny(code);
@@ -309,19 +311,24 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
+        int result = 0;
         switch (requestCode) {
             case CommonConst.PERMISSION.REQ_SDCARD_PERMISSION:
-                int result = showPermissionResult(grantResults, "SD卡写入");
+                result = showPermissionResult(grantResults, "SD卡写入");
                 callListener(result, CommonConst.PERMISSION.REQ_SDCARD_PERMISSION);
                 break;
             case CommonConst.PERMISSION.REQ_CAMERA_PERMISSION:
-                int resut = showPermissionResult(grantResults, "摄像头");
-                callListener(resut, CommonConst.PERMISSION.REQ_CAMERA_PERMISSION);
+                result = showPermissionResult(grantResults, "摄像头");
+                callListener(result, CommonConst.PERMISSION.REQ_CAMERA_PERMISSION);
+                break;
+            default:
+                result = showPermissionResult(grantResults, mPermissionTip);
+                callListener(result, mReqPermission);
                 break;
         }
     }
 
-    private int showPermissionResult(@NonNull int[] grantResults, String str) {
+    protected int showPermissionResult(@NonNull int[] grantResults, String str) {
         int result = -1;
         if (grantResults.length > 0 && grantResults[0] == CommonConst.PERMISSION
                 .RESULT_PERMISSION_GRANT) {
