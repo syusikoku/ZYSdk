@@ -10,6 +10,7 @@ import com.zysdk.vulture.clib.R;
 import com.zysdk.vulture.clib.mvp.inter.ISampleRefreshView;
 import com.zysdk.vulture.clib.mvp.presenter.BasePresenter;
 import com.zysdk.vulture.clib.refreshsupport.smartrefresh.BaseMVPSRRListActivity;
+import com.zysdk.vulture.clib.utils.ResourceUtils;
 import com.zysdk.vulture.clib.utils.UiUtils;
 
 /**
@@ -65,7 +66,7 @@ public abstract class BaseMVPToolbarSupportSRListActivity<P extends BasePresente
     }
 
     protected void setBgDrawable(int drawable) {
-        containerLayout.setBackgroundDrawable(UiUtils.getDrawable(drawable));
+        containerLayout.setBackgroundDrawable(ResourceUtils.getDrawable(drawable));
     }
 
     protected void setBgRes(@DrawableRes int resid) {

@@ -23,6 +23,7 @@ import com.zysdk.vulture.clib.mvp.BaseMVPSupportFragment;
 import com.zysdk.vulture.clib.mvp.inter.ISampleRefreshView;
 import com.zysdk.vulture.clib.mvp.presenter.BasePresenter;
 import com.zysdk.vulture.clib.utils.LoggerUtils;
+import com.zysdk.vulture.clib.utils.ResourceUtils;
 import com.zysdk.vulture.clib.utils.UiUtils;
 import com.zysdk.vulture.clib.widget.recyclerview.LMRecyclerView;
 import com.zysdk.vulture.clib.widget.recyclerview.LoadingLayout;
@@ -105,7 +106,7 @@ public abstract class BaseMVPSRRListFragment<P extends BasePresenter<V>, V exten
     }
 
     protected int getLoadingTipColor() {
-        return UiUtils.getColor(R.color.white);
+        return ResourceUtils.getColor(R.color.white);
     }
 
     /**

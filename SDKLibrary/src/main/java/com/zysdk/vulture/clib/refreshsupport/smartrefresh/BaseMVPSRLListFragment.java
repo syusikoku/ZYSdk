@@ -72,7 +72,7 @@ public abstract class BaseMVPSRLListFragment<P extends BasePresenter<V>, V exten
     }
 
     protected int getLoadingTipColor() {
-        return UiUtils.getColor(R.color.white);
+        return ResourceUtils.getColor(R.color.white);
     }
 
     protected void initOtherProperty() {

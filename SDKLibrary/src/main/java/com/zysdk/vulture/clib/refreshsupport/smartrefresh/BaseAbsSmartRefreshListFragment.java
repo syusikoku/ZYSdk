@@ -16,7 +16,7 @@ import com.zysdk.vulture.clib.mvp.BaseMVPSupportFragment;
 import com.zysdk.vulture.clib.mvp.inter.IListDataView;
 import com.zysdk.vulture.clib.mvp.inter.IView;
 import com.zysdk.vulture.clib.mvp.presenter.BasePresenter;
-import com.zysdk.vulture.clib.utils.UiUtils;
+import com.zysdk.vulture.clib.utils.ResourceUtils;
 import com.zysdk.vulture.clib.widget.recyclerview.LMRecyclerView;
 import com.zysdk.vulture.clib.widget.recyclerview.LoadingLayout;
 import com.zysdk.vulture.clib.widget.recyclerview.divider.GridDivider;
@@ -69,7 +69,7 @@ public abstract class BaseAbsSmartRefreshListFragment<P extends BasePresenter<V>
     }
 
     protected int getLoadingTipColor() {
-        return UiUtils.getColor(R.color.white);
+        return ResourceUtils.getColor(R.color.white);
     }
 
     @Override

@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.zysdk.vulture.clib.R;
-import com.zysdk.vulture.clib.utils.UiUtils;
+import com.zysdk.vulture.clib.utils.ResourceUtils;
 
 import butterknife.ButterKnife;
 
@@ -59,7 +59,7 @@ public abstract class BaseToolbarSupportActivity extends BaseActivity {
     }
 
     protected int getToolbarBgColor() {
-        return UiUtils.getColor(R.color.sr_color_primary);
+        return ResourceUtils.getColor(R.color.sr_color_primary);
     }
 
     protected boolean hasShowHome() {

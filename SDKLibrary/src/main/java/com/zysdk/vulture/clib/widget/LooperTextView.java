@@ -78,7 +78,7 @@ public class LooperTextView extends FrameLayout {
 //        textView.setCompoundDrawablePadding(10);
         textView.setGravity(Gravity.CENTER_VERTICAL);
         textView.setLines(2);
-//        textView.setBackgroundColor(UiUtils.getColor(R.color.violet));
+//        textView.setBackgroundColor(ResourceUtils.getColor(R.color.violet));
         textView.setEllipsize(TextUtils.TruncateAt.END);
         textView.setTextColor(Color.parseColor(DEFAULT_TEXT_COLOR));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_TEXT_SIZE);

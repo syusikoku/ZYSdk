@@ -99,7 +99,7 @@ public abstract class BaseMVPSRRListActivity<P extends BasePresenter<V>, V exten
     }
 
     protected int getLoadingTipColor() {
-        return UiUtils.getColor(R.color.white);
+        return ResourceUtils.getColor(R.color.white);
     }
 
     /**
