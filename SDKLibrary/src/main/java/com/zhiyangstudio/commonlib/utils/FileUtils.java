@@ -63,8 +63,6 @@ public class FileUtils {
 
     /**
      * 创建根缓存目录
-     *
-     * @return
      */
     public static String createRootPath(Context context) {
         String cacheRootPath = "";
@@ -82,11 +80,9 @@ public class FileUtils {
         return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
     }
 
-
     /**
      * 递归创建文件夹
      *
-     * @param file
      * @return 创建失败返回""
      */
     public static String createFile(File file) {
@@ -109,7 +105,6 @@ public class FileUtils {
     /**
      * 递归创建文件夹
      *
-     * @param dirPath
      * @return 创建失败返回""
      */
     public static String createDir(String dirPath) {
@@ -135,7 +130,6 @@ public class FileUtils {
      * 转换文件大小
      *
      * @param fileLen 单位B
-     * @return
      */
     public static String formatFileSizeToString(long fileLen) {
         DecimalFormat df = new DecimalFormat("0.00");
@@ -183,9 +177,6 @@ public class FileUtils {
 
     /**
      * 获取指定文件大小
-     *
-     * @return
-     * @throws Exception
      */
     public static long getFileSize(File file) throws Exception {
         long size = 0;
@@ -214,5 +205,13 @@ public class FileUtils {
         Log.d("ACETEST", "### duration: " + duration);
         player.release();//记得释放资源
         return duration;
+    }
+
+    /**
+     * 获取SD卡路径
+     */
+    public static String getSDCardPath() {
+        File storageDirectory = Environment.getExternalStorageDirectory();
+        return storageDirectory != null ? storageDirectory.getAbsolutePath() : "";
     }
 }
