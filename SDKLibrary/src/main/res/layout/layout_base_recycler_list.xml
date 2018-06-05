@@ -9,15 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.zhiyangstudio.commonlib.widget.recyclerview.LoadingLayout
+        <com.zysdk.vulture.clib.widget.recyclerview.LoadingLayout
             android:id="@+id/base_loadinglayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.zhiyangstudio.commonlib.widget.recyclerview.LMRecyclerView
+            <com.zysdk.vulture.clib.widget.recyclerview.LMRecyclerView
                 android:id="@+id/base_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-        </com.zhiyangstudio.commonlib.widget.recyclerview.LoadingLayout>
+        </com.zysdk.vulture.clib.widget.recyclerview.LoadingLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
 </FrameLayout>

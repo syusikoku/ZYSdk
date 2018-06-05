@@ -30,7 +30,7 @@
                 android:orientation="vertical"
                 android:visibility="gone" />
 
-            <com.zhiyangstudio.commonlib.widget.recyclerview.LoadingLayout
+            <com.zysdk.vulture.clib.widget.recyclerview.LoadingLayout
                 android:id="@+id/loading"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -43,7 +43,7 @@
                     android:background="@android:color/white"
                     android:overScrollMode="never" />
 
-            </com.zhiyangstudio.commonlib.widget.recyclerview.LoadingLayout>
+            </com.zysdk.vulture.clib.widget.recyclerview.LoadingLayout>
 
         </LinearLayout>
 

@@ -1,6 +1,6 @@
 # 注意
  
-com.zhiyangstudio.commonlib.adapter.lgrcommon 为listview/gridview/recyclerview 公用的apdapter
+com.zysdk.vulture.clib.adapter.lgrcommon 为listview/gridview/recyclerview 公用的apdapter
 
 # QuickAdapter使用示例代码:
 
