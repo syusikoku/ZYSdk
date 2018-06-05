@@ -20,6 +20,7 @@ import com.zysdk.vulture.clib.glide.GlideUtils;
 import com.zysdk.vulture.clib.mvp.BaseMVPSupportActivivty;
 import com.zysdk.vulture.clib.mvp.inter.ISampleRefreshView;
 import com.zysdk.vulture.clib.mvp.presenter.BasePresenter;
+import com.zysdk.vulture.clib.utils.ResourceUtils;
 import com.zysdk.vulture.clib.utils.UiUtils;
 import com.zysdk.vulture.clib.widget.recyclerview.LMRecyclerView;
 import com.zysdk.vulture.clib.widget.recyclerview.LoadingLayout;
