@@ -76,7 +76,6 @@ public class DisplayUtils {
     /**
      * Converts sp to px
      *
-     * @param
      * @param sp the value in sp
      * @return int
      */
@@ -90,9 +89,53 @@ public class DisplayUtils {
     }
 
     /**
+     * 将px值转换为sp值，保证文字大小不变
+     */
+    public static int px2sp(Context context, float pxValue) {
+        final float fontScale = context.getResources().getDisplayMetrics()
+                .scaledDensity;
+        return (int) (pxValue / fontScale + 0.5f);
+    }
+
+    /**
+     * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
+     */
+    public static int dp2px(float dpValue) {
+        final float scale = UiUtils.getContext().getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
+    /**
+     * 将sp值转换为px值，保证文字大小不变
+     */
+    public static int sp2px(Context context, float spValue) {
+        final float fontScale = context.getResources().getDisplayMetrics()
+                .scaledDensity;
+        return (int) (spValue * fontScale + 0.5f);
+    }
+
+    public static int Dp2Px(Context context, int dpi) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpi, context
+                .getResources().getDisplayMetrics());
+    }
+
+    public static int Px2Dp(Context context, int px) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, px, context
+                .getResources().getDisplayMetrics());
+    }
+
+    public static int Sp2Px(Context context, int sp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, context
+                .getResources().getDisplayMetrics());
+    }
+
+    public static int Px2Sp(Context context, int px) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, px, context
+                .getResources().getDisplayMetrics());
+    }
+
+    /**
      * 获取屏幕宽高
-     *
-     * @return
      */
     public static int[] getScreenWH() {
         WindowManager wm = getWindowManager();
