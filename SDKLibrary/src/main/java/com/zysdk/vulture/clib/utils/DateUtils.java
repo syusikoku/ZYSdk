@@ -556,7 +556,7 @@ public class DateUtils {
     public static int getDaysOfCurMonth() {
         int curyear = new Integer(getCurrentYear()).intValue(); // 当前年份
         int curMonth = new Integer(getCurrentMonth()).intValue();// 当前月份
-        int mArray[] = new int[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        int[] mArray = new int[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
         // 判断闰年的情况 ，2月份有29天；
         if ((curyear % 400 == 0) || ((curyear % 100 != 0) && (curyear % 4 == 0))) {
             mArray[1] = 29;

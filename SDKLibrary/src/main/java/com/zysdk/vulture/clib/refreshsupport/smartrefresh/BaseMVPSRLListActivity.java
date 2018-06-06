@@ -199,7 +199,6 @@ public abstract class BaseMVPSRLListActivity<P extends BasePresenter<V>, V exten
 
     @Override
     public void showFail(String msg) {
-//        ToastUtils.showShort(msg);
         if (mPage == 1) {
             refreshLayout.finishRefresh();
             mLoadingLayout.showError();

@@ -130,7 +130,6 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<SmartV
 //        return false;
 //    }
 
-    //<editor-fold desc="RecyclerAdapter">
     @Override
     public SmartViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new SmartViewHolder(LayoutInflater.from(parent.getContext()).inflate(mLayoutId,

@@ -1,4 +1,4 @@
-package com.zysdk.vulture.clib.components.receiver;
+package com.zysdk.vulture.clib.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

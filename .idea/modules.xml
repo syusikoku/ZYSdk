@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SDKLibrary/SDKLibrary.iml" filepath="$PROJECT_DIR$/SDKLibrary/SDKLibrary.iml" />
-      <module fileurl="file://F:\zyprojectspace\AsProjects\zzgapps\ZYSdk\ZYMobileSdk.iml" filepath="F:\zyprojectspace\AsProjects\zzgapps\ZYSdk\ZYMobileSdk.iml" />
+      <module fileurl="file://F:/zyprojectspace/AsProjects/zzgapps/ZYSdk/ZYMobileSdk.iml" filepath="F:/zyprojectspace/AsProjects/zzgapps/ZYSdk/ZYMobileSdk.iml" />
       <module fileurl="file://$PROJECT_DIR$/ZYSdk.iml" filepath="$PROJECT_DIR$/ZYSdk.iml" />
     </modules>
   </component>
