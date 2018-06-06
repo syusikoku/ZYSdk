@@ -43,6 +43,10 @@ public class DisplayUtils {
         return displayMetrics.widthPixels;
     }
 
+
+    /**
+     * 获取手机屏幕的真实高度
+     */
     public static int getScreenHeightWithDecorations() {
         int heightPixes;
         WindowManager windowManager = mWindowManager;
@@ -80,7 +84,8 @@ public class DisplayUtils {
      * @return int
      */
     public static int dip2sp(float sp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, mContext.getResources().getDisplayMetrics());
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, mContext
+                .getResources().getDisplayMetrics());
     }
 
     public static int px2dip(float pxValue) {

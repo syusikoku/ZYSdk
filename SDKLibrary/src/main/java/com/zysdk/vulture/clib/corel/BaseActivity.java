@@ -27,6 +27,7 @@ import com.zysdk.vulture.clib.R;
 import com.zysdk.vulture.clib.inter.IActivityLifeCycle;
 import com.zysdk.vulture.clib.utils.AppActivityManager;
 import com.zysdk.vulture.clib.utils.CommonUtils;
+import com.zysdk.vulture.clib.utils.DisplayUtils;
 import com.zysdk.vulture.clib.utils.EmptyUtils;
 import com.zysdk.vulture.clib.utils.LogListener;
 import com.zysdk.vulture.clib.utils.LoggerUtils;
@@ -57,6 +58,8 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
     private PermissionListener mListener;
     private int mReqPermission;
     private String mPermissionTip;
+    // 真实的手机屏幕高度:手机像素高度+标题+34
+    protected int realScreenHeight;
 
     protected void onMessageGoing(Message message) {
 
@@ -90,6 +93,11 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         screenWidth = displayMetrics.widthPixels;
         screenHeigth = displayMetrics.heightPixels;
+        realScreenHeight = DisplayUtils.getScreenHeightWithDecorations();
+        LoggerUtils.loge(DisplayUtils.getScreenHeight() + "");
+        LoggerUtils.loge(DisplayUtils.getScreenWH()[0] + " , " + DisplayUtils.getScreenWH()[1]);
+        LoggerUtils.loge(DisplayUtils.getStatusBarHeight() + "");
+        LoggerUtils.loge(DisplayUtils.getScreenHeightWithDecorations() + "");
         layoutInflater = LayoutInflater.from(mContext);
         // TODO: 2018/4/6 andorid 23以上版本检查运行时权限
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -424,7 +432,8 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
 
     protected boolean checkSelfPermission(String permission, int requestCode) {
         LoggerUtils.loge("checkSelfPermission " + permission + " " + requestCode);
-        if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, permission) != PackageManager
+                .PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
                     new String[]{permission},
                     requestCode);
