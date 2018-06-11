@@ -94,10 +94,21 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
         screenWidth = displayMetrics.widthPixels;
         screenHeigth = displayMetrics.heightPixels;
         realScreenHeight = DisplayUtils.getScreenHeightWithDecorations();
+
         LoggerUtils.loge(DisplayUtils.getScreenHeight() + "");
         LoggerUtils.loge(DisplayUtils.getScreenWH()[0] + " , " + DisplayUtils.getScreenWH()[1]);
         LoggerUtils.loge(DisplayUtils.getStatusBarHeight() + "");
         LoggerUtils.loge(DisplayUtils.getScreenHeightWithDecorations() + "");
+
+        LoggerUtils.loge(getClass().getName() + ", onCreate context.isFinishing() = " +
+                isFinishing() + "");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            LoggerUtils.loge(getClass().getName() + ", onCreate context.isDestroyed() = " +
+                    isDestroyed() + "");
+        }
+        LoggerUtils.loge(getClass().getName() + ", onCreate context.isTaskRoot = " + isTaskRoot()
+                + "");
+
         layoutInflater = LayoutInflater.from(mContext);
         // TODO: 2018/4/6 andorid 23以上版本检查运行时权限
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -279,6 +290,16 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
     protected void onDestroy() {
         mH.destory();
         AppActivityManager.getInstance().removeActivity(this);
+
+        LoggerUtils.loge(getClass().getName() + ", onDestroy context.isFinishing() = " +
+                isFinishing() + "");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            LoggerUtils.loge(getClass().getName() + ", onDestroy context.isDestroyed() = " +
+                    isDestroyed() + "");
+        }
+        LoggerUtils.loge(getClass().getName() + ", onDestroy context.isTaskRoot = " + isTaskRoot()
+                + "");
+
         super.onDestroy();
         LoggerUtils.loge(this, "onDestroy");
         if (unbinder != null) {

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
+import android.os.Build;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zysdk.vulture.clib.R;
+import com.zysdk.vulture.clib.utils.LoggerUtils;
 
 /**
  * Created by zhiyang on 2018/5/19.
@@ -63,6 +65,21 @@ public class LoadingDialog extends Dialog {
 
     public static LoadingDialog show(Activity context, String msg, boolean cancelable,
                                      OnCancelListener cancelListener) {
+
+
+        if (context == null) {
+            return null;
+        }
+
+        LoggerUtils.loge(context.getClass().getName() + ", show context.isFinishing() = " +
+                context.isFinishing() + "");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            LoggerUtils.loge(context.getClass().getName() + ", show context.isDestroyed() = " +
+                    context.isDestroyed() + "");
+        }
+        LoggerUtils.loge(context.getClass().getName() + ", show context.isTaskRoot = " + context
+                .isTaskRoot() + "");
+
         loadingDialog = new LoadingDialog(context, R.style.loadingDialog);
         loadingDialog.setTitle("");
         loadingDialog.setContentView(R.layout.layout_loading_dialog);
@@ -82,6 +99,18 @@ public class LoadingDialog extends Dialog {
     }
 
     public static LoadingDialog show(Activity context) {
+        if (context == null)
+            return null;
+
+        LoggerUtils.loge(context.getClass().getName() + ", show context.isFinishing() = " +
+                context.isFinishing() + "");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            LoggerUtils.loge(context.getClass().getName() + ", show context.isDestroyed() = " +
+                    context.isDestroyed() + "");
+        }
+        LoggerUtils.loge(context.getClass().getName() + ", show context.isTaskRoot = " + context
+                .isTaskRoot() + "");
+
         loadingDialog = new LoadingDialog(context, R.style.loadingDialog);
         loadingDialog.setTitle("");
         loadingDialog.setContentView(R.layout.layout_loading_dialog);
@@ -110,6 +139,18 @@ public class LoadingDialog extends Dialog {
      * @param cancelable 对话框是否可以取消
      */
     public static Dialog showDialogForLoading(Activity context, String msg, boolean cancelable) {
+        if (context == null)
+            return null;
+
+        LoggerUtils.loge(context.getClass().getName() + ", show context.isFinishing() = " +
+                context.isFinishing() + "");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            LoggerUtils.loge(context.getClass().getName() + ", show context.isDestroyed() = " +
+                    context.isDestroyed() + "");
+        }
+        LoggerUtils.loge(context.getClass().getName() + ", show context.isTaskRoot = " + context
+                .isTaskRoot() + "");
+
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_loading, null);
         TextView loadingText = (TextView) view.findViewById(R.id.id_tv_loading_dialog_text);
         loadingText.setText(msg);
@@ -117,13 +158,26 @@ public class LoadingDialog extends Dialog {
         mLoadingDialog = new Dialog(context, R.style.CustomProgressDialog);
         mLoadingDialog.setCancelable(cancelable);
         mLoadingDialog.setCanceledOnTouchOutside(false);
-        mLoadingDialog.setContentView(view, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+        mLoadingDialog.setContentView(view, new LinearLayout.LayoutParams(LinearLayout
+                .LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT));
         mLoadingDialog.show();
         return mLoadingDialog;
     }
 
     public static Dialog showDialogForLoading(Activity context) {
+        if (context == null)
+            return null;
+
+        LoggerUtils.loge(context.getClass().getName() + ", show context.isFinishing() = " +
+                context.isFinishing() + "");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            LoggerUtils.loge(context.getClass().getName() + ", show context.isDestroyed() = " +
+                    context.isDestroyed() + "");
+        }
+        LoggerUtils.loge(context.getClass().getName() + ", show context.isTaskRoot = " + context
+                .isTaskRoot() + "");
+
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_loading, null);
         TextView loadingText = (TextView) view.findViewById(R.id.id_tv_loading_dialog_text);
         loadingText.setText("加载中...");
@@ -131,7 +185,8 @@ public class LoadingDialog extends Dialog {
         mLoadingDialog = new Dialog(context, R.style.CustomProgressDialog);
         mLoadingDialog.setCancelable(true);
         mLoadingDialog.setCanceledOnTouchOutside(false);
-        mLoadingDialog.setContentView(view, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+        mLoadingDialog.setContentView(view, new LinearLayout.LayoutParams(LinearLayout
+                .LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT));
         mLoadingDialog.show();
         return mLoadingDialog;

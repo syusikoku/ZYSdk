@@ -18,11 +18,11 @@ public class GlideCircleTransform extends BitmapTransformation {
     private boolean mHasTransform = true;
 
     public GlideCircleTransform(Context context) {
-        super(context);
+        super();
     }
 
     public GlideCircleTransform(Context context, boolean hasTransform) {
-        super(context);
+        super();
         this.mHasTransform = hasTransform;
     }
 
