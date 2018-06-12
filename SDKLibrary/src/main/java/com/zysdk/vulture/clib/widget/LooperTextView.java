@@ -13,6 +13,8 @@ import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.zysdk.vulture.clib.utils.LoggerUtils;
+
 import java.util.List;
 import java.util.Random;
 
@@ -33,6 +35,18 @@ public class LooperTextView extends FrameLayout {
     private Drawable head_boy, head_girl;
     private TextView tv_tip_out, tv_tip_in;
     private Animation anim_out, anim_in;
+    private TextView runAnimTv;
+    private OnCurrentItemClickListener listener;
+
+    /**
+     * 当前正在显示的文字
+     */
+    private String currentItemStr;
+
+    /**
+     * 当前正在显示条目的索引
+     */
+    private int currentItemPos;
 
     public LooperTextView(Context context) {
         super(context);
@@ -56,11 +70,14 @@ public class LooperTextView extends FrameLayout {
 
             @Override
             public void onAnimationStart(Animation animation) {
-
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
+                // TODO: 2018/6/12  不管是哪个tv执行进入动画，只要一结束就记录文字和位置 
+                currentItemStr = runAnimTv.getText().toString();
+                currentItemPos = tipList.indexOf(currentItemStr);
+                LoggerUtils.loge("str = " + currentItemStr);
                 updateTipAndPlayAnimationWithCheck();
             }
 
@@ -86,7 +103,8 @@ public class LooperTextView extends FrameLayout {
     }
 
     private Animation newAnimation(float fromYValue, float toYValue) {
-        Animation anim = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
+        Animation anim = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation
+                .RELATIVE_TO_SELF, 0,
                 Animation.RELATIVE_TO_SELF, fromYValue, Animation.RELATIVE_TO_SELF, toYValue);
         anim.setDuration(ANIM_DURATION);
         anim.setStartOffset(ANIM_DELAYED_MILLIONS);
@@ -106,11 +124,25 @@ public class LooperTextView extends FrameLayout {
         if (curTipIndex % 2 == 0) {
             updateTip(tv_tip_out);
             tv_tip_in.startAnimation(anim_out);
+            // TODO: 2018/6/12 在动画执行之前就要设置点击事件
+            runAnimTv = tv_tip_out;
+            runAnimTv.setOnClickListener(view -> {
+                if (listener != null) {
+                    listener.onItemClick(currentItemPos);
+                }
+            });
             tv_tip_out.startAnimation(anim_in);
             this.bringChildToFront(tv_tip_in);
         } else {
             updateTip(tv_tip_in);
             tv_tip_out.startAnimation(anim_out);
+            // TODO: 2018/6/12 在动画执行之前就要设置点击事件
+            runAnimTv = tv_tip_in;
+            runAnimTv.setOnClickListener(view -> {
+                if (listener != null) {
+                    listener.onItemClick(currentItemPos);
+                }
+            });
             tv_tip_in.startAnimation(anim_in);
             this.bringChildToFront(tv_tip_out);
         }
@@ -122,6 +154,7 @@ public class LooperTextView extends FrameLayout {
         } else {
             tipView.setCompoundDrawables(head_girl, null, null, null);
         }
+
         String tip = getNextTip();
         if (!TextUtils.isEmpty(tip)) {
             tipView.setText(tip);
@@ -131,9 +164,11 @@ public class LooperTextView extends FrameLayout {
     /**
      * 获取下一条消息
      */
-    private String getNextTip() {
+    public String getNextTip() {
         if (isListEmpty(tipList)) return null;
-        return tipList.get(curTipIndex++ % tipList.size());
+        int next_pos = curTipIndex++ % tipList.size();
+        String str_2 = tipList.get(next_pos);
+        return str_2;
     }
 
     public static boolean isListEmpty(List list) {
@@ -176,4 +211,14 @@ public class LooperTextView extends FrameLayout {
         updateTip(tv_tip_out);
         updateTipAndPlayAnimation();
     }
+
+
+    public interface OnCurrentItemClickListener {
+        void onItemClick(int pos);
+    }
+
+    public void setOnCurrentItemClickListener(OnCurrentItemClickListener listener) {
+        this.listener = listener;
+    }
+
 }
