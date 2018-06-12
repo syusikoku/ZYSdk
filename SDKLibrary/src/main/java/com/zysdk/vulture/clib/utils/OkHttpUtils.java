@@ -29,10 +29,10 @@ public class OkHttpUtils {
         oBuilder.readTimeout(30, TimeUnit.SECONDS);
         oBuilder.writeTimeout(30, TimeUnit.SECONDS);
         // 默认的网络请求日志拦截器
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        oBuilder.addInterceptor(loggingInterceptor);
         if (isSupportDataInterceptor) {
+            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            oBuilder.addInterceptor(loggingInterceptor);
             oBuilder.addInterceptor(new DataInterceptor());
         }
         // 设置cookie
