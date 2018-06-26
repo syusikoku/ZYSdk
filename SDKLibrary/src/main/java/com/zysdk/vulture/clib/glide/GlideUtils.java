@@ -51,6 +51,10 @@ public class GlideUtils {
         loadPic(context, url, 0, 0, imageView, false);
     }
 
+    public static void loadPic(Context context, String url, ImageView imageView, int placeImgRes) {
+        loadPic(context, url, placeImgRes, placeImgRes, imageView, false);
+    }
+
     /**
      * 加载图片
      *
@@ -59,7 +63,6 @@ public class GlideUtils {
      */
     public static void loadPic(Context context, String url, int placeImgRes, int errorImgRes, ImageView imageView,
                                boolean displayCircle) {
-        GlideRequests glideRequests = GlideApp.with(context);
         if (placeImgRes == 0) {
             placeImgRes = R.drawable.iv_img_default;
         }
@@ -68,7 +71,7 @@ public class GlideUtils {
             placeImgRes = R.drawable.iv_img_default;
         }
         GlideCircleTransform circleTransform = new GlideCircleTransform(context, displayCircle);
-        glideRequests.load(url)
+        GlideApp.with(context).load(url)
                 .centerCrop()
                 //禁用磁盘缓存
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
