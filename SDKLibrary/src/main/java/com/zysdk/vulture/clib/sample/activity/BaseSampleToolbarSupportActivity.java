@@ -1,4 +1,4 @@
-package com.zysdk.vulture.clib.sample;
+package com.zysdk.vulture.clib.sample.activity;
 
 import android.os.Message;
 import android.support.v7.widget.Toolbar;

@@ -1,4 +1,4 @@
-package com.zysdk.vulture.clib.sample;
+package com.zysdk.vulture.clib.sample.fragment;
 
 import android.os.Bundle;
 

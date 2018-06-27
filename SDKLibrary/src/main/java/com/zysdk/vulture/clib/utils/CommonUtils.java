@@ -16,6 +16,7 @@ import android.support.design.internal.NavigationMenuPresenter;
 import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -26,6 +27,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -481,13 +483,12 @@ public class CommonUtils {
     public static void fixToolbar(Toolbar toolbar) {
         int contentInsetStartWithNavigation = toolbar.getContentInsetStartWithNavigation();
         LoggerUtils.loge("nav:" + contentInsetStartWithNavigation);
-        toolbar.setContentInsetsRelative(contentInsetStartWithNavigation, contentInsetStartWithNavigation);
+        toolbar.setContentInsetsRelative(contentInsetStartWithNavigation,
+                contentInsetStartWithNavigation);
     }
 
     /**
      * 设置隐藏标题栏
-     *
-     * @param activity
      */
     public static void setNoTitleBar(Activity activity) {
         activity.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -495,8 +496,6 @@ public class CommonUtils {
 
     /**
      * 设置全屏
-     *
-     * @param activity
      */
     public static void setFullScreen(Activity activity) {
         activity.getWindow().setFlags(
@@ -506,11 +505,44 @@ public class CommonUtils {
 
     /**
      * 取消全屏
-     *
-     * @param activity
      */
     public static void cancelFullScreen(Activity activity) {
         activity.getWindow().clearFlags(
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
+
+    /**
+     * 设置TabLayout indicator宽度
+     */
+    public static void setUpIndicatorWidth(TabLayout tabLayout, int marginLeft, int marginRight) {
+        Class<?> tabLayoutClass = tabLayout.getClass();
+        Field tabStrip = null;
+        try {
+            tabStrip = tabLayoutClass.getDeclaredField("mTabStrip");
+            tabStrip.setAccessible(true);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+
+        LinearLayout layout = null;
+        try {
+            if (tabStrip != null) {
+                layout = (LinearLayout) tabStrip.get(tabLayout);
+            }
+            for (int i = 0; i < layout.getChildCount(); i++) {
+                View child = layout.getChildAt(i);
+                child.setPadding(0, 0, 0, 0);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout
+                        .LayoutParams.MATCH_PARENT, 1);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                    params.setMarginStart(DisplayUtils.dp2px(marginLeft));
+                    params.setMarginEnd(DisplayUtils.dp2px(marginRight));
+                }
+                child.setLayoutParams(params);
+                child.invalidate();
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="RatioLayout">
-        <attr name="ratio" format="float" />
+        <attr name="ratio" format="float"/>
+    </declare-styleable>
+
+    <declare-styleable name="MenuWidget">
+        <attr name="Title" format="string"/>
+        <attr name="TitleTextColor" format="color|reference"/>
+        <attr name="TitleTextSize" format="dimension|integer"/>
+        <attr name="SubTitle" format="string"/>
+        <attr name="SubTitleTextColor" format="color|reference"/>
+        <attr name="SubTitleTextSize" format="dimension|integer"/>
+        <attr name="showLeftIcon" format="boolean"/>
+        <attr name="hideSubTitle" format="boolean"/>
+        <attr name="showDivider2" format="boolean"/>
+        <attr name="showExtMsg" format="boolean"/>
+        <attr name="showTvMore" format="boolean"/>
+        <attr name="showCheckbox" format="boolean"/>
+        <attr name="leftIconRes" format="reference"/>
+        <attr name="extMsgStr" format="string"/>
+        <attr name="tvMoreStr" format="string"/>
+        <attr name="cbBgRes" format="reference"/>
+        <attr name="showMoreIcon" format="boolean"/>
     </declare-styleable>
 </resources>
