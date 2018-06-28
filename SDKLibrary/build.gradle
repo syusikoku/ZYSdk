@@ -46,6 +46,7 @@ dependencies {
     implementation rootProject.ext.ext_tools.haorefresh
     implementation rootProject.ext.ext_tools.rxjava
     implementation rootProject.ext.ext_tools.rxandroid
+    implementation rootProject.ext.ext_tools.rxlifecycle_components
     implementation rootProject.ext.ext_tools.retrofit
     implementation rootProject.ext.ext_tools.converter_gson
     implementation rootProject.ext.ext_tools.adapter_rxjava2
