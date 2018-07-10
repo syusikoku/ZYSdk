@@ -52,7 +52,8 @@ public abstract class BaseSampleToolbarSupportActivity extends BaseActivity {
         }
 
         if (getContentLayoutId() != 0) {
-            View contentView = LayoutInflater.from(mContext).inflate(getContentLayoutId(), containerLayout,
+            View contentView = LayoutInflater.from(mContext).inflate(getContentLayoutId(),
+                    containerLayout,
                     false);
             containerLayout.addView(contentView);
             // TODO: 2018/4/10 重新绑定view,不重新绑定会无法使用
@@ -61,7 +62,9 @@ public abstract class BaseSampleToolbarSupportActivity extends BaseActivity {
 
     }
 
-    protected abstract boolean initToolBar();
+    protected boolean initToolBar() {
+        return true;
+    }
 
     protected boolean hasShowBackIcon() {
         return true;

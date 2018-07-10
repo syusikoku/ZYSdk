@@ -144,6 +144,8 @@ project.ext {
             fresco                              : 'com.facebook.fresco:fresco:0.8.+',
             picasso                             : 'com.squareup.picasso:picasso:2.71828',
 
+            androidsvg                             :  'com.caverock:androidsvg:1.2.1',
+
             /*PhotoView*/
             PhotoView                           : 'com.github.chrisbanes:PhotoView:1.3.0',
 

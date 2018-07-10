@@ -40,6 +40,9 @@ dependencies {
     implementation rootProject.ext.ext_tools.utilcode
     implementation rootProject.ext.ext_tools.fragmentation
     implementation rootProject.ext.ext_tools.BaseRecyclerViewAdapter
+
+    implementation rootProject.ext.ext_tools.androidsvg
+
     //SmartRefreshLayout
     implementation rootProject.ext.ext_tools.SmartRefreshLayout
     implementation rootProject.ext.ext_tools.SmartRefreshHeader
