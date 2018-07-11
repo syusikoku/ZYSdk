@@ -1,15 +1,9 @@
 package com.zysdk.vulture.clib.utils;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.content.res.TypedArray;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.ColorInt;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,7 +80,7 @@ public class UiUtils {
      * 对toast的简易封装。线程安全，可以在非UI线程调用。
      */
     public static void showToastSafe(final int resId) {
-        showToastSafe(getStr(resId));
+        showToastSafe(ResourceUtils.getStr(resId));
     }
 
     /**
@@ -103,10 +97,6 @@ public class UiUtils {
                 }
             });
         }
-    }
-
-    public static String getStr(int arrsResId) {
-        return getResources(getContext()).getString(arrsResId);
     }
 
     private static void showToast(String str) {

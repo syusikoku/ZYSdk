@@ -31,6 +31,7 @@ import com.zysdk.vulture.clib.utils.DisplayUtils;
 import com.zysdk.vulture.clib.utils.EmptyUtils;
 import com.zysdk.vulture.clib.utils.LogListener;
 import com.zysdk.vulture.clib.utils.LoggerUtils;
+import com.zysdk.vulture.clib.utils.ResourceUtils;
 import com.zysdk.vulture.clib.utils.UiUtils;
 
 import butterknife.ButterKnife;
@@ -396,7 +397,7 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
      * 显示提示对话框
      */
     protected void showTipsDialog(String content, DialogInterface.OnClickListener confirmListener) {
-        showTipsDialogWithTitle(null, content, UiUtils.getStr(R.string.str_dialog_confirm),
+        showTipsDialogWithTitle(null, content, ResourceUtils.getStr(R.string.str_dialog_confirm),
                 confirmListener, null, null);
     }
 
@@ -437,8 +438,8 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
             .OnClickListener confirmListener,
                                            DialogInterface.OnClickListener cancelListener) {
         showTipsDialogWithTitle(title, content,
-                UiUtils.getStr(R.string.str_dialog_confirm),
-                confirmListener, UiUtils.getStr(R.string.str_dialog_cancel),
+                ResourceUtils.getStr(R.string.str_dialog_confirm),
+                confirmListener, ResourceUtils.getStr(R.string.str_dialog_cancel),
                 cancelListener);
     }
 

@@ -166,7 +166,7 @@ public class MenuWidget extends RelativeLayout {
 
     public void setTitle(int titleResid) {
         if (titleResid > 0)
-            mTvTitle.setText(UiUtils.getStr(titleResid));
+            mTvTitle.setText(ResourceUtils.getStr(titleResid));
     }
 
     public void setSubTitle(String title) {
@@ -176,7 +176,7 @@ public class MenuWidget extends RelativeLayout {
 
     public void setSubTitle(int titleResid) {
         if (titleResid > 0)
-            mTvTitle.setText(UiUtils.getStr(titleResid));
+            mTvTitle.setText(ResourceUtils.getStr(titleResid));
     }
 
     public void setLeftIcon(int resId) {
