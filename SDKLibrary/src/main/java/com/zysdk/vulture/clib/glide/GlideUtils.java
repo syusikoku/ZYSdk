@@ -74,9 +74,9 @@ public class GlideUtils {
         GlideApp.with(context).load(url)
                 .centerCrop()
                 //禁用磁盘缓存
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 //跳过内存缓存,这里不要跳过内存缓存，会导致列表的时候滑动的时候图片会闪烁
-//                .skipMemoryCache(true)
+                .skipMemoryCache(false)
                 .dontAnimate()  // 取消加载动画
                 .placeholder(placeImgRes)
                 .transform(circleTransform)

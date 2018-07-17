@@ -92,7 +92,8 @@ public abstract class BaseMVPSRLListActivity<P extends BasePresenter<V>, V exten
             }
 
             @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
+                                 int totalItemCount) {
 
             }
         });
@@ -218,11 +219,12 @@ public abstract class BaseMVPSRLListActivity<P extends BasePresenter<V>, V exten
         UiUtils.runInMainThread(new Runnable() {
             @Override
             public void run() {
+                UiUtils.showToastSafe(ResourceUtils.getStr(R.string.tip_no_data));
                 mLoadingLayout.showEmpty();
             }
         });
     }
-    
+
     @Override
     public void steDataCount(int total) {
         this.mDataCount = total;

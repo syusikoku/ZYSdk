@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -57,6 +58,7 @@ public abstract class RxBaseMVPSRRListFragment<P extends BasePresenter<V>, V ext
     protected LinearLayout mExtRoot;
     protected FrameLayout mRootContainer;
     private DividerItemDecoration mDividerItemDecoration;
+    private boolean sIsScrolling;
 
     @Override
     public int getContentId() {
@@ -169,10 +171,21 @@ public abstract class RxBaseMVPSRRListFragment<P extends BasePresenter<V>, V ext
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState != RecyclerView.SCROLL_STATE_IDLE) {
-                    GlideUtils.pauseLoadPic(recyclerView.getContext());
+                    GlideUtils.pauseLoadPic(UiUtils.getAppInstance());
                 } else {
-                    GlideUtils.reLoadPic(recyclerView.getContext());
+                    GlideUtils.reLoadPic(UiUtils.getAppInstance());
                 }
+
+                /*if (newState == RecyclerView.SCROLL_STATE_DRAGGING ||
+                        newState == RecyclerView.SCROLL_STATE_SETTLING) {
+                    sIsScrolling = true;
+                    Glide.with(recyclerView.getContext()).pauseRequests();
+                } else if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    if (sIsScrolling == true) {
+                        Glide.with(recyclerView.getContext()).resumeRequests();
+                    }
+                    sIsScrolling = false;
+                }*/
             }
         });
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
@@ -294,6 +307,7 @@ public abstract class RxBaseMVPSRRListFragment<P extends BasePresenter<V>, V ext
         UiUtils.runInMainThread(new Runnable() {
             @Override
             public void run() {
+                UiUtils.showToastSafe(ResourceUtils.getStr(R.string.tip_no_data));
                 mLoadingLayout.showEmpty();
             }
         });

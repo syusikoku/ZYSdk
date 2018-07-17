@@ -1,5 +1,6 @@
 package com.zysdk.vulture.clib.wrapper;
 
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.ArrayMap;
@@ -8,6 +9,7 @@ import com.orhanobut.logger.Logger;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -69,7 +71,11 @@ public class ApiResponse<T> {
         if (linkHader == null) {
             links = Collections.emptyMap();
         } else {
-            links = new ArrayMap<>();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                links = new ArrayMap<>();
+            } else {
+                links = new LinkedHashMap<>();
+            }
             Matcher matcher = LINK_PATTERN.matcher(linkHader);
 
             while (matcher.find()) {

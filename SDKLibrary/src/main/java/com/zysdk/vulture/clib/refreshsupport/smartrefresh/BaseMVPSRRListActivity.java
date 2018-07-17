@@ -271,6 +271,7 @@ public abstract class BaseMVPSRRListActivity<P extends BasePresenter<V>, V exten
         UiUtils.runInMainThread(new Runnable() {
             @Override
             public void run() {
+                UiUtils.showToastSafe(ResourceUtils.getStr(R.string.tip_no_data));
                 mLoadingLayout.showEmpty();
             }
         });

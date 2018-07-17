@@ -213,6 +213,7 @@ public abstract class BaseAbsSmartRefreshListActivity<P extends BasePresenter<V>
 
     @Override
     public void showEmpty() {
+        UiUtils.showToastSafe(ResourceUtils.getStr(R.string.tip_no_data));
         loadingView.showEmpty();
     }
 

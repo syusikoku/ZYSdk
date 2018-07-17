@@ -27,11 +27,11 @@ public class GlideModule extends AppGlideModule {
     public void applyOptions(Context context, GlideBuilder builder) {
 //        int memoryCacheSizeBytes = 1024 * 1024 * 20; // 20mb
         // Apply options to the builder here.
-        int maxMemory = (int) Runtime.getRuntime().maxMemory();//获取系统分配给应用的总内存大小
-        int memoryCacheSize = maxMemory / 8;//设置图片内存缓存占用八分之一
-        //设置内存缓存大小
-        builder.setMemoryCache(new LruResourceCache(memoryCacheSize));
-        builder.setBitmapPool(new LruBitmapPool(memoryCacheSize));
+//        int maxMemory = (int) Runtime.getRuntime().maxMemory();//获取系统分配给应用的总内存大小
+//        int memoryCacheSize = maxMemory / 8;//设置图片内存缓存占用八分之一
+//        //设置内存缓存大小
+//        builder.setMemoryCache(new LruResourceCache(memoryCacheSize));
+//        builder.setBitmapPool(new LruBitmapPool(memoryCacheSize));
     }
 
     @Override

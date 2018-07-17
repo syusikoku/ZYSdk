@@ -143,12 +143,10 @@ public class LoadingLayout extends FrameLayout {
     //empty
     public void showEmpty() {
         hasDismiss = true;
-        if (mEmptyView != null && mEmptyView.getVisibility() != VISIBLE)
-            mEmptyView.setVisibility(VISIBLE);
         mLoadingView.setVisibility(GONE);
         mErrorView.setVisibility(GONE);
-        if (mContentView != null && mContentView.getVisibility() != GONE)
-            mContentView.setVisibility(GONE);
+        mContentView.setVisibility(GONE);
+        mEmptyView.setVisibility(VISIBLE);
     }
 
     //content

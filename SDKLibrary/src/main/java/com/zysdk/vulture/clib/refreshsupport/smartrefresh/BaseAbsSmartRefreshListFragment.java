@@ -17,6 +17,7 @@ import com.zysdk.vulture.clib.mvp.inter.IListDataView;
 import com.zysdk.vulture.clib.mvp.inter.IView;
 import com.zysdk.vulture.clib.mvp.presenter.BasePresenter;
 import com.zysdk.vulture.clib.utils.ResourceUtils;
+import com.zysdk.vulture.clib.utils.UiUtils;
 import com.zysdk.vulture.clib.widget.recyclerview.LMRecyclerView;
 import com.zysdk.vulture.clib.widget.recyclerview.LoadingLayout;
 import com.zysdk.vulture.clib.widget.recyclerview.divider.GridDivider;
@@ -249,6 +250,7 @@ public abstract class BaseAbsSmartRefreshListFragment<P extends BasePresenter<V>
 
     @Override
     public void showEmpty() {
+        UiUtils.showToastSafe(ResourceUtils.getStr(R.string.tip_no_data));
         loadingView.showEmpty();
     }
 
