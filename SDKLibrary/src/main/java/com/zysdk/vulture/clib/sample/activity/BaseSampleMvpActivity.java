@@ -16,7 +16,7 @@ import com.zysdk.vulture.clib.utils.CommonUtils;
 
 import butterknife.ButterKnife;
 
-public abstract class BaseSampleActivity<P extends BasePresenter<V>, V extends IView> extends
+public abstract class BaseSampleMvpActivity<P extends BasePresenter<V>, V extends IView> extends
         BaseMVPSupportActivivty<P, V> {
 
     protected BaseInternalHandler mH = new BaseInternalHandler(this) {

@@ -53,8 +53,9 @@ project.ext {
     ]
 
     def daggerLibVersion = "2.11", retrofitLiVersion = "2.3.0", okhttpLibVersion = '3.9.1',
-        gms = "11.8.0", google_play_services_client_library_version = "9.8.0", smartrefreshVersion = '1.0.5.1',
+        gms = "11.8.0", google_play_services_client_library_version = "7.0.0", smartrefreshVersion = '1.0.5.1',
         tablayoutVersion = '2.1.2@aar', verticalTabLayoutVersion = '1.2.5'
+    /*扩展工具*/
     ext_tools = [
             /*rx*/
             rxjava                              : 'io.reactivex.rxjava2:rxjava:2.1.3',
@@ -142,9 +143,10 @@ project.ext {
             glide_transformations               : 'jp.wasabeef:glide-transformations:2.0.1',
 
             fresco                              : 'com.facebook.fresco:fresco:0.8.+',
+
             picasso                             : 'com.squareup.picasso:picasso:2.71828',
 
-            androidsvg                             :  'com.caverock:androidsvg:1.2.1',
+            androidsvg                          : 'com.caverock:androidsvg:1.2.1',
 
             /*PhotoView*/
             PhotoView                           : 'com.github.chrisbanes:PhotoView:1.3.0',
@@ -212,28 +214,55 @@ project.ext {
 
             /*json解析*/
             gson                                : 'com.google.code.gson:gson:2.8.2',
+
             fastjson                            : 'com.alibaba:fastjson:1.2.44',
             fastjson_android                    : 'com.alibaba:fastjson:1.1.67.android',
+
             logger                              : 'com.orhanobut:logger:2.1.1',
+
             eventbus                            : 'org.greenrobot:eventbus:3.1.1',
             nineoldandroids_lib                 : 'com.nineoldandroids:library:2.4.0',
-            utilcode                            : 'com.blankj:utilcode:1.12.5',
 
+            utilcode                            : 'com.blankj:utilcode:1.12.5',
+            sak                                 : 'com.wanjian:sak:0.3.1',
             zxing                               : 'com.google.zxing:core:3.3.0',
 
             /*解析Html*/
             jsoup                               : 'org.jsoup:jsoup:1.10.3',
 
+            BaseRecyclerViewAdapter             : 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.12',
+            indicatorseekbar                    : 'com.github.warkiz.widget:indicatorseekbar:1.2.5',
+
+            RecyclerViewPager                   : 'com.github.lsjwzh.RecyclerViewPager:lib:v1.1.2@aar',
+            //SmartRefreshLayout
+            SmartRefreshLayout                  : "com.scwang.smartrefresh:SmartRefreshLayout:$smartrefreshVersion",
+            SmartRefreshHeader                  : "com.scwang.smartrefresh:SmartRefreshHeader:$smartrefreshVersion",
+
+            haorefresh                          : 'com.github.fangx:haorefresh:1.0',
+            loadinglayout                       : 'com.github.czy1121:loadinglayout:1.0.1',
+
+            banner                              : "com.youth.banner:banner:1.4.10",
+            FlycoTabLayout_Lib                  : "com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar",
+            VerticalTabLayout                   : "q.rorbin:VerticalTabLayout:1.2.5",
+
+            // https://github.com/hongyangAndroid/FlowLayout
+            flowlayout_lib                      : 'com.hyman:flowlayout-lib:1.1.2',
+
+            tablayoutsupport                    : 'com.github.lsjwzh.RecyclerViewPager:tablayoutsupport:v1.1.2@aar',
+            FJMtSortButton                      : 'com.github.FJ917:FJMtSortButton:v1.1',
             aviLib                              : 'com.wang.avi:library:1.0.1',
 
+            /*1.0.3无法 使用*/
             systembartint                       : 'com.readystatesoftware.systembartint:systembartint:1.0.4',
+            barlibrary                          : 'com.gyf.barlibrary:barlibrary:2.3.0',
             statusbaruitl                       : 'com.jaeger.statusbaruitl:library:1.3.4',
 
             //otto
             otto                                : 'com.squareup:otto:1.3.8',
 
             //greendao
-            greendao                            : 'de.greenrobot:greendao:2.1.0',
+            greendao                            : 'org.greenrobot:greendao:3.2.2',
+            greendao_generator                  : 'org.greenrobot:greendao-generator:3.2.2',
 
             /* DBFlow */
             dbflow_processor                    : 'com.github.Raizlabs.DBFlow:dbflow-processor:4.0.5',
@@ -241,9 +270,13 @@ project.ext {
             dbflow                              : 'com.github.Raizlabs.DBFlow:dbflow:4.0.5',
             dbflow_kotlinextensions             : 'com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:4.0.5',
 
+            jsbridge                            : 'com.github.lzyzsd:jsbridge:1.0.4',
+            expandabletextview                  : 'cn.carbs.android:ExpandableTextView:1.0.3',
+            ringprogressbar                     : 'com.github.HotBitmapGG:RingProgressBar:V1.2.3',
+            stepview                            : 'com.github.baoyachi:StepView:1.9',
+
             /*视频播放器*/
             jiecaovideoplayer                   : 'fm.jiecao:jiecaovideoplayer:5.8.1',
-
             vitamio                             : 'com.charonchui.vitamio:vitamio:4.2.2',
 
             /*exoplayer*/
@@ -299,7 +332,6 @@ project.ext {
 
             //自定义日期控件
             material_calendarview               : 'com.prolificinteractive:material-calendarview:1.4.0',
-
             //阿里巴巴
             vlayout                             : 'com.alibaba.android:vlayout:1.2.2@aar',
 
@@ -320,6 +352,9 @@ project.ext {
 
             barlibrary                          : 'com.gyf.barlibrary:barlibrary:2.3.0',
 
+            material_dialogs                    : 'com.afollestad.material-dialogs:commons:0.9.0.2',
+            NiceDialog                          : 'com.github.Othershe:NiceDialog:1.1.4',
+
             /*agentweb https://github.com/Justson/AbutterknifegentWeb */
             agentweb                            : 'com.just.agentweb:agentweb:4.0.1',
             agentweb_download                   : 'com.just.agentweb:download:4.0.2',
@@ -337,7 +372,21 @@ project.ext {
             /*Android屏幕适配方案*/
             autolayout                          : 'com.zhy:autolayout:1.4.5',
             screenadaptation                    : 'me.yatoooon:screenadaptation:1.0.9',
+
+            //sugerORM框架
+            sugerORM                            : 'com.github.satyan:sugar:1.5',
+            //popWindow
+            BasePopup                           : 'com.github.razerdp:BasePopup:1.8.1',
+            //SwitchButton
+            switch_button                       : 'com.github.zcweng:switch-button:0.0.3@aar',
+
+            /*append by 180605*/
+            /*音视频合成*/
+            isoparser                           : 'com.googlecode.mp4parser:isoparser:1.1.21',
+
             easypermissions                     : 'pub.devrel:easypermissions:0.4.2',
+
+            colorpicker                         : 'com.jrummyapps:colorpicker:2.1.6',
 
             gridPasswordView                    : 'com.jungly:gridPasswordView:0.3',
             ShiftyTextview                      : 'com.github.yiwent:ShiftyTextview:1.1.0',
@@ -363,8 +412,15 @@ project.ext {
             YCGalleryLib                        : 'cn.yc:YCGalleryLib:1.1',                                //自定义画廊
             YCBaseAdapterLib                    : 'cn.yc:YCBaseAdapterLib:1.2',                            //adapter封装
             YCBannerLib                         : 'cn.yc:YCBannerLib:1.2',                                //轮播图
-            YCRefreshViewLib                    : 'org.yczbj:YCRefreshViewLib:1.4'                        //RecyclerView封装，刷新加载
+            YCRefreshViewLib                    : 'org.yczbj:YCRefreshViewLib:1.4',                        //RecyclerView封装，刷新加载
+
+            /*https://github.com/navasmdc/MaterialDesignLibrary*/
+            MaterialDesign                      : 'com.github.vajro:MaterialDesignLibrary:1.6',
+
+            // router
+            /*https://github.com/alibaba/ARouter*/
+            arouter_api                         : "com.alibaba:arouter-api:1.4.0",
+            arouter_compiler                    : "com.alibaba:arouter-compiler:1.2.1"
     ]
-    /*扩展工具*/
 }
 
