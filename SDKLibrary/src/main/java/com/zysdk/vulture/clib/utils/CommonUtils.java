@@ -30,6 +30,8 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.zysdk.vulture.clib.CommonConst;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -545,4 +547,51 @@ public class CommonUtils {
             e.printStackTrace();
         }
     }
+
+    /**
+     * 进入wifi设置界面
+     */
+    public static void goWifiSetting() {
+        Intent intent = null;
+        if (Build.VERSION.SDK_INT > 21) {
+            intent = new Intent(Settings.ACTION_HOME_SETTINGS);
+        } else {
+            intent = new Intent();
+            ComponentName component = new ComponentName("com.android.settings", "com.android" +
+                    ".settings.WirelessSettings");
+            intent.setComponent(component);
+            intent.setAction("android.intent.action.VIEW");
+        }
+        IntentUtils.forwardForResult(intent, CommonConst.REQ_CODE_WIFI_SETTING);
+    }
+
+    public static enum ViewState {
+        SHOW, HIDE, GONE
+    }
+
+    /**
+     * 设置view属性
+     */
+    public static void changeViewState(View view, ViewState state) {
+        if (view != null) {
+            switch (state) {
+                case SHOW:
+                    if (view.getVisibility() != View.VISIBLE) {
+                        view.setVisibility(View.VISIBLE);
+                    }
+                    break;
+                case HIDE:
+                    if (view.getVisibility() != View.INVISIBLE) {
+                        view.setVisibility(View.INVISIBLE);
+                    }
+                    break;
+                case GONE:
+                    if (view.getVisibility() != View.GONE) {
+                        view.setVisibility(View.GONE);
+                    }
+                    break;
+            }
+        }
+    }
+
 }

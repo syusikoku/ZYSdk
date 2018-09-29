@@ -23,4 +23,22 @@
         <attr name="cbBgRes" format="reference"/>
         <attr name="showMoreIcon" format="boolean"/>
     </declare-styleable>
+
+    <declare-styleable name="CommonToolbar">
+        <attr name="ToolbarTitle" format="string|reference"/>
+        <attr name="ToolbarTitleTextColor" format="color|reference"/>
+        <attr name="ToolbarEmTitle" format="string|reference"/>
+        <attr name="ToolbarShowEmTitle" format="boolean"/>
+        <attr name="ToolbarEmTitleTextColor" format="color|reference"/>
+        <attr name="ToolbarEmTitleTextSize" format="dimension|integer"/>
+        <attr name="ToolbarEmIcon01Res" format="reference"/>
+        <attr name="ToolbarShowEmIcon01" format="boolean"/>
+        <attr name="ToolbarEmIcon01Size" format="dimension|integer"/>
+        <attr name="ToolbarEmIcon02Res" format="reference"/>
+        <attr name="ToolbarEmIcon02Size" format="dimension|integer"/>
+        <attr name="ToolbarShowEmIcon02" format="boolean"/>
+        <attr name="ToolbarHomeIconRes" format="reference"/>
+        <attr name="ToolbarShowHomeIcon" format="boolean"/>
+        <attr name="ToolbarShowHomeIconSize" format="dimension|integer"/>
+    </declare-styleable>
 </resources>

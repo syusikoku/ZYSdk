@@ -11,7 +11,15 @@ public class CommonConst {
     /**
      * 热点网络切换的action
      */
-    public static final String ACTION_HOTSPOT_STATE_CHANGED = "android.net.wifi.WIFI_AP_STATE_CHANGED";
+    public static final String ACTION_HOTSPOT_STATE_CHANGED = "android.net.wifi" +
+            ".WIFI_AP_STATE_CHANGED";
+
+
+    /**
+     * wifi网络设置
+     */
+    public static final int REQ_CODE_WIFI_SETTING = 110;
+
     public static String NET_CACHE_DIR_NAME = "";
 
     /*--------------------------------------常用Acion-------------------------------------*/
@@ -70,7 +78,8 @@ public class CommonConst {
          * 创建便携热点所需权限
          */
         public static final String PERMISSION_CREATE_HOTSPOT = Manifest.permission.WRITE_SETTINGS;
-        public static final String PERMISSION_WRITE_EXTERNAL_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+        public static final String PERMISSION_WRITE_EXTERNAL_STORAGE = Manifest.permission
+                .WRITE_EXTERNAL_STORAGE;
         public static final String PERMISSION_CAMERA = Manifest.permission.CAMERA;
 
         /**

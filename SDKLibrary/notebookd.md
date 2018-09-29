@@ -77,3 +77,20 @@ com.zysdk.vulture.clib.adapter.lgrcommon 为listview/gridview/recyclerview 公�
             }
         }
     };
+    
+    
+## CommonToolbar使用
+    
+    <com.zysdk.vulture.clib.widget.CommonToolbar
+        android:id="@+id/common_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        app:ToolbarTitle="手机验证"
+        app:ToolbarShowEmTitle="true"
+        app:ToolbarEmTitleTextColor="@color/white"
+        app:ToolbarHomeIconRes="@mipmap/places_ic_clear"
+        app:ToolbarShowHomeIcon="true"
+        app:ToolbarShowHomeIconSize="@dimen/dp_22"
+        app:ToolbarEmTitle="确定"
+        /> 
