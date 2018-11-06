@@ -14,6 +14,10 @@
         android:elevation="@dimen/dp_0"
         android:fitsSystemWindows="true"
         android:theme="@style/ToolBarStyle"
+        app:contentInsetStart="0dp"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
         app:contentInsetStartWithNavigation="0dp"
         app:titleTextColor="@color/white" />
 
