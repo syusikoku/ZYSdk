@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.zysdk.vulture.clib.R;
 import com.zysdk.vulture.clib.utils.EmptyUtils;
+import com.zysdk.vulture.clib.utils.LoggerUtils;
 
 /**
  * Created by zhiyang on 2018/4/10.
@@ -44,23 +45,31 @@ public class LoadingLayout extends FrameLayout {
     }
 
     @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        LoggerUtils.loge("onMeasure");
+    }
+
+    @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        mLoadingView = mInflater.inflate(R.layout.loading_layout, this, false);
+        LoggerUtils.loge("onFinishInflate");
+        mLoadingView = mInflater.inflate(R.layout.loading_layout, this);
         mLoadTips = mLoadingView.findViewById(R.id.tv_tips);
-        mErrorView = mInflater.inflate(R.layout.error_layout, this, false);
-        mEmptyView = mInflater.inflate(R.layout.empty_layout, this, false);
-        addView(mLoadingView);
-        addView(mErrorView);
-        addView(mEmptyView);
-        mLoadingView.setVisibility(GONE);
-        mErrorView.setVisibility(GONE);
-        mEmptyView.setVisibility(GONE);
+        mErrorView = mInflater.inflate(R.layout.error_layout, this);
+        mEmptyView = mInflater.inflate(R.layout.empty_layout, this);
+        addView(mLoadingView, new FrameLayout.LayoutParams(-1, -1));
+        addView(mErrorView, new FrameLayout.LayoutParams(-1, -1));
+        addView(mEmptyView, new FrameLayout.LayoutParams(-1, -1));
+        mLoadingView.setVisibility(View.GONE);
+        mErrorView.setVisibility(View.GONE);
+        mEmptyView.setVisibility(View.GONE);
     }
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
+        LoggerUtils.loge("onLayout");
         if (changed) {
             int count = getChildCount();
             for (int i = 0; i < count; i++) {
@@ -73,17 +82,14 @@ public class LoadingLayout extends FrameLayout {
 
     //loading
     public void showLoding() {
+        LoggerUtils.loge("showLoding");
         hasDismiss = false;
-        if (mLoadingView != null && mLoadingView.getVisibility() != VISIBLE)
-            mLoadingView.setVisibility(VISIBLE);
-        mErrorView.setVisibility(GONE);
-        mEmptyView.setVisibility(GONE);
-        if (mContentView != null && mContentView.getVisibility() != GONE)
-            mContentView.setVisibility(GONE);
-    }
-
-    public interface OnRetryListner {
-        void onRetry();
+        if (mLoadingView != null && mLoadingView.getVisibility() != View.VISIBLE)
+            mLoadingView.setVisibility(View.VISIBLE);
+        mErrorView.setVisibility(View.GONE);
+        mEmptyView.setVisibility(View.GONE);
+        if (mContentView != null && mContentView.getVisibility() != View.GONE)
+            mContentView.setVisibility(View.GONE);
     }
 
     public void setOnRetryListener(OnRetryListner retryListener) {
@@ -125,38 +131,45 @@ public class LoadingLayout extends FrameLayout {
 
     //error
     public void showError() {
+        LoggerUtils.loge("showError");
         hasDismiss = true;
-        if (mErrorView != null && mErrorView.getVisibility() != VISIBLE) {
-            mErrorView.setVisibility(VISIBLE);
+        if (mErrorView != null && mErrorView.getVisibility() != View.VISIBLE) {
+            mErrorView.setVisibility(View.VISIBLE);
             mErrorView.setOnClickListener(v -> {
                 if (mRetryListener != null) {
                     mRetryListener.onRetry();
                 }
             });
         }
-        mLoadingView.setVisibility(GONE);
-        mEmptyView.setVisibility(GONE);
-        if (mContentView != null && mContentView.getVisibility() != GONE)
-            mContentView.setVisibility(GONE);
+        mLoadingView.setVisibility(View.GONE);
+        mEmptyView.setVisibility(View.GONE);
+        if (mContentView != null && mContentView.getVisibility() != View.GONE)
+            mContentView.setVisibility(View.GONE);
     }
 
     //empty
     public void showEmpty() {
+        LoggerUtils.loge("showEmpty");
+        LoggerUtils.loge("mEmptyView w = " + mEmptyView.getMeasuredWidth() + " , h = " +
+                mEmptyView.getMeasuredHeight());
+        if (mEmptyView.getVisibility() != View.VISIBLE) {
+            mEmptyView.setVisibility(View.VISIBLE);
+        }
         hasDismiss = true;
-        mLoadingView.setVisibility(GONE);
-        mErrorView.setVisibility(GONE);
-        mContentView.setVisibility(GONE);
-        mEmptyView.setVisibility(VISIBLE);
+        mLoadingView.setVisibility(View.GONE);
+        mErrorView.setVisibility(View.GONE);
+        mContentView.setVisibility(View.GONE);
     }
 
     //content
     public void showContent() {
+        LoggerUtils.loge("showContent");
         hasDismiss = true;
-        if (mContentView != null && mContentView.getVisibility() != VISIBLE)
-            mContentView.setVisibility(VISIBLE);
-        mLoadingView.setVisibility(GONE);
-        mErrorView.setVisibility(GONE);
-        mEmptyView.setVisibility(GONE);
+        if (mContentView != null && mContentView.getVisibility() != View.VISIBLE)
+            mContentView.setVisibility(View.VISIBLE);
+        mLoadingView.setVisibility(View.GONE);
+        mErrorView.setVisibility(View.GONE);
+        mEmptyView.setVisibility(View.GONE);
     }
 
     public void setTips(String str) {
@@ -167,5 +180,9 @@ public class LoadingLayout extends FrameLayout {
                 }
             }
         }
+    }
+
+    public interface OnRetryListner {
+        void onRetry();
     }
 }
