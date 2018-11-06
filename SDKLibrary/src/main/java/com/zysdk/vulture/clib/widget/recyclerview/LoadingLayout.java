@@ -155,6 +155,10 @@ public class LoadingLayout extends FrameLayout {
         if (mEmptyView.getVisibility() != View.VISIBLE) {
             mEmptyView.setVisibility(View.VISIBLE);
         }
+        View tv = mEmptyView.findViewById(R.id.tv_empty);
+
+        LoggerUtils.loge("tv w = " + tv.getMeasuredWidth() + " , h = " +
+                tv.getMeasuredHeight());
         hasDismiss = true;
         mLoadingView.setVisibility(View.GONE);
         mErrorView.setVisibility(View.GONE);
