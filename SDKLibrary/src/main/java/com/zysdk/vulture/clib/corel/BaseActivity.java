@@ -1,5 +1,6 @@
 package com.zysdk.vulture.clib.corel;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -29,6 +30,7 @@ import com.zysdk.vulture.clib.utils.AppActivityManager;
 import com.zysdk.vulture.clib.utils.CommonUtils;
 import com.zysdk.vulture.clib.utils.DisplayUtils;
 import com.zysdk.vulture.clib.utils.EmptyUtils;
+import com.zysdk.vulture.clib.utils.IntentUtils;
 import com.zysdk.vulture.clib.utils.LogListener;
 import com.zysdk.vulture.clib.utils.LoggerUtils;
 import com.zysdk.vulture.clib.utils.ResourceUtils;
@@ -475,5 +477,42 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
         void onGrant(int code);
 
         void onDeny(int code);
+    }
+
+    protected void forward(String aciton) {
+        forward(aciton, null);
+    }
+
+    protected void forward(String aciton, Bundle bundle) {
+        IntentUtils.forward(aciton, bundle);
+    }
+
+    protected void forwardForResult(Class<? extends Activity> activityCls, int reqCode) {
+        forwardForResult(activityCls, null, reqCode);
+    }
+
+    protected void forwardForResult(Class<? extends Activity> activityCls, Bundle bundle, int
+            reqCode) {
+        IntentUtils.forwardForResult(activityCls, bundle, reqCode);
+    }
+
+    protected void forwardForResult(Intent intent, int reqCode) {
+        IntentUtils.forwardForResult(intent, reqCode);
+    }
+
+    protected void forwardForResult(String aciton, int reqCode) {
+        forwardForResult(aciton, null, reqCode);
+    }
+
+    protected void forwardForResult(String aciton, Bundle bundle, int reqCode) {
+        IntentUtils.forwardForResult(aciton, bundle, reqCode);
+    }
+
+    protected void forward(Class<? extends Activity> cls) {
+        forward(cls, null);
+    }
+
+    protected static void forward(Class<? extends Activity> activityCls, Bundle bundle) {
+        IntentUtils.forward(activityCls, bundle);
     }
 }
