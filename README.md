@@ -24,3 +24,10 @@
   dependencies {
           implementation 'com.github.syusikoku:ZYSdk:v1.0.11'
   }
+
+
+
+Error:(138, 43) java: 找不到符号
+  符号:   方法 metafactory(java.lang.invoke.MethodHandles.Lookup,java.lang.String,java.lang.invoke.MethodType,java.lang.invoke.MethodType,java.lang.invoke.MethodHandle,java.lang.invoke.MethodType)
+  位置: 接口 java.lang.invoke.LambdaMetafactory
+

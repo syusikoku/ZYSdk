@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '28.0.2'
 
     defaultConfig {
         minSdkVersion 16
@@ -52,7 +52,6 @@ dependencies {
     //SmartRefreshLayout
     implementation rootProject.ext.ext_tools.SmartRefreshLayout
     implementation rootProject.ext.ext_tools.SmartRefreshHeader
-    implementation rootProject.ext.ext_tools.haorefresh
     implementation rootProject.ext.ext_tools.rxjava
     implementation rootProject.ext.ext_tools.rxandroid
     implementation rootProject.ext.ext_tools.rxlifecycle2

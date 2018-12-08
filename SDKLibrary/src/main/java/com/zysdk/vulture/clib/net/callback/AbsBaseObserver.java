@@ -20,8 +20,7 @@ import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
 /**
- * Created by zhiyang on 2018/4/23.
- * 因为考虑到一些后台返回的数据不为标准的json的情况所以产生了此类,由用户自己实现onNext操作
+ * Created by zhiyang on 2018/4/23. 因为考虑到一些后台返回的数据不为标准的json的情况所以产生了此类,由用户自己实现onNext操作
  */
 
 public abstract class AbsBaseObserver<T> implements Observer<T> {
@@ -52,7 +51,7 @@ public abstract class AbsBaseObserver<T> implements Observer<T> {
 
     @Override
     public void onError(Throwable e) {
-        LoggerUtils.loge("AbsBaseObserver onError");
+        LoggerUtils.loge("AbsBaseObserver onError msg : " + e.toString());
         hideLoading();
         mView.showError();
         if (mHasShowNofity)

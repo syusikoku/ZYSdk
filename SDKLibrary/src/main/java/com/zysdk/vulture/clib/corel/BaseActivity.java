@@ -387,10 +387,17 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish();
+            onHomeMenuClick();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * 默认是关闭，子类可以通过重写，进行选择性事件操作
+     */
+    protected void onHomeMenuClick() {
+        finish();
     }
 
     /**
