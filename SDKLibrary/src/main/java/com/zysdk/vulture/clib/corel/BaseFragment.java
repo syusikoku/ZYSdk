@@ -101,19 +101,20 @@ public abstract class BaseFragment extends SupportFragment implements ILifecycle
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
             Bundle savedInstanceState) {
         LoggerUtils.loge(this, "onCreateView");
-        mRootView = null;
         int layoutId = getContentId();
         if (layoutId != 0) {
+            LoggerUtils.loge(this, "inflate mRootView");
             mRootView = inflater.inflate(layoutId, container, false);
         }
+        LoggerUtils.loge(this, "removeSelfByParent");
         UiUtils.removeSelfByParent(mRootView);
+        LoggerUtils.loge(this, "bind mRootView");
         unbinder = ButterKnife.bind(this, mRootView);
         return mRootView;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         LoggerUtils.loge(this, "onViewCreated");
         initView();
         addListener();

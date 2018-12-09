@@ -5,6 +5,7 @@ import android.content.Context;
 import com.zysdk.vulture.clib.corel.BaseFragment;
 import com.zysdk.vulture.clib.mvp.inter.IView;
 import com.zysdk.vulture.clib.mvp.presenter.BasePresenter;
+import com.zysdk.vulture.clib.utils.LoggerUtils;
 
 /**
  * Created by zhiyang on 2018/4/10.
@@ -16,6 +17,7 @@ public abstract class BaseMVPSupportFragment<P extends BasePresenter<V>, V exten
 
     @Override
     public void onAttach(Context context) {
+        LoggerUtils.loge(this, " onAttach");
         super.onAttach(context);
         if (hasSupport()) {
             mPresenter = createPresenter();
@@ -37,6 +39,7 @@ public abstract class BaseMVPSupportFragment<P extends BasePresenter<V>, V exten
 
     @Override
     public void onDetach() {
+        LoggerUtils.loge(this, " onDetach");
         super.onDetach();
         if (mPresenter != null) {
             mPresenter.detachView();

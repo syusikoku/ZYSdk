@@ -54,10 +54,10 @@ public class LoadingLayout extends FrameLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
         LoggerUtils.loge("onFinishInflate");
-        mLoadingView = mInflater.inflate(R.layout.loading_layout, this);
+        mLoadingView = mInflater.inflate(R.layout.loading_layout, this, false);
         mLoadTips = mLoadingView.findViewById(R.id.tv_tips);
-        mErrorView = mInflater.inflate(R.layout.error_layout, this);
-        mEmptyView = mInflater.inflate(R.layout.empty_layout, this);
+        mErrorView = mInflater.inflate(R.layout.error_layout, this, false);
+        mEmptyView = mInflater.inflate(R.layout.empty_layout, this, false);
         addView(mLoadingView, new FrameLayout.LayoutParams(-1, -1));
         addView(mErrorView, new FrameLayout.LayoutParams(-1, -1));
         addView(mEmptyView, new FrameLayout.LayoutParams(-1, -1));

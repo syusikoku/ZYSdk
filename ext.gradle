@@ -68,28 +68,28 @@ project.ext {
             rxbinding                            : 'com.jakewharton.rxbinding2:rxbinding:2.0.0',
 
             /* RxLifecycle : -> https://github.com/trello/RxLifecycle */
-            rxlifecycle2                         : 'com.trello.rxlifecycle2:rxlifecycle:2.2.1',
+            rxlifecycle                        : 'com.trello.rxlifecycle2:rxlifecycle:2.2.1',
 
             // If you want to bind to Android-specific lifecycles
-            rxlifecycle2_android                 : 'com.trello.rxlifecycle2:rxlifecycle-android:2.2.1',
+            rxlifecycle_android                 : 'com.trello.rxlifecycle2:rxlifecycle-android:2.2.1',
 
             // If you want pre-written Activities and Fragments you can subclass as providers
-            rxlifecycle2_components              : 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.1',
+            rxlifecycle_components              : 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.1',
 
             // If you want pre-written support preference Fragments you can subclass as providers
-            rxlifecycle2_components_preference   : 'com.trello.rxlifecycle2:rxlifecycle-components-preference:2.2.1',
+            rxlifecycle_components_preference   : 'com.trello.rxlifecycle2:rxlifecycle-components-preference:2.2.1',
 
             // If you want to use Navi for providers
-            rxlifecycle2_navi                    : 'com.trello.rxlifecycle2:rxlifecycle-navi:2.2.1',
+            rxlifecycle_navi                    : 'com.trello.rxlifecycle2:rxlifecycle-navi:2.2.1',
 
             // If you want to use Android Lifecycle for providers
-            rxlifecycle2_android_lifecycle       : 'com.trello.rxlifecycle2:rxlifecycle-android-lifecycle:2.2.1',
+            rxlifecycle_android_lifecycle       : 'com.trello.rxlifecycle2:rxlifecycle-android-lifecycle:2.2.1',
 
             // If you want to use Kotlin syntax
-            rxlifecycle2_kotlin                  : 'com.trello.rxlifecycle2:rxlifecycle-kotlin:2.2.1',
+            rxlifecycle_kotlin                  : 'com.trello.rxlifecycle2:rxlifecycle-kotlin:2.2.1',
 
             // If you want to use Kotlin syntax with Android Lifecycle
-            rxlifecycle2_android_lifecycle_kotlin: 'com.trello.rxlifecycle2:rxlifecycle-android-lifecycle-kotlin:2.2.1',
+            rxlifecycle_android_lifecycle_kotlin: 'com.trello.rxlifecycle2:rxlifecycle-android-lifecycle-kotlin:2.2.1',
 
             /* RxPermissions */
             rxpermissions                        : 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4',

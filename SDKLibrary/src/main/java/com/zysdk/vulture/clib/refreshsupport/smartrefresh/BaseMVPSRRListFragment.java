@@ -2,7 +2,6 @@ package com.zysdk.vulture.clib.refreshsupport.smartrefresh;
 
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -55,15 +54,16 @@ public abstract class BaseMVPSRRListFragment<P extends BasePresenter<V>, V exten
     protected LoadingLayout mLoadingLayout;
     protected LinearLayout mExtRoot;
     protected FrameLayout mRootContainer;
-    private DividerItemDecoration mDividerItemDecoration;
 
     @Override
     public int getContentId() {
+        LoggerUtils.loge(this, " getContentId");
         return R.layout.layout_base_smart_refresh_recycler_view;
     }
 
     @Override
     public void initView() {
+        LoggerUtils.loge(this, " initView");
         mRootContainer = mRootView.findViewById(R.id.fl_root_container);
         refreshLayout = mRootView.findViewById(R.id.refreshLayout);
         mRecyclerView = mRootView.findViewById(R.id.recyclerView);
@@ -95,6 +95,7 @@ public abstract class BaseMVPSRRListFragment<P extends BasePresenter<V>, V exten
     }
 
     private void initLoadingView() {
+        LoggerUtils.loge(this, " initLoadingView");
         mLoadingLayout.setEmptyTextColor(getLoadingTipColor());
         mLoadingLayout.setErrorTextColor(getLoadingTipColor());
         mLoadingLayout.setLoadingTextColor(getLoadingTipColor());
@@ -163,6 +164,7 @@ public abstract class BaseMVPSRRListFragment<P extends BasePresenter<V>, V exten
 
     @Override
     public void addListener() {
+        LoggerUtils.loge(this, " addListener");
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -222,6 +224,7 @@ public abstract class BaseMVPSRRListFragment<P extends BasePresenter<V>, V exten
 
     @Override
     public void initData() {
+        LoggerUtils.loge(this, " initData");
         mRecyclerView.setVisibility(View.INVISIBLE);
         mLoadingLayout.showLoding();
         initPageNumb();
