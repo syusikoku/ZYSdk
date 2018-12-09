@@ -136,12 +136,12 @@ project.ext {
             play_services_appindexing            : "com.google.android.gms:play-services-appindexing:${google_play_services_client_library_version}",
 
             /*buttern-knife*/
-            butterknife                          : 'com.jakewharton:butterknife:8.6.0',
-            butterknife_compiler                 : 'com.jakewharton:butterknife-compiler:8.6.0',
+            butterknife                          : 'com.jakewharton:butterknife:9.0.0-rc2',
+            butterknife_compiler                 : 'com.jakewharton:butterknife-compiler:9.0.0-rc2',
 
             /*图片加载*/
-            glide                                : 'com.github.bumptech.glide:glide:4.3.1',
-            glide_compiler                       : 'com.github.bumptech.glide:compiler:4.3.1',
+            glide                                : 'com.github.bumptech.glide:glide:4.8.0',
+            glide_compiler                       : 'com.github.bumptech.glide:compiler:4.8.0',
 
             /*json解析*/
             gson                                 : 'com.google.code.gson:gson:2.8.2',
