@@ -65,6 +65,11 @@ public class CommonConst {
          * 请求超时
          */
         public static final int REQUEST_TIMEOUT = 1005;
+
+        /**
+         * 网络不稳定
+         */
+        public static final int NETWORK_INSTABILITY  = 1006;
     }
 
     /**

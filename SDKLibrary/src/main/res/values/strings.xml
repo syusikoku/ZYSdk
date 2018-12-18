@@ -16,4 +16,5 @@
     <string name="unable_to_access_server_interface">无法访问服务器接口</string>
     <string name="unknown_domain_name">未知的域名,请检查网络是否连接</string>
     <string name="connection_timeout">连接超时,接口炸了，程序员拿刀在去修接口的路上</string>
+    <string name="network_instability">网络不稳定</string>
 </resources>

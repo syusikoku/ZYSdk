@@ -8,10 +8,12 @@ import com.zysdk.vulture.clib.R;
 import com.zysdk.vulture.clib.mvp.inter.IView;
 import com.zysdk.vulture.clib.mvp.presenter.BasePresenter;
 import com.zysdk.vulture.clib.utils.LoggerUtils;
+import com.zysdk.vulture.clib.utils.UiUtils;
 
 import org.json.JSONException;
 
 import java.net.ConnectException;
+import java.net.ProtocolException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.text.ParseException;
@@ -24,7 +26,11 @@ import io.reactivex.disposables.Disposable;
  */
 
 public abstract class AbsBaseObserver<T> implements Observer<T> {
-
+    /**
+     * 由客户端决定是否要显示错误提示，如果不需要，则不回调onError，仅回调onEmpty(不区分异常)
+     * @moidfy by zzg
+     * @modify date : 2018-12-17
+     */
     private boolean mHasShowNofity;
     protected IView mView;
     private String mTag;
@@ -51,11 +57,17 @@ public abstract class AbsBaseObserver<T> implements Observer<T> {
 
     @Override
     public void onError(Throwable e) {
-        LoggerUtils.loge("AbsBaseObserver onError msg : " + e.toString());
-        hideLoading();
-        mView.showError();
-        if (mHasShowNofity)
-            dealException(e);
+        LoggerUtils.loge("AbsBaseObserver onError msg : " + e.toString() + " , threadId = " + Thread.currentThread().getId());
+        UiUtils.runInMainThread(() -> {
+            hideLoading();
+            if (mHasShowNofity) {
+                dealException(e);
+                mView.showError();
+            } else {
+                mView.showEmpty();
+            }
+        });
+
     }
 
     protected void hideLoading() {
@@ -72,9 +84,7 @@ public abstract class AbsBaseObserver<T> implements Observer<T> {
         } else if (t instanceof InterruptedException) {
             //连接超时
             onException(CommonConst.NET_CONFIG.CONNECT_TIMEOUT);
-        } else if (t instanceof JsonParseException
-                || t instanceof JSONException
-                || t instanceof ParseException) {
+        } else if (t instanceof JsonParseException || t instanceof JSONException || t instanceof ParseException) {
             //解析错误
             onException(CommonConst.NET_CONFIG.PARSE_ERROR);
         } else if (t instanceof SocketTimeoutException) {
@@ -83,6 +93,9 @@ public abstract class AbsBaseObserver<T> implements Observer<T> {
         } else if (t instanceof UnknownError) {
             //未知错误
             onException(CommonConst.NET_CONFIG.UNKNOWN_ERROR);
+        } else if (t instanceof ProtocolException) {
+            //网络不稳定
+            onException(CommonConst.NET_CONFIG.REQUEST_TIMEOUT);
         } else {
             //未知错误
             onException(CommonConst.NET_CONFIG.UNKNOWN_ERROR);
@@ -91,21 +104,26 @@ public abstract class AbsBaseObserver<T> implements Observer<T> {
 
     private void onException(int errorCode) {
         LoggerUtils.loge("AbsBaseObserver onException errorCode = " + errorCode);
-        switch (errorCode) {
-            case CommonConst.NET_CONFIG.CONNECT_ERROR:
-                ToastUtils.showShort(R.string.connect_error);
-                break;
-            case CommonConst.NET_CONFIG.CONNECT_TIMEOUT:
-                ToastUtils.showShort(R.string.connect_timeout);
-                break;
-            case CommonConst.NET_CONFIG.PARSE_ERROR:
-                break;
-            case CommonConst.NET_CONFIG.REQUEST_TIMEOUT:
-                ToastUtils.showShort(R.string.request_timeout);
-                break;
-            case CommonConst.NET_CONFIG.UNKNOWN_ERROR:
-                ToastUtils.showShort(R.string.unknown_error);
-                break;
+        if (mHasShowNofity) {
+            switch (errorCode) {
+                case CommonConst.NET_CONFIG.CONNECT_ERROR:
+                    ToastUtils.showShort(R.string.connect_error);
+                    break;
+                case CommonConst.NET_CONFIG.CONNECT_TIMEOUT:
+                    ToastUtils.showShort(R.string.connect_timeout);
+                    break;
+                case CommonConst.NET_CONFIG.PARSE_ERROR:
+                    break;
+                case CommonConst.NET_CONFIG.REQUEST_TIMEOUT:
+                    ToastUtils.showShort(R.string.request_timeout);
+                    break;
+                case CommonConst.NET_CONFIG.UNKNOWN_ERROR:
+                    ToastUtils.showShort(R.string.unknown_error);
+                    break;
+                case CommonConst.NET_CONFIG.NETWORK_INSTABILITY:
+                    ToastUtils.showShort(R.string.network_instability);
+                    break;
+            }
         }
     }
 
