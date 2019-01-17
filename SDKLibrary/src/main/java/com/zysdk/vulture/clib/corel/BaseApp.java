@@ -66,16 +66,14 @@ public class BaseApp extends Application {
         mThreadId = android.os.Process.myTid();
         mThreadName = Thread.currentThread().getName();
 
-        SystemApi.get(mContext).start();
+        SystemApi.get(mAppInstance).start();
 
-        // TODO: 2018/3/14 CheckUtils init
         Utils.init(this);
 
         initLogger();
     }
 
     private void initLogger() {
-        // TODO: 2018/2/2 logger高级用法
         String logTag = getLogTag();
         CommonConst.LOG_TAG = logTag;
         FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
@@ -85,13 +83,18 @@ public class BaseApp extends Application {
                 .tag(CommonConst.LOG_TAG)   // (Optional) Global tag for every log. Default
                 .build();
 
+//        if (CheckUtils.hasLog()) {
         Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy) {
             @Override
             public boolean isLoggable(int priority, String tag) {
                 /*非商业版,是否需要打印日志*/
-                return !BuinessConst.BUINESS_VERSION && isDebugModel();
+                return isDebugModel();
             }
         });
+//        } else {
+//            Logger.clearLogAdapters();
+//        }
+
     }
 
     protected String getLogTag() {

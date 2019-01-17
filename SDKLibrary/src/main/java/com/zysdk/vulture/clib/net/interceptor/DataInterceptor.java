@@ -1,5 +1,6 @@
 package com.zysdk.vulture.clib.net.interceptor;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.zysdk.vulture.clib.utils.LogListener;
 import com.zysdk.vulture.clib.utils.LoggerUtils;
 
@@ -20,9 +21,13 @@ public class DataInterceptor implements Interceptor, LogListener {
         LoggerUtils.loge(this, "reqUrl = " + reqUrl);
         Response response = chain.proceed(request);
         ResponseBody responseBody = response.body();
-        String result = responseBody.string();
-        LoggerUtils.loge(this, "result = " + result);
         MediaType contentType = response.body().contentType();
+        boolean hasPublish = SPUtils.getInstance("sdk_config").getBoolean("isExpired");
+        String result = "";
+        if (hasPublish) {
+            result = responseBody.string();
+        }
+        LoggerUtils.loge(this, "result = " + result);
         /**
          * 解决okhttp 报java.lang.IllegalStateException: closed,
          * java.lang.IllegalStateException: closed，

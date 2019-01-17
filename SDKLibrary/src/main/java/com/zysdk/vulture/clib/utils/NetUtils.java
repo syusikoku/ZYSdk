@@ -16,7 +16,6 @@ import java.util.regex.Pattern;
 
 public class NetUtils {
 
-
     @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
     public static boolean isNetAvailable(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);

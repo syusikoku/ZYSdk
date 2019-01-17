@@ -14,7 +14,6 @@ public class CommonConst {
     public static final String ACTION_HOTSPOT_STATE_CHANGED = "android.net.wifi" +
             ".WIFI_AP_STATE_CHANGED";
 
-
     /**
      * wifi网络设置
      */
