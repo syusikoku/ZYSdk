@@ -24,3 +24,20 @@ task makeJar(type: Copy) {
 }
 
 makeJar.dependsOn(clearJar, build)
+
+
+// 这是需要添加的
+allprojects {
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+}
+
+dependencies {
+    ...
+
+    // 添加这一行
+    compile(name: 'mylibrary-1.0.0', ext: 'aar')
+}
