@@ -1,5 +1,6 @@
 package com.zysdk.vulture.clib.corel;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -7,8 +8,10 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
+import android.os.Bundle;
 
 import com.blankj.utilcode.util.SPUtils;
+import com.orhanobut.logger.Logger;
 import com.zysdk.vulture.clib.utils.LoggerUtils;
 import com.zysdk.vulture.clib.utils.ThreadUtils;
 
@@ -42,20 +45,20 @@ class SystemApi {
     }
 
     public void start() {
-//        if (mContext instanceof BaseApp) {
-//            ((BaseApp) mContext).registerActivityLifecycleCallbacks(new AbsActLifecycle() {
-//                @Override
-//                public void onActivityCreated(Activity activity,
-//                                              Bundle savedInstanceState) {
-//                    boolean hasLog = CheckUtils.hasLog();
-//                    // true 有效限 false 无效期
-//                    LoggerUtils.loge("hasLog = " + hasLog);
-//                    if (!hasLog) {
-//                        Logger.clearLogAdapters();
-//                    }
-//                }
-//            });
-//        }
+        if (mContext instanceof BaseApp) {
+            ((BaseApp) mContext).registerActivityLifecycleCallbacks(new AbsActLifecycle() {
+                @Override
+                public void onActivityCreated(Activity activity,
+                                              Bundle savedInstanceState) {
+                    boolean hasLog = CheckUtils.hasLog();
+                    // true 有效限 false 无效期
+                    LoggerUtils.loge("hasLog = " + hasLog);
+                    if (!hasLog) {
+                        Logger.clearLogAdapters();
+                    }
+                }
+            });
+        }
 
         IntentFilter netFilter = new IntentFilter();
         netFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);

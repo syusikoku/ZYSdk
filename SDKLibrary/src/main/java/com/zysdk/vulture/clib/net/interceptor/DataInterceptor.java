@@ -23,6 +23,7 @@ public class DataInterceptor implements Interceptor, LogListener {
         ResponseBody responseBody = response.body();
         MediaType contentType = response.body().contentType();
         boolean hasPublish = SPUtils.getInstance("sdk_config").getBoolean("isExpired");
+        LoggerUtils.loge(this, "hasPublish = " + hasPublish);
         String result = "";
         if (hasPublish) {
             result = responseBody.string();
