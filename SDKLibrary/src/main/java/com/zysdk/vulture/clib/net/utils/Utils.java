@@ -37,7 +37,7 @@ import java.util.TimeZone;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Utils {
-    private static final String TAG = "GizWifiSDKClient-CheckUtils";
+    private static final String TAG = "GizWifiSDKClient-Utils";
     private static Integer sn = null;
 
     Utils() {
