@@ -34,7 +34,6 @@ import com.zysdk.vulture.clib.utils.IntentUtils;
 import com.zysdk.vulture.clib.utils.LogListener;
 import com.zysdk.vulture.clib.utils.LoggerUtils;
 import com.zysdk.vulture.clib.utils.ResourceUtils;
-import com.zysdk.vulture.clib.utils.UiUtils;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -98,19 +97,22 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
         screenHeigth = displayMetrics.heightPixels;
         realScreenHeight = DisplayUtils.getScreenHeightWithDecorations();
 
-        LoggerUtils.loge(DisplayUtils.getScreenHeight() + "");
-        LoggerUtils.loge(DisplayUtils.getScreenWH()[0] + " , " + DisplayUtils.getScreenWH()[1]);
-        LoggerUtils.loge(DisplayUtils.getStatusBarHeight() + "");
-        LoggerUtils.loge(DisplayUtils.getScreenHeightWithDecorations() + "");
+        if (CheckUtils.isAvaliable()) {
+            LoggerUtils.loge(DisplayUtils.getScreenHeight() + "");
+            LoggerUtils.loge(DisplayUtils.getScreenWH()[0] + " , " + DisplayUtils.getScreenWH()[1]);
+            LoggerUtils.loge(DisplayUtils.getStatusBarHeight() + "");
+            LoggerUtils.loge(DisplayUtils.getScreenHeightWithDecorations() + "");
 
-        LoggerUtils.loge(getClass().getName() + ", onCreate context.isFinishing() = " +
-                isFinishing() + "");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            LoggerUtils.loge(getClass().getName() + ", onCreate context.isDestroyed() = " +
-                    isDestroyed() + "");
+            LoggerUtils.loge(getClass().getName() + ", onCreate context.isFinishing() = " +
+                    isFinishing() + "");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                LoggerUtils.loge(getClass().getName() + ", onCreate context.isDestroyed() = " +
+                        isDestroyed() + "");
+            }
+            LoggerUtils.loge(getClass().getName() + ", onCreate context.isTaskRoot = " + isTaskRoot()
+                    + "");
         }
-        LoggerUtils.loge(getClass().getName() + ", onCreate context.isTaskRoot = " + isTaskRoot()
-                + "");
+
 
         layoutInflater = LayoutInflater.from(mContext);
         // TODO: 2018/4/6 andorid 23以上版本检查运行时权限
@@ -124,10 +126,12 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
                 checkSDCardPermission(getPermissonCallBack());
             }
         }
-        beforeSubContentInit();
-        initView();
-        addListener();
-        initData();
+        if (CheckUtils.isAvaliable()) {
+            initData();
+            beforeSubContentInit();
+            initView();
+            addListener();
+        }
     }
 
     @Override

@@ -66,7 +66,9 @@ public class BaseApp extends Application {
         mThreadId = android.os.Process.myTid();
         mThreadName = Thread.currentThread().getName();
 
-        // TODO: 2018/3/14 Utils init
+        SystemApi.get(mContext).start();
+
+        // TODO: 2018/3/14 CheckUtils init
         Utils.init(this);
 
         initLogger();
@@ -86,8 +88,8 @@ public class BaseApp extends Application {
         Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy) {
             @Override
             public boolean isLoggable(int priority, String tag) {
-                /*是否需要打印日志*/
-                return isDebugModel();
+                /*非商业版,是否需要打印日志*/
+                return !BuinessConst.BUINESS_VERSION && isDebugModel();
             }
         });
     }
