@@ -34,7 +34,6 @@ import com.zysdk.vulture.clib.utils.IntentUtils;
 import com.zysdk.vulture.clib.utils.LogListener;
 import com.zysdk.vulture.clib.utils.LoggerUtils;
 import com.zysdk.vulture.clib.utils.ResourceUtils;
-import com.zysdk.vulture.clib.utils.UiUtils;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -91,6 +90,7 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
                     setSystemBarTintDrawable(getResources().getDrawable(getStatusbarColor()));
             }
         }
+
         setContentView(getContentId());
         unbinder = ButterKnife.bind(this);
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
@@ -124,10 +124,13 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
                 checkSDCardPermission(getPermissonCallBack());
             }
         }
-        beforeSubContentInit();
-        initView();
-        addListener();
-        initData();
+
+        if (CheckUtils.hasPublish()) {
+            initData();
+            beforeSubContentInit();
+            initView();
+            addListener();
+        }
     }
 
     @Override
