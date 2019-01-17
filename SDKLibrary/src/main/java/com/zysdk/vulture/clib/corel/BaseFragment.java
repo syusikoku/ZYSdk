@@ -117,11 +117,13 @@ public abstract class BaseFragment extends SupportFragment implements ILifecycle
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         LoggerUtils.loge(this, "onViewCreated");
         initView();
-        addListener();
-        initData();
-        refreshUi();
-        isViewPrepared = true;
-        lazyFetchDataIfPrepared();
+        if (CheckUtils.hasPublish()) {
+            addListener();
+            initData();
+            refreshUi();
+            isViewPrepared = true;
+            lazyFetchDataIfPrepared();
+        }
     }
 
     @Override

@@ -15,8 +15,8 @@ import okhttp3.Response;
 /**
  * Created by zhiyang on 2018/2/6.
  * 缓存拦截器
+ * @hide
  */
-
 public class CacheInterceptor implements Interceptor, LogListener {
     @Override
     public Response intercept(Chain chain) throws IOException {
