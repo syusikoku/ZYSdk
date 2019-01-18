@@ -182,7 +182,7 @@
 -keep class com.amap.api.location.**{*;}
 -keep class com.aps.**{*;}
 #搜索
--keep   class com.amap.api.services.**{*;}
+-keep class com.amap.api.services.**{*;}
 
 # OkHttp3
 -dontwarn com.squareup.okhttp3.**
@@ -235,8 +235,12 @@
 -keep class com.zysdk.vulture.clib.wrapper.**{*;}
 -keep class com.zysdk.vulture.clib.exception.**{*;}
 -keep class com.zysdk.vulture.clib.net.callback.**{*;}
--keep class com.zysdk.vulture.clib.CommonConst
 -keep class com.zysdk.vulture.clib.corel.BaseInternalHandler
+-keep class com.zysdk.vulture.clib.corel.BaseApp
 -keep class com.zysdk.vulture.clib.corel.rx.**{*;}
-#-keep interface xx.xx.xx..**{*;}
+-keep interface com.zysdk.vulture.clib.inter.**{*;}
+
+-keepclassmembers class com.zysdk.vulture.clib.CommonConst {
+    public *;
+}
 #-keep enum xx.xx.xx..**{*;}

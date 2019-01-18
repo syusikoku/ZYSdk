@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.zysdk.vulture.clib.R;
 import com.zysdk.vulture.clib.corel.BaseInternalHandler;
 import com.zysdk.vulture.clib.corel.rx.RxBaseActivity;
+import com.zysdk.vulture.clib.inter.IPermissionListener;
 
 import butterknife.ButterKnife;
 
@@ -108,7 +109,7 @@ public abstract class RxBaseSampleToolbarSupportActivity extends RxBaseActivity 
     }
 
     @Override
-    protected PermissionListener getPermissonCallBack() {
+    protected IPermissionListener getPermissonCallBack() {
         return null;
     }
 }

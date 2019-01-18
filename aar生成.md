@@ -45,4 +45,4 @@ dependencies {
 
 aar生成
 
- gradle makeJar aarRelease
+ gradle clean makeJar aarRelease

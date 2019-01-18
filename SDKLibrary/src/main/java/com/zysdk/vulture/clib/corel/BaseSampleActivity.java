@@ -1,5 +1,6 @@
 package com.zysdk.vulture.clib.corel;
 
+import com.zysdk.vulture.clib.inter.IPermissionListener;
 import com.zysdk.vulture.clib.utils.LoggerUtils;
 
 /**
@@ -7,7 +8,7 @@ import com.zysdk.vulture.clib.utils.LoggerUtils;
  */
 public abstract class BaseSampleActivity extends BaseActivity {
     @Override
-    protected PermissionListener getPermissonCallBack() {
+    protected IPermissionListener getPermissonCallBack() {
         return null;
     }
 

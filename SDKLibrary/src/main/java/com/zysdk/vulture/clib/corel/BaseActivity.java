@@ -26,6 +26,7 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.zysdk.vulture.clib.CommonConst;
 import com.zysdk.vulture.clib.R;
 import com.zysdk.vulture.clib.inter.IActivityLifeCycle;
+import com.zysdk.vulture.clib.inter.IPermissionListener;
 import com.zysdk.vulture.clib.utils.AppActivityManager;
 import com.zysdk.vulture.clib.utils.CommonUtils;
 import com.zysdk.vulture.clib.utils.DisplayUtils;
@@ -57,7 +58,7 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
             onMessageGoing(pMessage);
         }
     };
-    private PermissionListener mListener;
+    private IPermissionListener mListener;
     private int mReqPermission;
     private String mPermissionTip;
     // 真实的手机屏幕高度:手机像素高度+标题+34
@@ -189,17 +190,17 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
         return true;
     }
 
-    protected void checkSDCardPermission(PermissionListener permissionListener) {
+    protected void checkSDCardPermission(IPermissionListener IPermissionListener) {
         checkPermission(CommonConst.PERMISSION.PERMISSION_WRITE_EXTERNAL_STORAGE, "SD卡权限",
-                permissionListener, CommonConst.PERMISSION.REQ_SDCARD_PERMISSION);
+                IPermissionListener, CommonConst.PERMISSION.REQ_SDCARD_PERMISSION);
     }
 
-    protected abstract PermissionListener getPermissonCallBack();
+    protected abstract IPermissionListener getPermissonCallBack();
 
     /**
      * 检查权限
      */
-    public void checkPermission(String permission, final String tips, PermissionListener
+    public void checkPermission(String permission, final String tips, IPermissionListener
             listener, int reqPermission) {
         this.mReqPermission = reqPermission;
         this.mPermissionTip = tips;
@@ -459,8 +460,8 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
         findViewById(viewID).setOnClickListener(this);
     }
 
-    protected void checkCameraPermission(PermissionListener permissionListener) {
-        checkPermission(CommonConst.PERMISSION.PERMISSION_CAMERA, "CAMERA", permissionListener,
+    protected void checkCameraPermission(IPermissionListener IPermissionListener) {
+        checkPermission(CommonConst.PERMISSION.PERMISSION_CAMERA, "CAMERA", IPermissionListener,
                 CommonConst.PERMISSION.REQ_CAMERA_PERMISSION);
     }
 
@@ -474,12 +475,6 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
             return false;
         }
         return true;
-    }
-
-    public interface PermissionListener extends LogListener {
-        void onGrant(int code);
-
-        void onDeny(int code);
     }
 
     protected void forward(String aciton) {

@@ -35,7 +35,7 @@ android {
     android.libraryVariants.all { variant ->
         variant.outputs.all {
             /*修改aar的路径*/
-            outputFileName = 'zysdk-release.aar'
+            outputFileName = 'zysdk.aar'
         }
     }
 
@@ -107,7 +107,7 @@ task aarRelease(type: Copy) {
     def aarOutPath = rootPath + "/aar_release"
 
     // IM主SDK
-    def sdkArrPath = rootPath + "/SDKLibrary" + buildPath + "/zysdk-release.aar"
+    def sdkArrPath = rootPath + "/SDKLibrary" + buildPath + "/zysdk.aar"
 
     // 封装数组
     def modulePaths = [sdkArrPath]

@@ -1,9 +1,10 @@
 package com.zysdk.vulture.clib.mvp.rx;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.zysdk.vulture.clib.corel.rx.RxBaseActivity;
+import com.zysdk.vulture.clib.inter.IPermissionListener;
 import com.zysdk.vulture.clib.mvp.inter.IView;
 import com.zysdk.vulture.clib.mvp.presenter.BasePresenter;
-import com.zysdk.vulture.clib.corel.rx.RxBaseActivity;
 import com.zysdk.vulture.clib.widget.dialog.LoadingDialog;
 
 /**
@@ -15,7 +16,7 @@ public abstract class RxBaseMVPSupportActivivty<P extends BasePresenter<V>, V ex
         RxBaseActivity implements IView {
 
     protected P mPresenter;
-    protected PermissionListener mPermissionListener = new PermissionListener() {
+    protected IPermissionListener mIPermissionListener = new IPermissionListener() {
         @Override
         public void onGrant(int code) {
             onPermissonGrant(code);
@@ -62,8 +63,8 @@ public abstract class RxBaseMVPSupportActivivty<P extends BasePresenter<V>, V ex
     }
 
     @Override
-    protected PermissionListener getPermissonCallBack() {
-        return mPermissionListener;
+    protected IPermissionListener getPermissonCallBack() {
+        return mIPermissionListener;
     }
 
     @Override

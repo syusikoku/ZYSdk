@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.zysdk.vulture.clib.R;
-import com.zysdk.vulture.clib.corel.BaseActivity;
+import com.zysdk.vulture.clib.inter.IPermissionListener;
 import com.zysdk.vulture.clib.utils.ResourceUtils;
 
 import butterknife.ButterKnife;
@@ -113,7 +113,7 @@ public abstract class RxBaseToolbarSupportActivity extends RxBaseActivity {
     }
 
     @Override
-    protected PermissionListener getPermissonCallBack() {
+    protected IPermissionListener getPermissonCallBack() {
         return null;
     }
 }
