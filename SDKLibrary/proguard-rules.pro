@@ -236,11 +236,33 @@
 -keep class com.zysdk.vulture.clib.exception.**{*;}
 -keep class com.zysdk.vulture.clib.net.callback.**{*;}
 -keep class com.zysdk.vulture.clib.corel.BaseInternalHandler
+-keep class com.zysdk.vulture.clib.CommonConst
+#不混淆类
 -keep class com.zysdk.vulture.clib.corel.BaseApp
 -keep class com.zysdk.vulture.clib.corel.rx.**{*;}
 -keep interface com.zysdk.vulture.clib.inter.**{*;}
 
+#不混淆成员变量名和方法名
 -keepclassmembers class com.zysdk.vulture.clib.CommonConst {
-    public *;
+    *;
 }
+-keepclasseswithmembernames class com.zysdk.vulture.clib.CommonConst {
+   *;
+}
+-keepclassmembers class com.zysdk.vulture.clib.corel.BaseApp {
+    *;
+}
+-keepclasseswithmembernames class com.zysdk.vulture.clib.corel.BaseApp {
+   *;
+}
+
+#不混淆内部类 方法和属性
+#-keepnames class com.zysdk.vulture.clib.CommonConst$* {
+#     *;
+#}
+-keepnames class com.zysdk.vulture.clib.CommonConst$* {
+      public <fields>;
+      public <methods>;
+}
+
 #-keep enum xx.xx.xx..**{*;}
