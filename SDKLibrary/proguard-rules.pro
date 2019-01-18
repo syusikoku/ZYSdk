@@ -222,7 +222,21 @@
 #保护泛型
 -keepattributes Signature
 
-#配置保留
+#配置保留 保持不混淆的类
 #-keepclasseswithmembers xx.xx.xx.**{*;}
+-keep class com.zysdk.vulture.clib.utils.**{*;}
+-keep class com.zysdk.vulture.clib.mvp.**{*;}
+-keep class com.zysdk.vulture.clib.adapter.**{*;}
+-keep class com.zysdk.vulture.clib.bean.**{*;}
+-keep class com.zysdk.vulture.clib.refreshsupport.**{*;}
+-keep class com.zysdk.vulture.clib.sample.**{*;}
+-keep class com.zysdk.vulture.clib.svg.**{*;}
+-keep class com.zysdk.vulture.clib.widget.**{*;}
+-keep class com.zysdk.vulture.clib.wrapper.**{*;}
+-keep class com.zysdk.vulture.clib.exception.**{*;}
+-keep class com.zysdk.vulture.clib.net.callback.**{*;}
+-keep class com.zysdk.vulture.clib.CommonConst
+-keep class com.zysdk.vulture.clib.corel.BaseInternalHandler
+-keep class com.zysdk.vulture.clib.corel.rx.**{*;}
 #-keep interface xx.xx.xx..**{*;}
 #-keep enum xx.xx.xx..**{*;}

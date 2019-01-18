@@ -41,3 +41,8 @@ dependencies {
     // 添加这一行
     compile(name: 'mylibrary-1.0.0', ext: 'aar')
 }
+
+
+aar生成
+
+ gradle makeJar aarRelease

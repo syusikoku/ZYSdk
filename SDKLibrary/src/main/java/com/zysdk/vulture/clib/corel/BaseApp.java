@@ -83,17 +83,17 @@ public class BaseApp extends Application {
                 .tag(CommonConst.LOG_TAG)   // (Optional) Global tag for every log. Default
                 .build();
 
-//        if (CheckUtils.hasLog()) {
-        Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy) {
-            @Override
-            public boolean isLoggable(int priority, String tag) {
-                /*非商业版,是否需要打印日志*/
-                return isDebugModel();
-            }
-        });
-//        } else {
-//            Logger.clearLogAdapters();
-//        }
+        if (CheckUtils.hasLog()) {
+            Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy) {
+                @Override
+                public boolean isLoggable(int priority, String tag) {
+                    /*非商业版,是否需要打印日志*/
+                    return isDebugModel();
+                }
+            });
+        } else {
+            Logger.clearLogAdapters();
+        }
 
     }
 

@@ -31,3 +31,14 @@ Error:(138, 43) java: 找不到符号
   符号:   方法 metafactory(java.lang.invoke.MethodHandles.Lookup,java.lang.String,java.lang.invoke.MethodType,java.lang.invoke.MethodType,java.lang.invoke.MethodHandle,java.lang.invoke.MethodType)
   位置: 接口 java.lang.invoke.LambdaMetafactory
 
+常用gradle 命令
+gradle -x 跳过指定task
+gradle -b gradle -p 指定build脚本文件
+gradle -q projects/tasks/properties 输出查看信息
+gradle -m/–dry–run 查看指定task执行
+gradle –profile 查看指定task执行时间，输出html
+
+aar生成
+
+ gradle makeJar aarRelease
+
