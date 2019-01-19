@@ -265,4 +265,38 @@
       public <methods>;
 }
 
+#日志信息去除 dontoptimize这个一定要取消否则会不生效
+# https://m.aliyun.com/jiaocheng/20774.html
+-assumenosideeffects class android.util.Log{
+      public static *** d(...);
+      public static *** v(...);
+      public static *** i(...);
+      public static *** e(...);
+      public static *** w(...);
+}
+
+-assumenosideeffects class com.blankj.utilcode.util.LogUtils{
+      public static *** d(...);
+      public static *** v(...);
+      public static *** i(...);
+      public static *** e(...);
+      public static *** w(...);
+}
+
+-assumenosideeffects class com.just.agentweb.LogUtils{
+      public static *** d(...);
+      public static *** v(...);
+      public static *** i(...);
+      public static *** e(...);
+      public static *** w(...);
+}
+
+-assumenosideeffects class com.orhanobut.logger.Logger{
+      public static *** d(...);
+      public static *** v(...);
+      public static *** i(...);
+      public static *** e(...);
+      public static *** w(...);
+}
+
 #-keep enum xx.xx.xx..**{*;}

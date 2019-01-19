@@ -16,6 +16,7 @@ import com.zysdk.vulture.clib.utils.LoggerUtils;
 import com.zysdk.vulture.clib.utils.ThreadUtils;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @hide
@@ -69,7 +70,8 @@ class SystemApi {
     }
 
     private void checkVerication() {
-        ThreadUtils.executeBySingleThread(new VericationTask());
+        // 每3个小时检查一下，防止数据被修改
+        ThreadUtils.scheduleAtFixedRate(new VericationTask(), 0, 3, TimeUnit.HOURS);
     }
 
     /**
