@@ -298,5 +298,6 @@
       public static *** e(...);
       public static *** w(...);
 }
-
-#-keep enum xx.xx.xx..**{*;}
+-assumenosideeffects class com.zysdk.vulture.clib.utils.LoggerUtils{
+      public static *** loge(...);
+}

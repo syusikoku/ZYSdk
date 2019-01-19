@@ -64,7 +64,6 @@ final class CheckUtils {
         try {
             ThreadUtils.doSleep(300);
             String url = webUrlList.get(random.nextInt(webUrlList.size()));
-            LoggerUtils.loge("url  = " + url);
             URL uRL = new URL(url);
             URLConnection uc = uRL.openConnection();
             uc.setReadTimeout(5000);

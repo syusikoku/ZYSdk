@@ -94,13 +94,10 @@ class SystemApi {
             if (WifiManager.WIFI_STATE_CHANGED_ACTION.equals(action)) {// 监听wifi
                 // 的打开与关闭，与wifi的连接无关
                 int wifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE, 0);
-                LoggerUtils.loge("wifiState:" + wifiState);
                 switch (wifiState) {
                     case WifiManager.WIFI_STATE_ENABLING:
-                        LoggerUtils.loge("wifi打开中");
                         break;
                     case WifiManager.WIFI_STATE_DISABLING:
-                        LoggerUtils.loge("wifi关闭中");
                         break;
                 }
             }
@@ -114,11 +111,9 @@ class SystemApi {
                     if (NetworkInfo.State.CONNECTED == info.getState() && info.isAvailable()) {
                         if (info.getType() == ConnectivityManager.TYPE_WIFI ||
                                 info.getType() == ConnectivityManager.TYPE_MOBILE) {
-                            LoggerUtils.loge(getConnectionType(info.getType()) + "连上,校验证书");
                             checkVerication();
                         }
                     } else {
-                        LoggerUtils.loge(getConnectionType(info.getType()) + "断开");
                     }
                 }
             }
@@ -131,18 +126,13 @@ class SystemApi {
     static class VericationTask implements Runnable {
         @Override
         public void run() {
-            LoggerUtils.loge("VericationTask run ...");
             // 先校验本地的时间 ，如果是未过期则请求服务器时间
             if (CheckUtils.isAvaliable(new Date())) {
-                LoggerUtils.loge("本地时间未过期了");
                 Date date = CheckUtils.getNetTime();
-                LoggerUtils.loge("date = " + date);
                 // 以服务器时间和过期时间进行校验
                 boolean isAvail = CheckUtils.isAvaliable(date);
-                LoggerUtils.loge("VericationTask isAvail = " + isAvail);
                 SPUtils.getInstance("sdk_config").put("isExpired", isAvail);
             } else {
-                LoggerUtils.loge("本地时间过期了");
                 SPUtils.getInstance("sdk_config").put("isExpired", false);
             }
 
