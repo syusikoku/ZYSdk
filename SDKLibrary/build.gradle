@@ -29,6 +29,15 @@ android {
     /*dexOptions {
         incremental true
     }*/
+
+    //主要是下面这一段
+    android.libraryVariants.all { variant ->
+        variant.outputs.all {
+            /*修改aar的路径*/
+            outputFileName = 'zysdk.aar'
+        }
+    }
+
 }
 
 dependencies {
@@ -66,4 +75,67 @@ dependencies {
     /*glide*/
     implementation rootProject.ext.ext_tools.glide
     annotationProcessor rootProject.ext.ext_tools.glide_compiler
+}
+
+task clearJar(type: Delete) {
+    //这行表示如果你已经打过一次包了，再进行打包则把原来的包删掉
+    delete 'build/libs/zysdk-1.0.0.jar'
+}
+
+task makeJar(type: Copy) {
+    from('build/intermediates/bundles/default/') //这行表示要打包的文件的路径，根据下面的内容，其实是该路径下的classes.jar
+    into('build/libs/')  //这行表示打包完毕后包的生成路径，也就是生成的包存在哪
+    include('classes.jar')  //看到这行，如果你对分包有了解的话，你就可以看出来这行它只是将一些类打包了
+    rename ('classes.jar', 'zysdk-1.0.0.jar')
+}
+
+makeJar.dependsOn(clearJar, build)
+
+
+task aarRelease(type: Copy) {
+
+    // 任务开始
+    println "----------> AAR Release Task Start <----------"
+
+    // 根路径 如：E:\03_AndroidClient\other\IM_SDK\trunk\IM_SDK
+    def rootPath = rootProject.rootDir.path
+    // AAR所在的编译路径
+    def buildPath = "/build/outputs/aar"
+    // AAR输出路径
+    def aarOutPath = rootPath + "/aar_release"
+
+    // IM主SDK
+    def sdkArrPath = rootPath + "/SDKLibrary" + buildPath + "/zysdk.aar"
+
+    // 封装数组
+    def modulePaths = [sdkArrPath]
+
+    // 删除AAR输出目录
+    println "Delete -> " + aarOutPath
+    delete aarOutPath
+    // 循环删除各个AAR编译目录
+    for (path in modulePaths) {
+        println "Delete -> " + path
+        delete path
+    }
+
+    // 执行编译AAR脚本（原生脚本）
+    dependsOn 'assembleRelease'
+
+    // 循环拷贝AAR到ARR输出目录
+    for (path in modulePaths) {
+        // 显示开始拷贝
+        println "-> Start of current copy <-"
+        // 当前目录
+        println "From : " + path
+        from path
+        // 拷贝至 aarOutPath
+        println "Into : " + aarOutPath
+        into aarOutPath
+        // 显示当前拷贝结束
+        println "-> End of current copy <-"
+    }
+    // 任务结束
+    println "----------> AAR Release Task End <----------"
+
 }
