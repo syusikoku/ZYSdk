@@ -65,11 +65,7 @@ public class BaseApp extends Application {
         myPid = android.os.Process.myPid();
         mThreadId = android.os.Process.myTid();
         mThreadName = Thread.currentThread().getName();
-
-        SystemApi.get(mAppInstance).start();
-
         Utils.init(this);
-
         initLogger();
     }
 
@@ -83,7 +79,6 @@ public class BaseApp extends Application {
                 .tag(CommonConst.LOG_TAG)   // (Optional) Global tag for every log. Default
                 .build();
 
-//        if (CheckUtils.hasLog()) {
         Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy) {
             @Override
             public boolean isLoggable(int priority, String tag) {
@@ -91,9 +86,6 @@ public class BaseApp extends Application {
                 return isDebugModel();
             }
         });
-//        } else {
-//            Logger.clearLogAdapters();
-//        }
 
     }
 

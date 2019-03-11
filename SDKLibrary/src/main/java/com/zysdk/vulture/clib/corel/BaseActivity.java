@@ -125,12 +125,10 @@ public abstract class BaseActivity extends SupportActivity implements IActivityL
             }
         }
 
-        if (CheckUtils.hasPublish()) {
-            initData();
-            beforeSubContentInit();
-            initView();
-            addListener();
-        }
+        initData();
+        beforeSubContentInit();
+        initView();
+        addListener();
     }
 
     @Override
